@@ -1,7 +1,12 @@
-export default function App() {
+import { MainPage } from './pages/MainPage/MainPage';
+
+function App() {
   return (
     <div>
-      <p>Start</p>
+      <MainPage />
+      {/* <p>Start</p> */}
     </div>
   );
 }
+
+export default App;
