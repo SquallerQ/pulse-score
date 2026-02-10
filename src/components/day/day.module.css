@@ -1,0 +1,19 @@
+.day__container {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+}
+.day__container_past {
+  background-color: aquamarine;
+}
+.day__container_today {
+  background-color: aqua;
+}
+.day__container_future {
+  background-color: #ffefef;
+}
+.date{
+  align-self: end;
+}

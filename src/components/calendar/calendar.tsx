@@ -1,12 +1,16 @@
-import { generateDates } from '../../utils/utils.tsx';
-import { Day } from '../day/day.tsx';
+import { generateDates } from '../../utils/generateDates.ts';
+import { Day } from '../Day/Day.tsx';
+
+import styles from './Calendar.module.css';
 
 export function Calendar() {
-  console.log(generateDates());
+  const daysArray = generateDates();
 
   return (
-    <>
-      <Day />
-    </>
+    <div className={styles.calendar__container}>
+      {daysArray.map((day, index) => {
+        return <Day day={day} key={index} />;
+      })}
+    </div>
   );
 }
