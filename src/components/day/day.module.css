@@ -14,6 +14,17 @@
 .day__container_future {
   background-color: #ffefef;
 }
-.date{
+
+.date {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 5px;
+}
+/* .day{
   align-self: end;
+} */
+.month {
+  background-color: blueviolet;
 }

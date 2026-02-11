@@ -19,12 +19,16 @@ export function Day(props: DayProps) {
   } else if (day.isFuture) {
     dayTypeClass = styles.day__container_future;
   }
-  console.log(day.date.getDate());
+  const monthShort = day.date.toLocaleDateString('en-US', { month: 'short' });
+  // console.log(monthShort);
 
   return (
     <>
       <div className={`${styles.day__container} ${dayTypeClass}`}>
-        <span className={styles.date}>{day.date.getDate()}</span>
+        <div className={styles.date}>
+          <span className={styles.day}>{day.date.getDate()}</span>
+          <span className={styles.month}>{monthShort}</span>
+        </div>
       </div>
     </>
   );
