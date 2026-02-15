@@ -1,45 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
+import { fetchPremierLeagueTeams, fetchTeamMatches } from '../../api/api';
+import { queryKeys } from '../../api/queryKeys';
+import { useQuery } from '@tanstack/react-query';
+
 import styles from './MainPage.module.css';
 
-type TeamApiItem = {
-  shortName: string;
-  crest: string;
-};
-
-type TeamListItem = {
-  name: string;
-  crest: string;
-};
-
 export function MainPage() {
-  const [teamsList, setTeamsList] = useState<TeamListItem[]>([]);
+  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
 
-  useEffect(() => {
-    const apiKey = import.meta.env.VITE_FOOTBALLDATA_KEY;
+  const teamsQuery = useQuery({
+    queryKey: queryKeys.teams('PL', '2025'),
+    queryFn: fetchPremierLeagueTeams,
+  });
 
-    const getData = async () => {
-      // const TEAM_ID = 64;
-      const response = await fetch(`/api/v4/competitions/PL/teams`, {
-        headers: {
-          'X-Auth-Token': apiKey,
-        },
-      });
+  const matchesQuery = useQuery({
+    queryKey: queryKeys.teamMatches(selectedTeamId ?? 0),
+    queryFn: () => fetchTeamMatches(selectedTeamId as number),
+    enabled: selectedTeamId !== null,
+  });
 
-      const data = await response.json();
-      const dataForRender = data.teams.map((item: TeamApiItem) => {
-        return { name: item.shortName, crest: item.crest };
-      });
-      setTeamsList(dataForRender);
-      // console.log(dataForRender);
-    };
-    getData();
-  }, []);
+  console.log('team matches:', matchesQuery.data);
 
   return (
     <div className={styles.main__container}>
-      <TeamList teams={teamsList} />
+      <TeamList teams={teamsQuery.data ?? []} selectedTeamId={selectedTeamId} onSelectTeam={setSelectedTeamId} />
       <Calendar />
     </div>
   );
