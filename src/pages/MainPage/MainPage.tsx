@@ -7,25 +7,36 @@ import { useQuery } from '@tanstack/react-query';
 
 import styles from './MainPage.module.css';
 
+type SelectedTeam = {
+  leagueCode: string;
+  teamId: number;
+};
+
 export function MainPage() {
-  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
+  const leagueCode = 'PL';
+  const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
 
   const teamsQuery = useQuery({
-    queryKey: queryKeys.teams('PL', '2025'),
+    queryKey: queryKeys.teams(leagueCode, '2025'),
     queryFn: fetchPremierLeagueTeams,
   });
 
   const matchesQuery = useQuery({
-    queryKey: queryKeys.teamMatches(selectedTeamId ?? 0),
-    queryFn: () => fetchTeamMatches(selectedTeamId as number),
-    enabled: selectedTeamId !== null,
+    queryKey: queryKeys.teamMatches(selectedTeam?.leagueCode ?? '', selectedTeam?.teamId ?? 0),
+    queryFn: () => fetchTeamMatches(selectedTeam!.teamId),
+    enabled: selectedTeam !== null,
   });
 
   console.log('team matches:', matchesQuery.data);
 
   return (
     <div className={styles.main__container}>
-      <TeamList teams={teamsQuery.data ?? []} selectedTeamId={selectedTeamId} onSelectTeam={setSelectedTeamId} />
+      <TeamList
+        teams={teamsQuery.data ?? []}
+        leagueCode={leagueCode}
+        selectedTeam={selectedTeam}
+        onSelectTeam={setSelectedTeam}
+      />
       <Calendar />
     </div>
   );

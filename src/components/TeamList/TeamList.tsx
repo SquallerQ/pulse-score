@@ -7,24 +7,29 @@ type TeamListItem = {
   crest: string;
 };
 
-type TeamListProps = {
-  teams: TeamListItem[];
-  selectedTeamId: number | null;
-  onSelectTeam: (teamId: number) => void;
+type SelectedTeam = {
+  leagueCode: string;
+  teamId: number;
 };
 
-export function TeamList({ teams, selectedTeamId, onSelectTeam }: TeamListProps) {
+type TeamListProps = {
+  teams: TeamListItem[];
+  leagueCode: string;
+  selectedTeam: SelectedTeam | null;
+  onSelectTeam: (team: SelectedTeam) => void;
+};
+
+export function TeamList({ teams, leagueCode, selectedTeam, onSelectTeam }: TeamListProps) {
   return (
     <div className={styles.container}>
       {teams.map((team) => {
         return (
           <Team
             key={team.id}
-            id={team.id}
             name={team.name}
             crest={team.crest}
-            isActive={team.id === selectedTeamId}
-            onClick={onSelectTeam}
+            isActive={selectedTeam?.leagueCode === leagueCode && selectedTeam.teamId === team.id}
+            onClick={() => onSelectTeam({ leagueCode, teamId: team.id })}
           />
         );
       })}
