@@ -12,8 +12,46 @@ type ListItemForRender = {
   crest: string;
 };
 
-export async function fetchPremierLeagueTeams() {
-  const response = await fetch(`${API_BASE}/competitions/PL/teams`, {
+type CompetitionItem = {
+  area: {
+    id: number;
+    flag: string;
+    name: string;
+  };
+  emblem: string;
+  name: string;
+};
+
+type CompetitionsResponse = {
+  competitions: CompetitionItem[];
+};
+
+// export async function fetchLaLiga() {
+//   const response = await fetch(`${API_BASE}/competitions/`, {
+//     headers: getAuthHeaders(),
+//   });
+//   const data = await response.json();
+//   console.log(data);
+// }
+
+export async function fetchAllLeagues() {
+  const leagueList = [2072, 2224];
+  const response = await fetch(`${API_BASE}/competitions/?areas=${leagueList}`, {
+    headers: getAuthHeaders(),
+  });
+  const data: CompetitionsResponse = await response.json();
+  console.log(data);
+  return data.competitions.map((item) => ({
+    id: item.area.id,
+    flag: item.area.flag,
+    country: item.area.name,
+    emblem: item.emblem,
+    name: item.name,
+  }));
+}
+
+export async function fetchPremierLeagueTeams(league: string) {
+  const response = await fetch(`${API_BASE}/competitions/${league}/teams`, {
     headers: getAuthHeaders(),
   });
 
