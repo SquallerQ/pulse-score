@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
-import { fetchPremierLeagueTeams, fetchTeamMatches, fetchAllLeagues } from '../../api/api';
+import { fetchLeagueTeams, fetchTeamMatches, fetchAllLeagues } from '../../api/api';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { queryKeys } from '../../api/queryKeys';
@@ -28,17 +28,17 @@ export function MainPage() {
   const [selectedLeague, setSelectedLeague] = useState<LeagueItem | null>(null);
   const [leagueCode, setLeagueCode] = useState('PL');
 
-  const LeaguesQuery = useQuery({
+  const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
     queryFn: fetchAllLeagues,
   });
 
   const teamsQuery = useQuery({
     queryKey: queryKeys.teams(leagueCode, '2025'),
-    queryFn: () => fetchPremierLeagueTeams(leagueCode),
+    queryFn: () => fetchLeagueTeams(leagueCode),
   });
 
-  const leagues = LeaguesQuery.data ?? [];
+  const leagues = leaguesQuery.data ?? [];
   const currentLeague = selectedLeague ?? leagues[0] ?? null;
 
   const matchesQuery = useQuery({
@@ -56,7 +56,7 @@ export function MainPage() {
 
   return (
     <div className={styles.main__container}>
-      <LeaguesList leagues={leagues} selectedLeague={currentLeague} setSelectedLeague={handleSelectLeague} />
+      <LeaguesList leagues={leagues} selectedLeague={currentLeague} onSelectLeague={handleSelectLeague} />
       <TeamList
         teams={teamsQuery.data ?? []}
         leagueCode={leagueCode}

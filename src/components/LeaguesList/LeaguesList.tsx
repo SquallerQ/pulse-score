@@ -2,7 +2,7 @@ import { League } from './League/League';
 
 import styles from './LeaguesList.module.css';
 
-type Leagues = {
+type LeagueItem = {
   id: number;
   country: string;
   emblem: string;
@@ -12,21 +12,20 @@ type Leagues = {
 };
 
 type LeaguesListProps = {
-  leagues: Leagues[];
-  selectedLeague: Leagues | null;
-  setSelectedLeague: (league: Leagues) => void;
+  leagues: LeagueItem[];
+  selectedLeague: LeagueItem | null;
+  onSelectLeague: (league: LeagueItem) => void;
 };
 
-export function LeaguesList({ leagues, selectedLeague, setSelectedLeague }: LeaguesListProps) {
+export function LeaguesList({ leagues, selectedLeague, onSelectLeague }: LeaguesListProps) {
   return (
     <div className={styles.container}>
       {leagues.map((league, index) => (
         <League
           league={league}
           isActive={selectedLeague?.name === league.name}
-          // setSelectedLeague={setSelectedLeague}
           key={index}
-          onClick={() => setSelectedLeague(league)}
+          onClick={() => onSelectLeague(league)}
         />
       ))}
     </div>

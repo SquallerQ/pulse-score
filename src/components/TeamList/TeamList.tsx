@@ -4,7 +4,7 @@ import styles from './TeamList.module.css';
 type TeamListItem = {
   id: number;
   name: string;
-  crest: string;
+  logo: string;
 };
 
 type SelectedTeam = {
@@ -27,7 +27,7 @@ export function TeamList({ teams, leagueCode, selectedTeam, onSelectTeam }: Team
           <Team
             key={team.id}
             name={team.name}
-            crest={team.crest}
+            logo={team.logo}
             isActive={selectedTeam?.leagueCode === leagueCode && selectedTeam.teamId === team.id}
             onClick={() => onSelectTeam({ leagueCode, teamId: team.id })}
           />

@@ -27,33 +27,33 @@ type CompetitionsResponse = {
   competitions: CompetitionItem[];
 };
 
-// export async function fetchLaLiga() {
-//   const response = await fetch(`${API_BASE}/competitions/`, {
-//     headers: getAuthHeaders(),
-//   });
-//   const data = await response.json();
-//   console.log(data);
-// }
-
 export async function fetchAllLeagues() {
-  const leagueList = [2072, 2224];
+  const leagueList = [2072, 2224, 2081, 2088, 2114];
   const response = await fetch(`${API_BASE}/competitions/?areas=${leagueList}`, {
     headers: getAuthHeaders(),
   });
   const data: CompetitionsResponse = await response.json();
   console.log(data);
-  return data.competitions.map((item) => ({
-    id: item.area.id,
-    flag: item.area.flag,
-    country: item.area.name,
-    emblem: item.emblem,
-    name: item.name,
-    code: item.code,
-  }));
+  return data.competitions
+    .filter((item) => item.name !== 'Championship')
+    .map((item) => ({
+      id: item.area.id,
+      flag: item.area.flag,
+      country: item.area.name,
+      emblem: item.emblem,
+      name: item.name,
+      code: item.code,
+    }));
 }
 
-export async function fetchPremierLeagueTeams(league: string) {
-  const response = await fetch(`${API_BASE}/competitions/${league}/teams`, {
+// export async function fetchChampionsLeague() {
+//   const response = await fetch(`${API_BASE}/competitions/CL`);
+//   const data = await response.json();
+//   console.log(data);
+// }
+
+export async function fetchLeagueTeams(leagueCode: string) {
+  const response = await fetch(`${API_BASE}/competitions/${leagueCode}/teams`, {
     headers: getAuthHeaders(),
   });
 
@@ -62,7 +62,7 @@ export async function fetchPremierLeagueTeams(league: string) {
   return data.teams.map((item: ListItemForRender) => ({
     id: item.id,
     name: item.shortName,
-    crest: item.crest,
+    logo: item.crest,
   }));
 }
 

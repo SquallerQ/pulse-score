@@ -1,14 +1,15 @@
 import styles from './League.module.css';
 
-type League = {
+type LeagueItem = {
   id: number;
   country: string;
   flag: string;
   name: string;
   emblem: string;
 };
+
 type LeagueProps = {
-  league: League;
+  league: LeagueItem;
   isActive: boolean;
   onClick: () => void;
 };
