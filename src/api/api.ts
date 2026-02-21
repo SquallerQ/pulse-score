@@ -20,6 +20,7 @@ type CompetitionItem = {
   };
   emblem: string;
   name: string;
+  code: string;
 };
 
 type CompetitionsResponse = {
@@ -47,6 +48,7 @@ export async function fetchAllLeagues() {
     country: item.area.name,
     emblem: item.emblem,
     name: item.name,
+    code: item.code,
   }));
 }
 
