@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
-import { fetchLeagueTeams, fetchTeamMatches, fetchAllLeagues } from '../../api/api';
+import { fetchLeagueTeams, fetchTeamMatches, fetchAllLeagues, fetchChampionsLeague } from '../../api/api';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { queryKeys } from '../../api/queryKeys';
@@ -27,6 +27,14 @@ export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
   const [selectedLeague, setSelectedLeague] = useState<LeagueItem | null>(null);
   const [leagueCode, setLeagueCode] = useState('PL');
+  const [leagueOrCup, setleagueOrCup] = useState('league');
+
+  const cupQuery = useQuery({
+    queryKey: queryKeys.championsLeague('CL'),
+    queryFn: () => fetchChampionsLeague(),
+  });
+
+  console.log(cupQuery.data);
 
   const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
@@ -56,7 +64,12 @@ export function MainPage() {
 
   return (
     <div className={styles.main__container}>
-      <LeaguesList leagues={leagues} selectedLeague={currentLeague} onSelectLeague={handleSelectLeague} />
+      <LeaguesList
+        leagues={leagues}
+        selectedLeague={currentLeague}
+        onSelectLeague={handleSelectLeague}
+        // championsLeague={cupQuery.data}
+      />
       <TeamList
         teams={teamsQuery.data ?? []}
         leagueCode={leagueCode}

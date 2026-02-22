@@ -46,11 +46,19 @@ export async function fetchAllLeagues() {
     }));
 }
 
-// export async function fetchChampionsLeague() {
-//   const response = await fetch(`${API_BASE}/competitions/CL`);
-//   const data = await response.json();
-//   console.log(data);
-// }
+export async function fetchChampionsLeague() {
+  const response = await fetch(`${API_BASE}/competitions/CL`, {
+    headers: getAuthHeaders(),
+  });
+  const data = await response.json();
+  return {
+    id: data.area.id,
+    flag: data.area.flag,
+    emblem: data.emblem,
+    name: data.name,
+    code: data.code,
+  };
+}
 
 export async function fetchLeagueTeams(leagueCode: string) {
   const response = await fetch(`${API_BASE}/competitions/${leagueCode}/teams`, {
