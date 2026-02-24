@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
-import { fetchLeagueTeams, fetchTeamMatches, fetchAllLeagues, fetchChampionsLeague } from '../../api/api';
+import {
+  fetchLeagueTeams,
+  fetchTeamMatches,
+  fetchAllLeagues,
+  fetchChampionsLeagueTeams,
+  fetchChampionsLeagueMatches,
+} from '../../api/api';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { queryKeys } from '../../api/queryKeys';
@@ -29,12 +35,19 @@ export function MainPage() {
   const [leagueCode, setLeagueCode] = useState('PL');
   const [leagueOrCup, setleagueOrCup] = useState('league');
 
-  const cupQuery = useQuery({
-    queryKey: queryKeys.championsLeague('CL'),
-    queryFn: () => fetchChampionsLeague(),
+  const cupTeamsQuery = useQuery({
+    queryKey: queryKeys.championsLeagueTeams(),
+    queryFn: () => fetchChampionsLeagueTeams(),
   });
 
-  console.log(cupQuery.data);
+  console.log(cupTeamsQuery.data);
+  
+  
+  const cupMatchesQuery = useQuery({
+    queryKey: queryKeys.championsLeagueMatches(),
+    queryFn: () => fetchChampionsLeagueMatches(),
+  });
+  console.log(cupMatchesQuery.data);
 
   const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
@@ -60,15 +73,24 @@ export function MainPage() {
     setLeagueCode(league.code);
   }
 
-  console.log('team matches:', matchesQuery.data);
+  function consoleChampionsLeagueMatches() {
+    console.log(cupMatchesQuery.data);
+    
+  }
+
+  // console.log('team matches:', matchesQuery.data);
+  console.log('championsLeague', cupTeamsQuery.data);
 
   return (
     <div className={styles.main__container}>
       <LeaguesList
+        leagueOrCup={leagueOrCup}
         leagues={leagues}
         selectedLeague={currentLeague}
         onSelectLeague={handleSelectLeague}
-        // championsLeague={cupQuery.data}
+        championsLeagueTeams={cupTeamsQuery.data}
+        championsLeagueMatches={cupMatchesQuery.data}
+        consoleChampionsLeagueMatches={consoleChampionsLeagueMatches}
       />
       <TeamList
         teams={teamsQuery.data ?? []}
