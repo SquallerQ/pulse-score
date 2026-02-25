@@ -33,19 +33,20 @@ export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
   const [selectedLeague, setSelectedLeague] = useState<LeagueItem | null>(null);
   const [leagueCode, setLeagueCode] = useState('PL');
-  const [leagueOrCup, setleagueOrCup] = useState('league');
+  const [competitionType, setCompetitionType] = useState<'league' | 'cup'>('league');
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
     queryFn: () => fetchChampionsLeagueTeams(),
+    // enabled: competitionType === 'cup',
   });
 
   console.log(cupTeamsQuery.data);
-  
-  
+
   const cupMatchesQuery = useQuery({
     queryKey: queryKeys.championsLeagueMatches(),
     queryFn: () => fetchChampionsLeagueMatches(),
+    // enabled: competitionType === 'cup',
   });
   console.log(cupMatchesQuery.data);
 
@@ -57,6 +58,7 @@ export function MainPage() {
   const teamsQuery = useQuery({
     queryKey: queryKeys.teams(leagueCode, '2025'),
     queryFn: () => fetchLeagueTeams(leagueCode),
+    // enabled: competitionType === 'league',
   });
 
   const leagues = leaguesQuery.data ?? [];
@@ -71,26 +73,27 @@ export function MainPage() {
   function handleSelectLeague(league: LeagueItem) {
     setSelectedLeague(league);
     setLeagueCode(league.code);
+    setCompetitionType('league');
+    setSelectedTeam(null);
+  }
+  function handleSelectCup() {
+    setCompetitionType('cup');
+    setSelectedLeague(null);
+    setSelectedTeam(null);
   }
 
-  function consoleChampionsLeagueMatches() {
-    console.log(cupMatchesQuery.data);
-    
-  }
-
-  // console.log('team matches:', matchesQuery.data);
+  console.log('team matches:', matchesQuery.data);
   console.log('championsLeague', cupTeamsQuery.data);
 
   return (
     <div className={styles.main__container}>
       <LeaguesList
-        leagueOrCup={leagueOrCup}
         leagues={leagues}
         selectedLeague={currentLeague}
+        competitionType={competitionType}
         onSelectLeague={handleSelectLeague}
-        championsLeagueTeams={cupTeamsQuery.data}
-        championsLeagueMatches={cupMatchesQuery.data}
-        consoleChampionsLeagueMatches={consoleChampionsLeagueMatches}
+        onSelectCup={handleSelectCup}
+        championsLeagueEmblem={cupTeamsQuery?.data?.emblem}
       />
       <TeamList
         teams={teamsQuery.data ?? []}

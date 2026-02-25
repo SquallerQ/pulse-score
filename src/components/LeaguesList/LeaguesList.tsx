@@ -11,51 +11,40 @@ type LeagueItem = {
   code: string;
 };
 
-type championsLeagueItem = {
-  id: number;
-  emblem: string;
-  name: string;
-  // flag: string;
-  code: string;
-};
-
 type LeaguesListProps = {
   leagues: LeagueItem[];
   selectedLeague: LeagueItem | null;
+  competitionType: 'league' | 'cup';
   onSelectLeague: (league: LeagueItem) => void;
-  leagueOrCup?: string;
-  championsLeague?: championsLeagueItem[];
+  onSelectCup: () => void;
+  championsLeagueEmblem?: string;
 };
 
 export function LeaguesList({
   leagues,
   selectedLeague,
+  competitionType,
   onSelectLeague,
-  championsLeagueTeams,
-  championsLeagueMatches,
-  leagueOrCup,
-  consoleChampionsLeagueMatches
+  onSelectCup,
+  championsLeagueEmblem,
 }: LeaguesListProps) {
-  // console.log(championsLeague);
-  // console.log(leagues);
-
   return (
     <div className={styles.container}>
       {leagues.map((league, index) => (
         <League
+          competitionType="league"
           league={league}
           isActive={selectedLeague?.name === league.name}
           key={index}
           onClick={() => onSelectLeague(league)}
-          leagueOrCup={leagueOrCup}
         />
       ))}
       {
         <League
-          championsLeagueTeams={championsLeagueTeams}
-          championsLeagueMatches={championsLeagueMatches}
-          consoleChampionsLeagueMatches={() => consoleChampionsLeagueMatches()}
-          // leagueOrCup={leagueOrCup}
+          competitionType="cup"
+          isActive={competitionType === 'cup'}
+          onSelectCup={onSelectCup}
+          championsLeagueEmblem={championsLeagueEmblem}
         />
       }
     </div>

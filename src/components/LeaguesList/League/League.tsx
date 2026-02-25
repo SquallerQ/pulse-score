@@ -8,37 +8,28 @@ type LeagueItem = {
   emblem: string;
 };
 
-type championsLeagueItem = {
-  id: number;
-  // flag: string;
-  name: string;
-  emblem: string;
-};
-
 type LeagueProps = {
+  competitionType: 'league' | 'cup';
   league?: LeagueItem | undefined;
-  championsLeagueTeams?: championsLeagueItem | undefined;
-  championsLeagueMatches?: championsLeagueItem | undefined;
+  championsLeagueEmblem?: string;
   isActive?: boolean;
   onClick?: () => void;
-  leagueOrCup?: string;
+  onSelectCup?: () => void;
 };
 
 export function League({
+  competitionType,
   league,
   isActive,
   onClick,
-  championsLeagueMatches,
-  championsLeagueTeams,
-  consoleChampionsLeagueMatches,
+  championsLeagueEmblem,
+  onSelectCup,
 }: LeagueProps) {
-  // console.log(championsLeague?.emblem);
-
   {
-    return championsLeagueTeams ? (
+    return competitionType === 'cup' ? (
       <div className={styles.container}>
-        <button type="button" onClick={consoleChampionsLeagueMatches} aria-pressed={isActive}>
-          <img className={styles.images} src={championsLeagueTeams?.emblem} alt={championsLeagueTeams?.name} />
+        <button type="button" onClick={onSelectCup} aria-pressed={isActive}>
+          <img className={styles.images} src={championsLeagueEmblem} alt="Champions League" />
         </button>
       </div>
     ) : (
