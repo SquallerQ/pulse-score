@@ -59,7 +59,11 @@ export async function fetchChampionsLeagueTeams() {
     emblem: data.competition.emblem,
     name: data.competition.name,
     code: data.competition.code,
-    teamsArray: data.teams,
+    teamsArray: data.teams.map((item: ListItemForRender) => ({
+      logo: item.crest,
+      name: item.shortName,
+      id: item.id,
+    })),
   };
 }
 

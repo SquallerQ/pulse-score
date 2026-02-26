@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
+import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
 import {
   fetchLeagueTeams,
   fetchTeamMatches,
@@ -38,7 +39,7 @@ export function MainPage() {
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
     queryFn: () => fetchChampionsLeagueTeams(),
-    // enabled: competitionType === 'cup',
+    enabled: competitionType === 'cup',
   });
 
   console.log(cupTeamsQuery.data);
@@ -46,7 +47,7 @@ export function MainPage() {
   const cupMatchesQuery = useQuery({
     queryKey: queryKeys.championsLeagueMatches(),
     queryFn: () => fetchChampionsLeagueMatches(),
-    // enabled: competitionType === 'cup',
+    enabled: competitionType === 'cup',
   });
   console.log(cupMatchesQuery.data);
 
@@ -58,7 +59,7 @@ export function MainPage() {
   const teamsQuery = useQuery({
     queryKey: queryKeys.teams(leagueCode, '2025'),
     queryFn: () => fetchLeagueTeams(leagueCode),
-    // enabled: competitionType === 'league',
+    enabled: competitionType === 'league',
   });
 
   const leagues = leaguesQuery.data ?? [];
@@ -95,12 +96,17 @@ export function MainPage() {
         onSelectCup={handleSelectCup}
         championsLeagueEmblem={cupTeamsQuery?.data?.emblem}
       />
-      <TeamList
-        teams={teamsQuery.data ?? []}
-        leagueCode={leagueCode}
-        selectedTeam={selectedTeam}
-        onSelectTeam={setSelectedTeam}
-      />
+      {competitionType === 'league' ? (
+        <TeamList
+          teams={teamsQuery.data ?? []}
+          leagueCode={leagueCode}
+          selectedTeam={selectedTeam}
+          onSelectTeam={setSelectedTeam}
+        />
+      ) : (
+        <TeamListCL teams={cupTeamsQuery.data?.teamsArray} />
+      )}
+
       <Calendar />
     </div>
   );
