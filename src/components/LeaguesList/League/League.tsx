@@ -1,4 +1,5 @@
 import styles from './League.module.css';
+import championLeagueLogo from '../../../assets/champ-league-logo.svg';
 
 type LeagueItem = {
   id: number;
@@ -11,25 +12,17 @@ type LeagueItem = {
 type LeagueProps = {
   competitionType: 'league' | 'cup';
   league?: LeagueItem | undefined;
-  championsLeagueEmblem?: string;
   isActive?: boolean;
   onClick?: () => void;
   onSelectCup?: () => void;
 };
 
-export function League({
-  competitionType,
-  league,
-  isActive,
-  onClick,
-  championsLeagueEmblem,
-  onSelectCup,
-}: LeagueProps) {
+export function League({ competitionType, league, isActive, onClick, onSelectCup }: LeagueProps) {
   {
     return competitionType === 'cup' ? (
       <div className={styles.container}>
         <button type="button" onClick={onSelectCup} aria-pressed={isActive}>
-          <img className={styles.images} src={championsLeagueEmblem} alt="Champions League" />
+          <img className={styles.images} src={championLeagueLogo} alt="Champions League" />
         </button>
       </div>
     ) : (

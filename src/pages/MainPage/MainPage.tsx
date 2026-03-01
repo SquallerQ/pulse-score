@@ -94,7 +94,6 @@ export function MainPage() {
         competitionType={competitionType}
         onSelectLeague={handleSelectLeague}
         onSelectCup={handleSelectCup}
-        championsLeagueEmblem={cupTeamsQuery?.data?.emblem}
       />
       {competitionType === 'league' ? (
         <TeamList

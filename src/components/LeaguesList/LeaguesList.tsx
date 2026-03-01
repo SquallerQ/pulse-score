@@ -17,7 +17,6 @@ type LeaguesListProps = {
   competitionType: 'league' | 'cup';
   onSelectLeague: (league: LeagueItem) => void;
   onSelectCup: () => void;
-  championsLeagueEmblem?: string;
 };
 
 export function LeaguesList({
@@ -26,7 +25,6 @@ export function LeaguesList({
   competitionType,
   onSelectLeague,
   onSelectCup,
-  championsLeagueEmblem,
 }: LeaguesListProps) {
   return (
     <div className={styles.container}>
@@ -39,14 +37,7 @@ export function LeaguesList({
           onClick={() => onSelectLeague(league)}
         />
       ))}
-      {
-        <League
-          competitionType="cup"
-          isActive={competitionType === 'cup'}
-          onSelectCup={onSelectCup}
-          championsLeagueEmblem={championsLeagueEmblem}
-        />
-      }
+      {<League competitionType="cup" isActive={competitionType === 'cup'} onSelectCup={onSelectCup} />}
     </div>
   );
 }
