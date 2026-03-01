@@ -83,8 +83,8 @@ export function MainPage() {
     setSelectedTeam(null);
   }
 
-  console.log('team matches:', matchesQuery.data);
-  console.log('championsLeague', cupTeamsQuery.data);
+  // console.log('team matches:', matchesQuery.data);
+  // console.log('championsLeague', cupTeamsQuery.data);
 
   return (
     <div className={styles.main__container}>
@@ -104,7 +104,7 @@ export function MainPage() {
           onSelectTeam={setSelectedTeam}
         />
       ) : (
-        <TeamListCL teams={cupTeamsQuery.data?.teamsArray} />
+        <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
       )}
 
       <Calendar />
