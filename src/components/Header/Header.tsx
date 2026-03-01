@@ -1,13 +1,11 @@
 import styles from './Header.module.css';
-import { useTheme } from '../../context/useTheme';
+import { ThemeToggler } from './ThemeToggle/ThemeToggle';
 
 export function Header() {
-  const { theme, toggleTheme } = useTheme();
-  console.log('Theme:', theme);
 
   return (
     <div className={styles.container}>
-      <button onClick={toggleTheme}></button>
+      <ThemeToggler />
     </div>
   );
 }
