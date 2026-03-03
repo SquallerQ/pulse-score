@@ -1,7 +1,13 @@
+
+
 body {
-  display: flex;
-  align-items: center;
-  min-height: 80vh;
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+#root {
+  min-height: 100vh;
 }
 
 :root {

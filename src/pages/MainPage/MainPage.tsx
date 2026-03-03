@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
 import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
+import { TeamInfo } from '../../components/TeamInfo/TeamInfo';
+
 import {
   fetchLeagueTeams,
   fetchTeamMatches,
@@ -105,6 +107,7 @@ export function MainPage() {
       ) : (
         <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
       )}
+      <TeamInfo selectedTeam={selectedTeam} />
 
       <Calendar />
     </div>
