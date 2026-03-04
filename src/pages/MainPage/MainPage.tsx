@@ -23,6 +23,12 @@ type SelectedTeam = {
   teamId: number;
 };
 
+type SelectedTeamInfo = {
+  id: number;
+  name: string;
+  color: string;
+};
+
 type LeagueItem = {
   id: number;
   flag: string;
@@ -38,20 +44,21 @@ export function MainPage() {
   const [leagueCode, setLeagueCode] = useState('PL');
   const [competitionType, setCompetitionType] = useState<'league' | 'cup'>('league');
 
+
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
     queryFn: () => fetchChampionsLeagueTeams(),
     enabled: competitionType === 'cup',
   });
 
-  console.log(cupTeamsQuery.data);
+  // console.log(cupTeamsQuery.data);
 
   const cupMatchesQuery = useQuery({
     queryKey: queryKeys.championsLeagueMatches(),
     queryFn: () => fetchChampionsLeagueMatches(),
     enabled: competitionType === 'cup',
   });
-  console.log(cupMatchesQuery.data);
+  // console.log(cupMatchesQuery.data);
 
   const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
@@ -85,6 +92,11 @@ export function MainPage() {
     setSelectedTeam(null);
   }
 
+  const selectedTeamData = teamsQuery.data?.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
+
+  // console.log(teamsQuery.data);
+  // console.log(selectedTeam);
+
   // console.log('team matches:', matchesQuery.data);
   // console.log('championsLeague', cupTeamsQuery.data);
 
@@ -107,7 +119,7 @@ export function MainPage() {
       ) : (
         <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
       )}
-      <TeamInfo selectedTeam={selectedTeam} />
+      <TeamInfo selectedTeam={selectedTeamData} matchesList={matchesQuery.data} />
 
       <Calendar />
     </div>

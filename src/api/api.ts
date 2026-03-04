@@ -10,6 +10,7 @@ type ListItemForRender = {
   id: number;
   shortName: string;
   crest: string;
+  clubColors: string;
 };
 
 type CompetitionItem = {
@@ -25,6 +26,47 @@ type CompetitionItem = {
 
 type CompetitionsResponse = {
   competitions: CompetitionItem[];
+};
+
+export type TeamMatches = {
+  id: number;
+  awayTeam: {
+    id: number;
+    crest: string;
+    name: string;
+    shortName: string;
+    tla: string;
+  };
+  homeTeam: {
+    id: number;
+    crest: string;
+    name: string;
+    shortName: string;
+    tla: string;
+  };
+  score: {
+    fullTime: {
+      home: number;
+      away: number;
+    };
+    away: number;
+    winner: string;
+    duration: string;
+  };
+  season: {
+    id: number;
+    currentMatchday: number;
+    endDate: string;
+    startDate: string;
+    winner: string;
+  };
+  competition: {
+    emblem: string;
+    name: string;
+  };
+  stage: string;
+  status: string;
+  utcDate: string;
 };
 
 export async function fetchAllLeagues() {
@@ -82,19 +124,61 @@ export async function fetchLeagueTeams(leagueCode: string) {
   });
 
   const data = await response.json();
+  console.log(data);
 
   return data.teams.map((item: ListItemForRender) => ({
     id: item.id,
     name: item.shortName,
     logo: item.crest,
+    color: item.clubColors,
   }));
 }
 
 export async function fetchTeamMatches(teamId: number) {
-  const res = await fetch(`${API_BASE}/teams/${teamId}/matches`, {
+  const response = await fetch(`${API_BASE}/teams/${teamId}/matches`, {
     headers: getAuthHeaders(),
   });
-  if (!res.ok) throw new Error(`Matches request failed: ${res.status}`);
-  const data = await res.json();
-  return data.matches ?? [];
+  if (!response.ok) throw new Error(`Matches request failed: ${response.status}`);
+  const data = await response.json();
+  // console.log(data);
+
+  return (
+    data.matches.map((match: TeamMatches) => ({
+      id: match.id,
+      homeTeam: {
+        id: match.homeTeam.id,
+        crest: match.homeTeam.crest,
+        name: match.homeTeam.shortName,
+        shortName: match.homeTeam.shortName,
+        tla: match.homeTeam.tla,
+      },
+      awayTeam: {
+        id: match.awayTeam.id,
+        crest: match.awayTeam.crest,
+        name: match.awayTeam.shortName,
+        shortName: match.awayTeam.shortName,
+        tla: match.awayTeam.tla,
+      },
+      score: {
+        home: match.score.fullTime.home,
+        away: match.score.fullTime.away,
+        winner: match.score.winner,
+        duration: match.score.duration,
+      },
+      season: {
+        currentMatchday: match.season.currentMatchday,
+        endDate: match.season.endDate,
+        id: match.season.id,
+        startDate: match.season.startDate,
+        winner: match.season.winner,
+      },
+      competition: {
+        emblem: match.competition.emblem,
+        name: match.competition.name,
+      },
+      stage: match.stage,
+      status: match.status,
+      utcDate: match.utcDate,
+    })) ?? []
+  );
 }

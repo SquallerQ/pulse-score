@@ -1,18 +1,35 @@
 import styles from './TeamInfo.module.css';
+import type { TeamMatches } from '../../api/api.ts';
 
-type TeamInfoProps = {
-  selectedTeam: {
-    leagueCode: string;
-    teamId: number;
-  } | null;
+type selectedTeam = {
+  id: number;
+  name: string;
+  logo: string;
+  color: string;
 };
 
-export function TeamInfo({ selectedTeam }: TeamInfoProps) {
-  console.log(selectedTeam);
+type TeamInfoProps = {
+  selectedTeam: selectedTeam | null;
+  matchesList: TeamMatches;
+};
+
+export function TeamInfo({ selectedTeam, matchesList }: TeamInfoProps) {
+  // console.log(selectedTeam);
+  //   console.log(matchesList);
+
+  //  const date = new Date();
+
+  //   console.log(date);
+
+  //   const LastFiveMatches = matchesList.map((item) => ({
+
+  //   }));
 
   return selectedTeam === null ? (
-    <div className={styles.container}>Not Info</div>
+    <div className={styles.container}>No Info</div>
   ) : (
-    <div className={styles.container}></div>
+    <div className={styles.container}>
+      <div className={styles.name}>{selectedTeam.name}</div>
+    </div>
   );
 }

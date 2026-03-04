@@ -3,3 +3,7 @@
   min-height: 100px;
   background-color: yellow;
 }
+
+.name {
+  --color-text: #000000;
+}
