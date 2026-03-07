@@ -1,9 +1,66 @@
 .container {
   min-width: 300px;
   min-height: 100px;
+  padding: 10px;
+
+  display: flex;
+  justify-content: space-between;
   background-color: yellow;
 }
 
 .name {
-  --color-text: #000000;
+  color: var(--color-text)
+}
+
+.last_matches_container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.last_matches { 
+  display: flex;
+  gap: 5px;
+}
+
+.last_matches span {
+  width: 20px;
+  height: 20px;
+}
+
+.lose {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background-color: #ff5252;
+  border: 1px solid #000;
+} 
+
+.win {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background-color: #86ff66;
+  border: 1px solid #000;
+} 
+
+.draw {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background-color: #0c65ff;
+  border: 1px solid #000;
+} 
+
+.stadium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-text);
+}
+
+.rival_logo {
+  width: 20px;
+  height: 20px;
 }

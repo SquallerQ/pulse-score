@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
 import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
@@ -11,6 +11,7 @@ import {
   fetchChampionsLeagueTeams,
   fetchChampionsLeagueMatches,
 } from '../../api/api';
+import type { TeamMatches } from '../../api/api';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { queryKeys } from '../../api/queryKeys';
@@ -40,10 +41,8 @@ type LeagueItem = {
 
 export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
-  const [selectedLeague, setSelectedLeague] = useState<LeagueItem | null>(null);
   const [leagueCode, setLeagueCode] = useState('PL');
   const [competitionType, setCompetitionType] = useState<'league' | 'cup'>('league');
-
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
@@ -72,7 +71,7 @@ export function MainPage() {
   });
 
   const leagues = leaguesQuery.data ?? [];
-  const currentLeague = selectedLeague ?? leagues[0] ?? null;
+  const currentLeague = leagues.find((league) => league.code === leagueCode) ?? leagues[0] ?? null;
 
   const matchesQuery = useQuery({
     queryKey: queryKeys.teamMatches(selectedTeam?.leagueCode ?? '', selectedTeam?.teamId ?? 0),
@@ -81,24 +80,25 @@ export function MainPage() {
   });
 
   function handleSelectLeague(league: LeagueItem) {
-    setSelectedLeague(league);
     setLeagueCode(league.code);
     setCompetitionType('league');
     setSelectedTeam(null);
   }
   function handleSelectCup() {
     setCompetitionType('cup');
-    setSelectedLeague(null);
     setSelectedTeam(null);
   }
 
   const selectedTeamData = teamsQuery.data?.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
 
-  // console.log(teamsQuery.data);
-  // console.log(selectedTeam);
+  const lastFiveLeagueMatches = useMemo(() => {
+    if (!matchesQuery.data || !currentLeague) return [];
 
-  // console.log('team matches:', matchesQuery.data);
-  // console.log('championsLeague', cupTeamsQuery.data);
+    return matchesQuery.data
+      .filter((match: TeamMatches) => match.competition.name === currentLeague.name)
+      .filter((match: TeamMatches) => match.status === 'FINISHED')
+      .slice(-5);
+  }, [matchesQuery.data, currentLeague]);
 
   return (
     <div className={styles.main__container}>
@@ -119,7 +119,7 @@ export function MainPage() {
       ) : (
         <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
       )}
-      <TeamInfo selectedTeam={selectedTeamData} matchesList={matchesQuery.data} />
+      <TeamInfo selectedTeam={selectedTeamData} matchesList={lastFiveLeagueMatches} />
 
       <Calendar />
     </div>
