@@ -124,7 +124,7 @@ export function MainPage() {
           <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
         )}
         <TeamInfo selectedTeam={selectedTeamData} lastMatches={lastFiveLeagueMatches} />
-        <Calendar />
+        <Calendar selectedTeam={selectedTeamData} matches={matchesQuery.data ?? []} />
       </section>
     </div>
   );

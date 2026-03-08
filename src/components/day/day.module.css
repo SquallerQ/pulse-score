@@ -4,6 +4,8 @@
   border: 1px solid #000;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  padding: 6px;
 }
 .day__container_past {
   background-color: aquamarine;
@@ -22,9 +24,21 @@
   gap: 5px;
   padding: 5px;
 }
-/* .day{
-  align-self: end;
-} */
+
 .month {
   background-color: blueviolet;
 }
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+
+  width: 100px;
+  height: 100px;
+}
+
+
