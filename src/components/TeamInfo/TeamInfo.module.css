@@ -8,27 +8,36 @@
   background-color: yellow;
 }
 
-.name {
+.teamName {
   color: var(--color-text)
 }
 
-.last_matches_container {
+.lastMatchesLeagueContainer {
+  padding: 10px 20px 10px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid #000;
+}
+
+.lastMatchesContainer {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
 }
 
-.last_matches { 
+.lastMatches { 
   display: flex;
   gap: 5px;
 }
 
-.last_matches span {
+.lastMatches span {
   width: 20px;
   height: 20px;
 }
 
-.lose {
+.matchResult_lose {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -36,7 +45,7 @@
   border: 1px solid #000;
 } 
 
-.win {
+.matchResult_win {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -44,7 +53,7 @@
   border: 1px solid #000;
 } 
 
-.draw {
+.matchResult_draw {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -60,7 +69,12 @@
   border: 1px solid var(--color-text);
 }
 
-.rival_logo {
+.rivalLogo {
   width: 20px;
   height: 20px;
+}
+
+.leagueEmblem{
+  width: 90px;
+  height: 90px;
 }

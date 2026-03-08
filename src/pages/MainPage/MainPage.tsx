@@ -102,26 +102,30 @@ export function MainPage() {
 
   return (
     <div className={styles.main__container}>
-      <LeaguesList
-        leagues={leagues}
-        selectedLeague={currentLeague}
-        competitionType={competitionType}
-        onSelectLeague={handleSelectLeague}
-        onSelectCup={handleSelectCup}
-      />
-      {competitionType === 'league' ? (
-        <TeamList
-          teams={teamsQuery.data ?? []}
-          leagueCode={leagueCode}
-          selectedTeam={selectedTeam}
-          onSelectTeam={setSelectedTeam}
+      <aside className={styles.sidebar}>
+        <LeaguesList
+          leagues={leagues}
+          selectedLeague={currentLeague}
+          competitionType={competitionType}
+          onSelectLeague={handleSelectLeague}
+          onSelectCup={handleSelectCup}
         />
-      ) : (
-        <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
-      )}
-      <TeamInfo selectedTeam={selectedTeamData} matchesList={lastFiveLeagueMatches} />
+      </aside>
 
-      <Calendar />
+      <section className={styles.content}>
+        {competitionType === 'league' ? (
+          <TeamList
+            teams={teamsQuery.data ?? []}
+            leagueCode={leagueCode}
+            selectedTeam={selectedTeam}
+            onSelectTeam={setSelectedTeam}
+          />
+        ) : (
+          <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
+        )}
+        <TeamInfo selectedTeam={selectedTeamData} lastMatches={lastFiveLeagueMatches} />
+        <Calendar />
+      </section>
     </div>
   );
 }

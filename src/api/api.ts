@@ -131,6 +131,8 @@ export async function fetchLeagueTeams(leagueCode: string) {
     name: item.shortName,
     logo: item.crest,
     color: item.clubColors,
+    leagueEmblem: data.competition.emblem,
+    leagueName: data.competition.name,
   }));
 }
 
