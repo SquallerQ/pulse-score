@@ -1,10 +1,13 @@
+
 .day__container {
   width: 200px;
   height: 200px;
   border: 1px solid #000;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  row-gap: 20px;
+  /* justify-content: space-between; */
+  gap: 20px;
   padding: 6px;
 }
 .day__container_past {
@@ -25,20 +28,54 @@
   padding: 5px;
 }
 
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: -50px;
+  /* justify-content: space-between; */
+}
+.leagueEmblem {
+  padding-left: 15px;
+  display: flex;
+  justify-content: left;
+  /* align-items: center; */
+}
+.leagueEmblem img {
+  width: 60px;
+  height: 60px;
+}
+
+
+
 .month {
   background-color: blueviolet;
+}
+
+.imageContainerScore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.score {
+  font-size: 20px;
 }
 
 .imageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 }
+
+
 
 .image {
 
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
 }
 
 

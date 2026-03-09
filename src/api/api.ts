@@ -50,6 +50,7 @@ export type TeamMatches = {
       away: number;
     };
     away: number;
+    home: number;
     winner: string;
     duration: string;
   };

@@ -19,6 +19,8 @@ type SelectedTeam = {
 };
 
 export function Calendar({ matches, selectedTeam }: CalendarProp) {
+  console.log(matches);
+
   const daysArray = generateDates();
 
   if (!selectedTeam) {
