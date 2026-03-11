@@ -3,6 +3,7 @@ import { Calendar } from '../../components/Calendar/Calendar';
 import { TeamList } from '../../components/TeamList/TeamList';
 import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
 import { TeamInfo } from '../../components/TeamInfo/TeamInfo';
+import { Table } from '../../components/Table/Table';
 
 import {
   fetchLeagueTeams,
@@ -10,6 +11,7 @@ import {
   fetchAllLeagues,
   fetchChampionsLeagueTeams,
   fetchChampionsLeagueMatches,
+  fetchLeagueTable,
 } from '../../api/api';
 import type { TeamMatches } from '../../api/api';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
@@ -79,6 +81,14 @@ export function MainPage() {
     enabled: selectedTeam !== null,
   });
 
+  const leagueTableQuery = useQuery({
+    queryKey: queryKeys.leagueTable(leagueCode),
+    queryFn: () => fetchLeagueTable(leagueCode),
+  });
+
+  // console.log(leagueTableQuery.data);
+  
+
   function handleSelectLeague(league: LeagueItem) {
     setLeagueCode(league.code);
     setCompetitionType('league');
@@ -125,6 +135,7 @@ export function MainPage() {
         )}
         <TeamInfo selectedTeam={selectedTeamData} lastMatches={lastFiveLeagueMatches} />
         <Calendar selectedTeam={selectedTeamData} matches={matchesQuery.data ?? []} />
+        <Table leagueTable={leagueTableQuery.data ?? null}></Table>
       </section>
     </div>
   );

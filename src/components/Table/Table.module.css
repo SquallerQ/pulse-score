@@ -1,0 +1,10 @@
+.tableContainer {
+  display: flex;
+  gap: 5px
+}
+
+.tableLogo {
+  width: 15px;
+  height: 15px;
+}
+

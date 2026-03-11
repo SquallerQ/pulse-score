@@ -70,6 +70,23 @@ export type TeamMatches = {
   utcDate: string;
 };
 
+export type TableRow = {
+  position: number;
+  playedGames: number;
+  won: number;
+  draw: number;
+  lost: number;
+  points: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  team: {
+    id: number;
+    name: string;
+    crest: string;
+  };
+};
+
 export async function fetchAllLeagues() {
   const leagueList = [2072, 2224, 2081, 2088, 2114];
   const response = await fetch(`${API_BASE}/competitions/?areas=${leagueList}`, {
@@ -125,7 +142,7 @@ export async function fetchLeagueTeams(leagueCode: string) {
   });
 
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
 
   return data.teams.map((item: ListItemForRender) => ({
     id: item.id,
@@ -184,4 +201,36 @@ export async function fetchTeamMatches(teamId: number) {
       utcDate: match.utcDate,
     })) ?? []
   );
+}
+
+export async function fetchLeagueTable(league: string) {
+  const response = await fetch(`${API_BASE}/competitions/${league}/standings`, {
+    headers: getAuthHeaders(),
+  });
+  const data = await response.json();
+
+  return {
+    competition: {
+      id: data.competition.id,
+      emblem: data.competition.emblem,
+      code: data.competition.code,
+      name: data.competition.name,
+    },
+    table: data.standings[0].table.map((item: TableRow) => ({
+      position: item.position,
+      playedGames: item.playedGames,
+      won: item.won,
+      draw: item.draw,
+      lost: item.lost,
+      points: item.points,
+      goalsFor: item.goalsFor,
+      goalsAgainst: item.goalsAgainst,
+      goalDifference: item.goalDifference,
+      team: {
+        id: item.team.id,
+        name: item.team.name,
+        crest: item.team.crest,
+      },
+    })),
+  };
 }
