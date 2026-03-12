@@ -13,7 +13,7 @@ import {
   fetchChampionsLeagueMatches,
   fetchLeagueTable,
 } from '../../api/api';
-import type { TeamMatches } from '../../api/api';
+import type { TeamMatches, TeamMatchesResponse } from '../../api/api';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { queryKeys } from '../../api/queryKeys';
@@ -75,7 +75,7 @@ export function MainPage() {
   const leagues = leaguesQuery.data ?? [];
   const currentLeague = leagues.find((league) => league.code === leagueCode) ?? leagues[0] ?? null;
 
-  const matchesQuery = useQuery({
+  const matchesQuery = useQuery<TeamMatchesResponse>({
     queryKey: queryKeys.teamMatches(selectedTeam?.leagueCode ?? '', selectedTeam?.teamId ?? 0),
     queryFn: () => fetchTeamMatches(selectedTeam!.teamId),
     enabled: selectedTeam !== null,
@@ -87,7 +87,6 @@ export function MainPage() {
   });
 
   // console.log(leagueTableQuery.data);
-  
 
   function handleSelectLeague(league: LeagueItem) {
     setLeagueCode(league.code);
@@ -102,13 +101,15 @@ export function MainPage() {
   const selectedTeamData = teamsQuery.data?.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
 
   const lastFiveLeagueMatches = useMemo(() => {
-    if (!matchesQuery.data || !currentLeague) return [];
+    if (!matchesQuery.data?.matches || !currentLeague) return [];
 
-    return matchesQuery.data
+    return matchesQuery.data.matches
       .filter((match: TeamMatches) => match.competition.name === currentLeague.name)
       .filter((match: TeamMatches) => match.status === 'FINISHED')
       .slice(-5);
   }, [matchesQuery.data, currentLeague]);
+
+  const hasChampionsLeague = matchesQuery.data?.competitions?.includes('CL') ?? false;
 
   return (
     <div className={styles.main__container}>
@@ -133,8 +134,12 @@ export function MainPage() {
         ) : (
           <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
         )}
-        <TeamInfo selectedTeam={selectedTeamData} lastMatches={lastFiveLeagueMatches} />
-        <Calendar selectedTeam={selectedTeamData} matches={matchesQuery.data ?? []} />
+        <TeamInfo
+          selectedTeam={selectedTeamData}
+          lastMatches={lastFiveLeagueMatches}
+          hasChampionsLeague={hasChampionsLeague}
+        />
+        <Calendar matches={matchesQuery.data?.matches ?? []} />
         <Table leagueTable={leagueTableQuery.data ?? null}></Table>
       </section>
     </div>

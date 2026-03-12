@@ -9,31 +9,19 @@ type Day = {
   isFuture: boolean;
 };
 
-type SelectedTeam = {
-  id: number;
-  name: string;
-  logo: string;
-  color: string;
-  leagueEmblem: string;
-  leagueName: string;
-};
-
 type DayProps = {
   day: Day;
   matches: TeamMatches[];
-  selectedTeam: SelectedTeam;
 };
 
-export function Day({ day, matches, selectedTeam }: DayProps) {
-  // console.log(selectedTeam);
-
+export function Day({ day, matches }: DayProps) {
   let dayTypeClass = '';
   if (day.isPast) {
-    dayTypeClass = styles.day__container_past;
+    dayTypeClass = styles.dayContainerPast;
   } else if (day.isToday) {
-    dayTypeClass = styles.day__container_today;
+    dayTypeClass = styles.dayContainerToday;
   } else if (day.isFuture) {
-    dayTypeClass = styles.day__container_future;
+    dayTypeClass = styles.dayContainerFuture;
   }
   const monthShort = day.date.toLocaleDateString('en-US', { month: 'short' });
 
@@ -58,7 +46,7 @@ export function Day({ day, matches, selectedTeam }: DayProps) {
   }
 
   return (
-    <div className={`${styles.day__container} ${dayTypeClass}`}>
+    <div className={`${styles.dayContainer} ${dayTypeClass}`}>
       <div className={styles.date}>
         <span className={styles.day}>{day.date.getDate()}</span>
         <span className={styles.month}>{monthShort}</span>

@@ -1,5 +1,6 @@
 import styles from './TeamInfo.module.css';
 import plLogo from '../../assets/pl-league-logo.svg';
+import clLogo from '../../assets/champ-league-logo.svg';
 import type { TeamMatches } from '../../api/api.ts';
 
 type SelectedTeam = {
@@ -14,9 +15,10 @@ type SelectedTeam = {
 type TeamInfoProps = {
   selectedTeam: SelectedTeam | null;
   lastMatches: TeamMatches[];
+  hasChampionsLeague: boolean;
 };
 
-export function TeamInfo({ selectedTeam, lastMatches }: TeamInfoProps) {
+export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague }: TeamInfoProps) {
   console.log(selectedTeam);
   console.log(lastMatches);
 
@@ -78,6 +80,7 @@ export function TeamInfo({ selectedTeam, lastMatches }: TeamInfoProps) {
   ) : (
     <div className={styles.container}>
       <div className={styles.teamName}>{selectedTeam.name}</div>
+      {hasChampionsLeague ? <img className={styles.clEmblem} src={clLogo} alt="Champions League" /> : null}
       <div className={styles.lastMatchesLeagueContainer}>
         <img className={styles.leagueEmblem} src={leagueEmblem()} alt={selectedTeam.leagueName} />
         <div className={styles.lastMatchesContainer}>

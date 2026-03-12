@@ -21,6 +21,7 @@
   border: 1px solid #000;
 }
 
+
 .lastMatchesContainer {
   display: flex;
   flex-direction: column;
@@ -77,4 +78,9 @@
 .leagueEmblem{
   width: 90px;
   height: 90px;
+}
+
+.clEmblem {
+  width: 32px;
+  height: 32px;
 }

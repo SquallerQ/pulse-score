@@ -6,26 +6,12 @@ import styles from './Calendar.module.css';
 
 type CalendarProp = {
   matches: TeamMatches[];
-  selectedTeam: SelectedTeam | null;
 };
 
-type SelectedTeam = {
-  id: number;
-  name: string;
-  logo: string;
-  color: string;
-  leagueEmblem: string;
-  leagueName: string;
-};
-
-export function Calendar({ matches, selectedTeam }: CalendarProp) {
+export function Calendar({ matches }: CalendarProp) {
   console.log(matches);
 
   const daysArray = generateDates();
-
-  if (!selectedTeam) {
-    return <div className={styles.calendar__container}>No data</div>;
-  }
 
   return (
     <div className={styles.calendar__container}>
@@ -34,7 +20,7 @@ export function Calendar({ matches, selectedTeam }: CalendarProp) {
           const matchDate = new Date(match.utcDate).toDateString();
           return matchDate === day.date.toDateString();
         });
-        return <Day day={day} matches={dayMatches} key={index} selectedTeam={selectedTeam} />;
+        return <Day day={day} matches={dayMatches} key={index} />;
       })}
     </div>
   );

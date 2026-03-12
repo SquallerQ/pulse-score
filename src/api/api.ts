@@ -70,6 +70,11 @@ export type TeamMatches = {
   utcDate: string;
 };
 
+export type TeamMatchesResponse = {
+  matches: TeamMatches[];
+  competitions: string[];
+};
+
 export type TableRow = {
   position: number;
   playedGames: number;
@@ -162,45 +167,50 @@ export async function fetchTeamMatches(teamId: number) {
   const data = await response.json();
   // console.log(data);
 
-  return (
-    data.matches.map((match: TeamMatches) => ({
-      id: match.id,
-      homeTeam: {
-        id: match.homeTeam.id,
-        crest: match.homeTeam.crest,
-        name: match.homeTeam.shortName,
-        shortName: match.homeTeam.shortName,
-        tla: match.homeTeam.tla,
-      },
-      awayTeam: {
-        id: match.awayTeam.id,
-        crest: match.awayTeam.crest,
-        name: match.awayTeam.shortName,
-        shortName: match.awayTeam.shortName,
-        tla: match.awayTeam.tla,
-      },
-      score: {
-        home: match.score.fullTime.home,
-        away: match.score.fullTime.away,
-        winner: match.score.winner,
-        duration: match.score.duration,
-      },
-      season: {
-        currentMatchday: match.season.currentMatchday,
-        endDate: match.season.endDate,
-        id: match.season.id,
-        startDate: match.season.startDate,
-        winner: match.season.winner,
-      },
-      competition: {
-        emblem: match.competition.emblem,
-        name: match.competition.name,
-      },
-      stage: match.stage,
-      status: match.status,
-      utcDate: match.utcDate,
-    })) ?? []
-  );
+  const competitions =
+    typeof data?.resultSet?.competitions === 'string'
+      ? data.resultSet.competitions.split(',').map((c: string) => c.trim())
+      : [];
+
+  const matches = (data.matches ?? []).map((match: TeamMatches) => ({
+    id: match.id,
+    homeTeam: {
+      id: match.homeTeam.id,
+      crest: match.homeTeam.crest,
+      name: match.homeTeam.shortName,
+      shortName: match.homeTeam.shortName,
+      tla: match.homeTeam.tla,
+    },
+    awayTeam: {
+      id: match.awayTeam.id,
+      crest: match.awayTeam.crest,
+      name: match.awayTeam.shortName,
+      shortName: match.awayTeam.shortName,
+      tla: match.awayTeam.tla,
+    },
+    score: {
+      home: match.score.fullTime.home,
+      away: match.score.fullTime.away,
+      winner: match.score.winner,
+      duration: match.score.duration,
+    },
+    season: {
+      currentMatchday: match.season.currentMatchday,
+      endDate: match.season.endDate,
+      id: match.season.id,
+      startDate: match.season.startDate,
+      winner: match.season.winner,
+    },
+    competition: {
+      emblem: match.competition.emblem,
+      name: match.competition.name,
+    },
+    stage: match.stage,
+    status: match.status,
+    utcDate: match.utcDate,
+  }));
+
+  return { matches, competitions };
 }
 
 export async function fetchLeagueTable(league: string) {
@@ -234,3 +244,23 @@ export async function fetchLeagueTable(league: string) {
     })),
   };
 }
+// export async function fetchChampionsLeagueStandings() {
+//   const response = await fetch(`${API_BASE}/competitions/CL/standings`, {
+//     headers: getAuthHeaders(),
+//   });
+//   const data = await response.json();
+//   console.log(data);
+//   return data;
+// }
+// fetchChampionsLeagueStandings();
+
+// export async function fetchCLMatches() {
+//   const response = await fetch(`${API_BASE}/competitions/CL/matches?stage=LAST_16`, {
+//     headers: getAuthHeaders(),
+//   });
+//   const data = await response.json();
+//   console.log(data);
+//   return data;
+// }
+
+// fetchCLMatches()

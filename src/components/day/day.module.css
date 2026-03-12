@@ -1,23 +1,22 @@
 
-.day__container {
-  width: 200px;
-  height: 200px;
+.dayContainer {
+  width: 180px;
+  height: 180px;
   border: 1px solid #000;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
-  /* justify-content: space-between; */
   gap: 20px;
   padding: 6px;
 }
-.day__container_past {
-  background-color: aquamarine;
+.dayContainerPast {
+  background-color: #ffdcfb;
 }
-.day__container_today {
-  background-color: aqua;
+.dayContainerToday {
+  background-color: #d8fdfd;
 }
-.day__container_future {
-  background-color: #ffefef;
+.dayContainerFuture {
+  background-color: #bfffe5;
 }
 
 .date {
