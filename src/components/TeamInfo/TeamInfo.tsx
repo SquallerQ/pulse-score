@@ -18,9 +18,9 @@ type TeamInfoProps = {
   hasChampionsLeague: boolean;
 };
 
-export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague }: TeamInfoProps) {
+export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, championsLeagueStage }: TeamInfoProps) {
   console.log(selectedTeam);
-  console.log(lastMatches);
+  console.log(championsLeagueStage);
 
   function getResultBadge(match: TeamMatches) {
     if (selectedTeam?.name === match.awayTeam.name) {
@@ -75,12 +75,48 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague }: Team
     return selectedTeam?.leagueName !== 'Premier League' ? (selectedTeam?.leagueEmblem ?? plLogo) : plLogo;
   }
 
+  function getChampionsLeagueStage() {
+    if (!hasChampionsLeague || !selectedTeam || !championsLeagueStage) {
+      return null;
+    }
+
+    for (const stageData of championsLeagueStage) {
+      if (stageData.matches && stageData.matches.length > 0) {
+        const teamMatch = stageData.matches.find(
+          (match) => match.homeTeam.name === selectedTeam.name || match.awayTeam.name === selectedTeam.name
+        );
+
+        if (teamMatch) {
+          switch (stageData.stage) {
+            case 'LAST_16':
+              return '1/8';
+            case 'LAST_8':
+              return '1/4';
+            case 'LAST_4':
+              return '1/2';
+            case 'LAST_2':
+              return 'FINAL';
+            default:
+              return stageData.stage;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
   return selectedTeam === null ? (
     <div className={styles.container}>No Info</div>
   ) : (
     <div className={styles.container}>
       <div className={styles.teamName}>{selectedTeam.name}</div>
-      {hasChampionsLeague ? <img className={styles.clEmblem} src={clLogo} alt="Champions League" /> : null}
+      {hasChampionsLeague ? (
+        <div className={styles.championsLeagueContainer}>
+          <div>{getChampionsLeagueStage()}</div>
+          <img className={styles.clEmblem} src={clLogo} alt="Champions League" />
+        </div>
+      ) : null}
       <div className={styles.lastMatchesLeagueContainer}>
         <img className={styles.leagueEmblem} src={leagueEmblem()} alt={selectedTeam.leagueName} />
         <div className={styles.lastMatchesContainer}>

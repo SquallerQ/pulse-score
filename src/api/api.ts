@@ -132,14 +132,14 @@ export async function fetchChampionsLeagueTeams() {
   };
 }
 
-export async function fetchChampionsLeagueMatches() {
-  const response = await fetch(`${API_BASE}/competitions/CL/matches`, {
-    headers: getAuthHeaders(),
-  });
-  const data = await response.json();
-  // console.log(data);
-  return data;
-}
+// export async function fetchChampionsLeagueMatches() {
+//   const response = await fetch(`${API_BASE}/competitions/CL/matches`, {
+//     headers: getAuthHeaders(),
+//   });
+//   const data = await response.json();
+//   console.log(data);
+//   return data;
+// }
 
 export async function fetchLeagueTeams(leagueCode: string) {
   const response = await fetch(`${API_BASE}/competitions/${leagueCode}/teams`, {
@@ -255,12 +255,53 @@ export async function fetchLeagueTable(league: string) {
 // fetchChampionsLeagueStandings();
 
 // export async function fetchCLMatches() {
-//   const response = await fetch(`${API_BASE}/competitions/CL/matches?stage=LAST_16`, {
+//   const response = await fetch(`${API_BASE}/competitions/CL/matches?stage=LAST_8`, {
 //     headers: getAuthHeaders(),
 //   });
+
 //   const data = await response.json();
 //   console.log(data);
 //   return data;
 // }
 
-// fetchCLMatches()
+// fetchCLMatches();
+
+export async function fetchChampionsLeagueStages() {
+  const stages = ['LAST_16', 'LAST_8', 'LAST_4', 'LAST_2'];
+
+  const responses = await Promise.all(
+    stages.map((stage) =>
+      fetch(`${API_BASE}/competitions/CL/matches?stage=${stage}`, {
+        headers: getAuthHeaders(),
+      })
+    )
+  );
+
+  const data = await Promise.all(responses.map((res) => res.json()));
+
+  console.log(data);
+  return data.map((stageData, index) => ({
+    stage: stages[index],
+    matches: stageData.matches.map((match: any) => ({
+      id: match.id,
+      utcDate: match.utcDate,
+      status: match.status,
+      matchday: match.matchday,
+      homeTeam: {
+        id: match.homeTeam.id,
+        name: match.homeTeam.shortName,
+        crest: match.homeTeam.crest,
+      },
+      awayTeam: {
+        id: match.awayTeam.id,
+        name: match.awayTeam.shortName,
+        crest: match.awayTeam.crest,
+      },
+      score: {
+        home: match.score.fullTime.home,
+        away: match.score.fullTime.away,
+        winner: match.score.winner,
+      },
+    })),
+  }));
+}
