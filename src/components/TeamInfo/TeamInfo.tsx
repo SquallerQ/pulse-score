@@ -1,7 +1,7 @@
 import styles from './TeamInfo.module.css';
 import plLogo from '../../assets/pl-league-logo.svg';
 import clLogo from '../../assets/champ-league-logo.svg';
-import type { TeamMatches } from '../../api/api.ts';
+import type { TeamMatches, ChampionsLeagueStage } from '../../api/types';
 
 type SelectedTeam = {
   id: number;
@@ -16,6 +16,7 @@ type TeamInfoProps = {
   selectedTeam: SelectedTeam | null;
   lastMatches: TeamMatches[];
   hasChampionsLeague: boolean;
+  championsLeagueStage?: ChampionsLeagueStage[];
 };
 
 export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, championsLeagueStage }: TeamInfoProps) {
@@ -76,20 +77,56 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
   }
 
   function getChampionsLeagueStage() {
-    if (!hasChampionsLeague || !selectedTeam || !championsLeagueStage) {
+    if (!hasChampionsLeague || !selectedTeam || !championsLeagueStage?.length) {
       return null;
     }
 
     for (const stageData of championsLeagueStage) {
       if (stageData.matches && stageData.matches.length > 0) {
-        const teamMatch = stageData.matches.find(
-          (match) => match.homeTeam.name === selectedTeam.name || match.awayTeam.name === selectedTeam.name
-        );
+        const teamMatchAway = stageData.matches.find((match) => match.awayTeam.name === selectedTeam.name);
+        const teamMatchHome = stageData.matches.find((match) => match.homeTeam.name === selectedTeam.name);
 
-        if (teamMatch) {
+        if (teamMatchAway || teamMatchHome) {
+          const firstMatch = teamMatchAway!.utcDate > teamMatchHome!.utcDate;
+          // console.log();
+
           switch (stageData.stage) {
             case 'LAST_16':
-              return '1/8';
+              // return '1/8';
+              console.log(teamMatchAway, teamMatchHome);
+              console.log('NAME', teamMatchAway?.awayTeam.name);
+
+              return (
+                <div>
+                  {firstMatch === true ? (
+                    <div>
+                      <span>{teamMatchAway?.awayTeam.name}</span>
+                      {teamMatchAway?.status === 'FINISHED' ? (
+                        <>
+                          <span>{teamMatchAway.score.home}</span>
+                          <span>{teamMatchAway.score.away}</span>
+                        </>
+                      ) : (
+                        <span>no</span>
+                      )}
+                      <span>{teamMatchAway?.homeTeam.name}</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <span>{teamMatchHome?.awayTeam.name}</span>
+                      {teamMatchAway?.status === 'FINISHED' ? (
+                        <>
+                          <span>{teamMatchAway.score.home}</span>
+                          <span>{teamMatchAway.score.away}</span>
+                        </>
+                      ) : (
+                        <span>no</span>
+                      )}
+                      <span>{teamMatchHome?.homeTeam.name}</span>
+                    </div>
+                  )}
+                </div>
+              );
             case 'LAST_8':
               return '1/4';
             case 'LAST_4':
@@ -103,7 +140,7 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
       }
     }
 
-    return null;
+    return 'lost in group stage';
   }
 
   return selectedTeam === null ? (
@@ -113,8 +150,8 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
       <div className={styles.teamName}>{selectedTeam.name}</div>
       {hasChampionsLeague ? (
         <div className={styles.championsLeagueContainer}>
-          <div>{getChampionsLeagueStage()}</div>
           <img className={styles.clEmblem} src={clLogo} alt="Champions League" />
+          <div>{getChampionsLeagueStage()}</div>
         </div>
       ) : null}
       <div className={styles.lastMatchesLeagueContainer}>

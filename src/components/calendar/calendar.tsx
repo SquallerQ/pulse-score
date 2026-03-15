@@ -1,6 +1,6 @@
 import { generateDates } from '../../utils/generateDates.ts';
 import { Day } from '../Day/Day.tsx';
-import type { TeamMatches } from '../../api/api.ts';
+import type { TeamMatches } from '../../api/types.ts';
 
 import styles from './Calendar.module.css';
 
@@ -9,7 +9,7 @@ type CalendarProp = {
 };
 
 export function Calendar({ matches }: CalendarProp) {
-  console.log(matches);
+  // console.log(matches);
 
   const daysArray = generateDates();
 

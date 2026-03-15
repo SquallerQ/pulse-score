@@ -13,7 +13,7 @@ import {
   fetchChampionsLeagueStages,
   fetchLeagueTable,
 } from '../../api/api';
-import type { TeamMatches, TeamMatchesResponse } from '../../api/api';
+import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { queryKeys } from '../../api/queryKeys';

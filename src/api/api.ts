@@ -1,3 +1,11 @@
+import type {
+  ListItemForRender,
+  CompetitionsResponse,
+  TableRow,
+  TeamMatchApi,
+  ChampionsLeagueMatchApi,
+} from './types.ts';
+
 const apiKey = import.meta.env.VITE_FOOTBALLDATA_KEY;
 
 const API_BASE = '/api/v4';
@@ -5,92 +13,6 @@ const API_BASE = '/api/v4';
 const getAuthHeaders = () => ({
   'X-Auth-Token': apiKey,
 });
-
-type ListItemForRender = {
-  id: number;
-  shortName: string;
-  crest: string;
-  clubColors: string;
-};
-
-type CompetitionItem = {
-  area: {
-    id: number;
-    flag: string;
-    name: string;
-  };
-  emblem: string;
-  name: string;
-  code: string;
-};
-
-type CompetitionsResponse = {
-  competitions: CompetitionItem[];
-};
-
-export type TeamMatches = {
-  id: number;
-  awayTeam: {
-    id: number;
-    crest: string;
-    name: string;
-    shortName: string;
-    tla: string;
-  };
-  homeTeam: {
-    id: number;
-    crest: string;
-    name: string;
-    shortName: string;
-    tla: string;
-  };
-  score: {
-    fullTime: {
-      home: number;
-      away: number;
-    };
-    away: number;
-    home: number;
-    winner: string;
-    duration: string;
-  };
-  season: {
-    id: number;
-    currentMatchday: number;
-    endDate: string;
-    startDate: string;
-    winner: string;
-  };
-  competition: {
-    emblem: string;
-    name: string;
-  };
-  stage: string;
-  status: string;
-  utcDate: string;
-};
-
-export type TeamMatchesResponse = {
-  matches: TeamMatches[];
-  competitions: string[];
-};
-
-export type TableRow = {
-  position: number;
-  playedGames: number;
-  won: number;
-  draw: number;
-  lost: number;
-  points: number;
-  goalsFor: number;
-  goalsAgainst: number;
-  goalDifference: number;
-  team: {
-    id: number;
-    name: string;
-    crest: string;
-  };
-};
 
 export async function fetchAllLeagues() {
   const leagueList = [2072, 2224, 2081, 2088, 2114];
@@ -132,15 +54,6 @@ export async function fetchChampionsLeagueTeams() {
   };
 }
 
-// export async function fetchChampionsLeagueMatches() {
-//   const response = await fetch(`${API_BASE}/competitions/CL/matches`, {
-//     headers: getAuthHeaders(),
-//   });
-//   const data = await response.json();
-//   console.log(data);
-//   return data;
-// }
-
 export async function fetchLeagueTeams(leagueCode: string) {
   const response = await fetch(`${API_BASE}/competitions/${leagueCode}/teams`, {
     headers: getAuthHeaders(),
@@ -172,7 +85,7 @@ export async function fetchTeamMatches(teamId: number) {
       ? data.resultSet.competitions.split(',').map((c: string) => c.trim())
       : [];
 
-  const matches = (data.matches ?? []).map((match: TeamMatches) => ({
+  const matches = (data.matches ?? []).map((match: TeamMatchApi) => ({
     id: match.id,
     homeTeam: {
       id: match.homeTeam.id,
@@ -244,27 +157,6 @@ export async function fetchLeagueTable(league: string) {
     })),
   };
 }
-// export async function fetchChampionsLeagueStandings() {
-//   const response = await fetch(`${API_BASE}/competitions/CL/standings`, {
-//     headers: getAuthHeaders(),
-//   });
-//   const data = await response.json();
-//   console.log(data);
-//   return data;
-// }
-// fetchChampionsLeagueStandings();
-
-// export async function fetchCLMatches() {
-//   const response = await fetch(`${API_BASE}/competitions/CL/matches?stage=LAST_8`, {
-//     headers: getAuthHeaders(),
-//   });
-
-//   const data = await response.json();
-//   console.log(data);
-//   return data;
-// }
-
-// fetchCLMatches();
 
 export async function fetchChampionsLeagueStages() {
   const stages = ['LAST_16', 'LAST_8', 'LAST_4', 'LAST_2'];
@@ -282,19 +174,19 @@ export async function fetchChampionsLeagueStages() {
   console.log(data);
   return data.map((stageData, index) => ({
     stage: stages[index],
-    matches: stageData.matches.map((match: any) => ({
+    matches: stageData.matches.map((match: ChampionsLeagueMatchApi) => ({
       id: match.id,
       utcDate: match.utcDate,
       status: match.status,
       matchday: match.matchday,
       homeTeam: {
         id: match.homeTeam.id,
-        name: match.homeTeam.shortName,
+        name: match.homeTeam.shortName ?? match.homeTeam.name,
         crest: match.homeTeam.crest,
       },
       awayTeam: {
         id: match.awayTeam.id,
-        name: match.awayTeam.shortName,
+        name: match.awayTeam.shortName ?? match.awayTeam.name,
         crest: match.awayTeam.crest,
       },
       score: {

@@ -1,6 +1,6 @@
 import styles from './Day.module.css';
 
-import type { TeamMatches } from '../../api/api.ts';
+import type { TeamMatches } from '../../api/types';
 
 type Day = {
   date: Date;
@@ -26,8 +26,6 @@ export function Day({ day, matches }: DayProps) {
   const monthShort = day.date.toLocaleDateString('en-US', { month: 'short' });
 
   function dayMatch(match: TeamMatches) {
-    // console.log(match);
-
     {
       return match.status === 'FINISHED' ? (
         <div className={styles.imageContainerScore}>
