@@ -81,66 +81,90 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
       return null;
     }
 
-    for (const stageData of championsLeagueStage) {
+    const reversedStages = [...championsLeagueStage].reverse();
+
+    let actualStage;
+    for (let i = 0; i < championsLeagueStage.length; i++) {
+      if (championsLeagueStage[i].matches.length === 0) {
+        actualStage = championsLeagueStage[i - 1].stage;
+        break;
+      }
+    }
+
+    console.log(actualStage);
+
+    for (const stageData of reversedStages) {
       if (stageData.matches && stageData.matches.length > 0) {
         const teamMatchAway = stageData.matches.find((match) => match.awayTeam.name === selectedTeam.name);
         const teamMatchHome = stageData.matches.find((match) => match.homeTeam.name === selectedTeam.name);
 
         if (teamMatchAway || teamMatchHome) {
-          const firstMatch = teamMatchAway!.utcDate > teamMatchHome!.utcDate;
-          // console.log();
-
+          let stage;
           switch (stageData.stage) {
             case 'LAST_16':
-              // return '1/8';
-              console.log(teamMatchAway, teamMatchHome);
-              console.log('NAME', teamMatchAway?.awayTeam.name);
-
-              return (
-                <div>
-                  {firstMatch === true ? (
-                    <div>
-                      <span>{teamMatchAway?.awayTeam.name}</span>
-                      {teamMatchAway?.status === 'FINISHED' ? (
-                        <>
-                          <span>{teamMatchAway.score.home}</span>
-                          <span>{teamMatchAway.score.away}</span>
-                        </>
-                      ) : (
-                        <span>no</span>
-                      )}
-                      <span>{teamMatchAway?.homeTeam.name}</span>
-                    </div>
-                  ) : (
-                    <div>
-                      <span>{teamMatchHome?.awayTeam.name}</span>
-                      {teamMatchAway?.status === 'FINISHED' ? (
-                        <>
-                          <span>{teamMatchAway.score.home}</span>
-                          <span>{teamMatchAway.score.away}</span>
-                        </>
-                      ) : (
-                        <span>no</span>
-                      )}
-                      <span>{teamMatchHome?.homeTeam.name}</span>
-                    </div>
-                  )}
-                </div>
-              );
+              stage = 'LAST_16';
+              break;
             case 'LAST_8':
-              return '1/4';
+              stage = 'LAST_8';
+              break;
             case 'LAST_4':
-              return '1/2';
+              stage = 'LAST_4';
+              break;
             case 'LAST_2':
-              return 'FINAL';
+              stage = 'LAST_2';
+              break;
             default:
-              return stageData.stage;
+              stage = stageData.stage;
           }
+          return championsLeagueStatus(teamMatchAway, teamMatchHome, stage, actualStage);
         }
       }
     }
-
     return 'lost in group stage';
+  }
+
+  function championsLeagueStatus(_teamMatchAway, _teamMatchHome, _stage, _actualStage) {
+    const isActive = _stage === _actualStage;
+    console.log(_actualStage);
+
+    const matchArray = [];
+    if (_teamMatchAway!.utcDate < _teamMatchHome!.utcDate) {
+      matchArray.push(_teamMatchAway);
+      matchArray.push(_teamMatchHome);
+    } else {
+      matchArray.push(_teamMatchHome);
+      matchArray.push(_teamMatchAway);
+    }
+
+    return (
+      <div>
+        {isActive === true ? <span>{_actualStage}</span> : <span>`Lost in {_stage}`</span>}
+        <div>
+          <span>{matchArray[0].homeTeam.name}</span>
+          {matchArray[0].status === 'FINISHED' ? (
+            <>
+              <span>{matchArray[0].score.home}</span>
+              <span>{matchArray[0].score.away}</span>
+            </>
+          ) : (
+            <span></span>
+          )}
+          <span>{matchArray[0].awayTeam.name}</span>
+        </div>
+        <div>
+          <span>{matchArray[1].homeTeam.name}</span>
+          {matchArray[1].status === 'FINISHED' ? (
+            <>
+              <span>{matchArray[1].score.home}</span>
+              <span>{matchArray[1].score.away}</span>
+            </>
+          ) : (
+            <span> - </span>
+          )}
+          <span>{matchArray[1].awayTeam.name}</span>
+        </div>
+      </div>
+    );
   }
 
   return selectedTeam === null ? (
