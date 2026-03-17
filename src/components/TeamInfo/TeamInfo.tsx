@@ -125,6 +125,25 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
 
   function championsLeagueStatus(_teamMatchAway, _teamMatchHome, _stage, _actualStage) {
     const isActive = _stage === _actualStage;
+
+    let stage;
+    switch (_stage) {
+      case 'LAST_16':
+        stage = '1/8';
+        break;
+      case 'LAST_8':
+        stage = '1/4';
+        break;
+      case 'LAST_4':
+        stage = '1/2';
+        break;
+      case 'LAST_2':
+        stage = 'Final';
+        break;
+      default:
+        stage = 'lost in group stage';
+        break;
+    }
     console.log(_actualStage);
 
     const matchArray = [];
@@ -137,21 +156,37 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     }
 
     return (
-      <div>
-        {isActive === true ? <span>{_actualStage}</span> : <span>`Lost in {_stage}`</span>}
-        <div>
-          <span>{matchArray[0].homeTeam.name}</span>
+      <div className={styles.CLcontainer}>
+        {isActive === true ? (
+          <div className={styles.CLactive}>Active</div>
+        ) : (
+          <div className={styles.CLinactive}>Inactive</div>
+        )}
+        {isActive === true ? <span>Stage: {stage}</span> : <span>`Lost in {_stage}`</span>}
+        <div className={styles.CLmatchContainer}>
           {matchArray[0].status === 'FINISHED' ? (
             <>
+              <img
+                className={styles.CLlogoSmall}
+                src={matchArray[0].homeTeam.crest}
+                alt={matchArray[0].homeTeam.name}
+              />
+              <span>{matchArray[0].homeTeam.name}</span>
               <span>{matchArray[0].score.home}</span>
               <span>{matchArray[0].score.away}</span>
+              <span>{matchArray[0].awayTeam.name}</span>
+
+              <img
+                className={styles.CLlogoSmall}
+                src={matchArray[0].awayTeam.crest}
+                alt={matchArray[0].awayTeam.name}
+              />
             </>
           ) : (
             <span></span>
           )}
-          <span>{matchArray[0].awayTeam.name}</span>
         </div>
-        <div>
+        <div className={styles.CLmatchContainer}>
           <span>{matchArray[1].homeTeam.name}</span>
           {matchArray[1].status === 'FINISHED' ? (
             <>

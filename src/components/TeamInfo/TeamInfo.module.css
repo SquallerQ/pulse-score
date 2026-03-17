@@ -88,6 +88,48 @@
   border: 1px solid #000;
 }
 
+.CLcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.CLactive {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.CLinactive {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.CLactive::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #56c356;
+  border-radius: 50%;
+}
+
+.CLinactive::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #ff0000;
+  border-radius: 50%;
+}
+.CLmatchContainer {
+  display: flex;
+}
+.CLlogoSmall {
+  width: 20px;
+  height: 20px;
+}
+
 .clEmblem {
   width: 80px;
   height: 80px;
