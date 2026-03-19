@@ -76,6 +76,8 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     return selectedTeam?.leagueName !== 'Premier League' ? (selectedTeam?.leagueEmblem ?? plLogo) : plLogo;
   }
 
+  type CLMatch = ChampionsLeagueStage['matches'][number];
+
   function getChampionsLeagueStage() {
     if (!hasChampionsLeague || !selectedTeam || !championsLeagueStage?.length) {
       return null;
@@ -83,10 +85,10 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
 
     const reversedStages = [...championsLeagueStage].reverse();
 
-    let actualStage;
+    let actualStage: string | undefined;
     for (let i = 0; i < championsLeagueStage.length; i++) {
       if (championsLeagueStage[i].matches.length === 0) {
-        actualStage = championsLeagueStage[i - 1].stage;
+        actualStage = championsLeagueStage[i - 1]?.stage;
         break;
       }
     }
@@ -123,7 +125,12 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     return 'lost in group stage';
   }
 
-  function championsLeagueStatus(_teamMatchAway, _teamMatchHome, _stage, _actualStage) {
+  function championsLeagueStatus(
+    _teamMatchAway: CLMatch | undefined,
+    _teamMatchHome: CLMatch | undefined,
+    _stage: string,
+    _actualStage: string | undefined
+  ) {
     const isActive = _stage === _actualStage;
 
     let stage;
@@ -146,14 +153,22 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     }
     console.log(_actualStage);
 
-    const matchArray = [];
-    if (_teamMatchAway!.utcDate < _teamMatchHome!.utcDate) {
-      matchArray.push(_teamMatchAway);
-      matchArray.push(_teamMatchHome);
-    } else {
-      matchArray.push(_teamMatchHome);
-      matchArray.push(_teamMatchAway);
+    if (!_teamMatchAway || !_teamMatchHome) {
+      return (
+        <div className={styles.CLcontainer}>
+          {isActive ? <div className={styles.CLactive}>Active</div> : <div className={styles.CLinactive}>Inactive</div>}
+          {isActive ? <span>Stage: {stage}</span> : <span>Lost in {_stage}</span>}
+          <div className={styles.CLmatchContainer}>
+            <span>No match data</span>
+          </div>
+        </div>
+      );
     }
+
+    const matchArray: CLMatch[] =
+      _teamMatchAway.utcDate < _teamMatchHome.utcDate
+        ? [_teamMatchAway, _teamMatchHome]
+        : [_teamMatchHome, _teamMatchAway];
 
     return (
       <div className={styles.CLcontainer}>
@@ -187,16 +202,27 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
           )}
         </div>
         <div className={styles.CLmatchContainer}>
-          <span>{matchArray[1].homeTeam.name}</span>
           {matchArray[1].status === 'FINISHED' ? (
             <>
+              <img
+                className={styles.CLlogoSmall}
+                src={matchArray[1].homeTeam.crest}
+                alt={matchArray[1].homeTeam.name}
+              />
+              <span>{matchArray[1].homeTeam.name}</span>
               <span>{matchArray[1].score.home}</span>
               <span>{matchArray[1].score.away}</span>
+              <span>{matchArray[1].awayTeam.name}</span>
+
+              <img
+                className={styles.CLlogoSmall}
+                src={matchArray[1].awayTeam.crest}
+                alt={matchArray[1].awayTeam.name}
+              />
             </>
           ) : (
             <span> - </span>
           )}
-          <span>{matchArray[1].awayTeam.name}</span>
         </div>
       </div>
     );

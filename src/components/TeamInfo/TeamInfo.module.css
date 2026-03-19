@@ -124,6 +124,7 @@
 }
 .CLmatchContainer {
   display: flex;
+  gap: 5px;
 }
 .CLlogoSmall {
   width: 20px;
