@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
+import { FullCalendar } from '../../components/FullTable/FullCalendar';
 import { TeamList } from '../../components/TeamList/TeamList';
 import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
 import { TeamInfo } from '../../components/TeamInfo/TeamInfo';
@@ -45,6 +46,7 @@ export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
   const [leagueCode, setLeagueCode] = useState('PL');
   const [competitionType, setCompetitionType] = useState<'league' | 'cup'>('league');
+  const [calendarView, setCalendarView] = useState<'fullCalendar' | 'compactCalendar'>('compactCalendar');
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
@@ -97,6 +99,13 @@ export function MainPage() {
     setCompetitionType('cup');
     setSelectedTeam(null);
   }
+  function handleSelectCalendarFormat(switchFormatTo: string): void {
+    if (switchFormatTo === 'compactCalendar') {
+      setCalendarView('compactCalendar');
+    } else if (switchFormatTo === 'fullCalendar') {
+      setCalendarView('fullCalendar');
+    }
+  }
 
   const selectedTeamData = teamsQuery.data?.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
 
@@ -134,13 +143,23 @@ export function MainPage() {
         ) : (
           <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
         )}
+
         <TeamInfo
           selectedTeam={selectedTeamData}
           lastMatches={lastFiveLeagueMatches}
           hasChampionsLeague={hasChampionsLeague}
           championsLeagueStage={championsLeagueQuery.data}
         />
-        <Calendar matches={matchesQuery.data?.matches ?? []} />
+        <div className={styles.calendarButtonContainer}>
+          <button onClick={() => handleSelectCalendarFormat('compactCalendar')}>Calendar</button>
+          <button onClick={() => handleSelectCalendarFormat('fullCalendar')}>Full Calendar</button>
+        </div>
+        {calendarView === 'compactCalendar' ? (
+          <Calendar matches={matchesQuery.data?.matches ?? []} />
+        ) : (
+          <FullCalendar matches={matchesQuery.data?.matches ?? []} />
+        )}
+
         <Table leagueTable={leagueTableQuery.data ?? null}></Table>
       </section>
     </div>
