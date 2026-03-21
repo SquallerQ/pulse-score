@@ -8,8 +8,6 @@ type CalendarProp = {
 };
 
 export function FullCalendar({ matches }: CalendarProp) {
-  console.log(matches);
-
   return (
     <div className={styles.container}>
       {matches.map((m) => (
