@@ -1,7 +1,16 @@
 .container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  border: 1px solid var(--color-text);
+  border-radius: 5px;
   
-  /* height: 200px; */
-  min-width: 100px;
-  background-color: aquamarine;
+  background: rgba(115, 149, 174, 0.1);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
 }

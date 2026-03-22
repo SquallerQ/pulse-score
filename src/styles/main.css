@@ -1,9 +1,21 @@
-
+@font-face {
+  font-family: "Poppins";
+  src:
+    url("../assets/fonts/Poppins-Regular.woff2") format("woff2"),
+    url("../assets/fonts/Poppins-Regular.woff") format("woff"),
+    url("../assets/fonts/Poppins-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
   min-height: 100vh;
   background: var(--color-bg);
   color: var(--color-text);
+
+  font-family: 'Poppins', serif;
+  font-weight: 400;
 }
 
 #root {
@@ -12,10 +24,17 @@ body {
 
 :root {
   --color-bg: #ffffff;
+  --color-bg: #ffffff;
   --color-text: #000000;
+  --color-text: #00010D;
+
+  --color-bg-team-buttons: #7395AE;
 }
 
 .dark {
   --color-bg: #000000;
   --color-text: #ffffff;
+  --color-bg: #1A1A1D;
+
+  --color-bg-team-buttons: #88BDBC;
 }

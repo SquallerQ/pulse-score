@@ -14,14 +14,13 @@ export function Table({ leagueTable }: TableProps) {
   if (!leagueTable || !leagueTable.table) {
     return <div>No data</div>;
   }
-  // console.log(leagueTable.table);
 
   return (
     <div>
       {leagueTable.table.map((item: TableRow) => {
         {
           return (
-            <div className={styles.tableContainer}>
+            <div key={item.team.id} className={styles.tableContainer}>
               <div>{item.position}</div>
               <div>
                 <img className={styles.tableLogo} src={item.team.crest} alt="" />
