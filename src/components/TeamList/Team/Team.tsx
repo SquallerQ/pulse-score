@@ -19,7 +19,6 @@ export function Team(props: TeamProps) {
         aria-pressed={isActive}
       >
         <img className={styles.logo} src={logo} alt={name} />
-        {/* <span>{name}</span> */}
       </button>
     </div>
   );

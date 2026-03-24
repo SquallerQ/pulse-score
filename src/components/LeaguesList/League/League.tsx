@@ -21,13 +21,13 @@ export function League({ competitionType, league, isActive, onClick, onSelectCup
   {
     return competitionType === 'cup' ? (
       <div className={styles.container}>
-        <button type="button" onClick={onSelectCup} aria-pressed={isActive}>
+        <button className={styles.button} type="button" onClick={onSelectCup} aria-pressed={isActive}>
           <img className={styles.images} src={championLeagueLogo} alt="Champions League" />
         </button>
       </div>
     ) : (
       <div className={styles.container}>
-        <button type="button" onClick={onClick} aria-pressed={isActive}>
+        <button className={styles.button} type="button" onClick={onClick} aria-pressed={isActive}>
           <img className={styles.images} src={league?.emblem} alt={league?.name} />
         </button>
       </div>
