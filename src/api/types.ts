@@ -172,3 +172,12 @@ export type ChampionsLeagueStage = {
   stage: string;
   matches: ChampionsLeagueStageMatch[];
 };
+
+export type SelectedTeam = {
+  color: string;
+  id: number;
+  leagueEmblem: string;
+  leagueName: string;
+  logo: string;
+  name: string;
+};

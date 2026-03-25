@@ -1,4 +1,5 @@
 import styles from './Day.module.css';
+import CLLogo from '../../assets/champ-league-logo.svg';
 
 import type { TeamMatches } from '../../api/types';
 
@@ -42,6 +43,7 @@ export function Day({ day, matches }: DayProps) {
       );
     }
   }
+  console.log(matches);
 
   return (
     <div className={`${styles.dayContainer} ${dayTypeClass}`}>
@@ -57,7 +59,10 @@ export function Day({ day, matches }: DayProps) {
           matches.map((match) => (
             <div className={styles.infoContainer}>
               <div className={styles.leagueEmblem}>
-                <img src={match.competition.emblem} alt="" />
+                <img
+                  src={match.competition.name === 'UEFA Champions League' ? CLLogo : match.competition.emblem}
+                  alt="league logo"
+                />
               </div>
               <div className={styles.imageContainer} key={match.id}>
                 {dayMatch(match)}

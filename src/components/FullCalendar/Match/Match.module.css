@@ -1,0 +1,124 @@
+.matchContainer {
+  min-width: 250px;
+  height: 130px;
+
+
+  border-radius: 3px;
+  border: 1px solid #000;
+  background-color: #ffeefe;
+}
+
+.finished {
+  min-width: 250px;
+  height: 130px;
+
+  text-align: center;
+  
+  border-radius: 3px;
+  border: 1px solid #000;
+  color: #000;
+  background-color: #fbfbfb;
+}
+
+.timed {
+  min-width: 250px;
+  height: 130px;
+  
+  border-radius: 3px;
+  border: 1px solid #000;
+  color: #000;
+  background-color: #d3ccd3;
+}
+
+.postponed {
+  min-width: 250px;
+  height: 130px;
+  
+  border-radius: 3px;
+  background-color: #fffba4;
+  border: 1px solid #000;
+}
+
+.tourneyAndDateContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 5px 10px;
+}
+
+.tourneyLogo{
+  min-width: 30px;
+  height: 30px;
+}
+
+.resultWon {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  
+  color: #fff;
+  background-color: #4caf50;
+}
+
+.resultDraw {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  
+  color: #fff;
+  background-color: #ff9800;
+}
+
+.resultLost {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 10px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  border-radius: 4px;
+  
+  color: #fff;
+  background-color: #f34539;
+}
+
+.teamsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.teamContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 5px 5px 10px;
+}
+
+.finished .teamContainer {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 26px;
+  align-items: center;
+  gap: 10px;
+}
+
+.teamLogo{
+  width: 25px;
+  height: 25px;
+}
+
+.teamName {
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.score {
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
-import { FullCalendar } from '../../components/FullTable/FullCalendar';
+import { FullCalendar } from '../../components/FullCalendar/FullCalendar';
 import { TeamList } from '../../components/TeamList/TeamList';
 import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
 import { TeamInfo } from '../../components/TeamInfo/TeamInfo';
@@ -157,7 +157,7 @@ export function MainPage() {
         {calendarView === 'compactCalendar' ? (
           <Calendar matches={matchesQuery.data?.matches ?? []} />
         ) : (
-          <FullCalendar matches={matchesQuery.data?.matches ?? []} />
+          <FullCalendar matches={matchesQuery.data?.matches ?? []} selectedTeam={selectedTeamData} />
         )}
 
         <Table leagueTable={leagueTableQuery.data ?? null}></Table>
