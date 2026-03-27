@@ -52,6 +52,7 @@ export type TeamMatches = {
   competition: {
     emblem: string;
     name: string;
+    code: string;
   };
   stage: string;
   status: string;
@@ -97,6 +98,7 @@ export type TeamMatchApi = {
   competition: {
     emblem: string;
     name: string;
+    code: string;
   };
   stage: string;
   status: string;

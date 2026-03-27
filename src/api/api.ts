@@ -117,6 +117,7 @@ export async function fetchTeamMatches(teamId: number) {
     competition: {
       emblem: match.competition.emblem,
       name: match.competition.name,
+      code: match.competition.code,
     },
     stage: match.stage,
     status: match.status,
