@@ -1,9 +1,10 @@
 import styles from './Match.module.css';
 import type { TeamMatches, SelectedTeam } from '../../../api/types';
 import CLLogo from '../../../assets/icons/cl-logo-white-ball.svg';
+import PLLogo from '../../../assets/pl-league-logo.svg';
 
 const leagueLogos: Record<string, string> = {
-  // PL: plLogo,
+  PL: PLLogo,
   CL: CLLogo,
 };
 
@@ -45,23 +46,24 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
   }
   const isChampionsLeague = match.competition.name === 'UEFA Champions League';
 
-  function getLeagueLogo(code) {
+  function getLeagueLogo(code: string) {
     return leagueLogos[code] ?? match.competition.emblem;
   }
   // UEFA Champions League
 
   if (match.status === 'FINISHED') {
     return (
-      <div className={styles.finished}>
+      <div className={`${styles.finished} ${isChampionsLeague ? styles.championsLeagueCard : ''}`}>
         <div className={styles.tourneyAndDateContainer}>
           <img
             className={`${styles.tourneyLogo} ${isChampionsLeague ? styles.championsLeague : ''}`}
-            src={match.competition.emblem}
+            src={getLeagueLogo(match.competition.code)}
             alt={match.competition.name}
           />
           <div>{SelectedTeamResult()}</div>
           <div className={styles.date}>
-            <span className={styles.day}>{day}</span> <span className={styles.month}>{month}</span>
+            <span className={`${styles.day} ${isChampionsLeague ? styles.championsLeagueDay : ''}`}>{day}</span>{' '}
+            <span className={styles.month}>{month}</span>
           </div>
         </div>
         <div className={styles.teamsContainer}>
@@ -81,15 +83,16 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
     );
   } else if (match.status === 'TIMED') {
     return (
-      <div className={styles.timed}>
+      <div className={`${styles.timed} ${isChampionsLeague ? styles.championsLeagueCard : ''}`}>
         <div className={styles.tourneyAndDateContainer}>
           <img
-            className={styles.tourneyLogo}
+            className={`${styles.tourneyLogo} ${isChampionsLeague ? styles.championsLeague : ''}`}
             src={getLeagueLogo(match.competition.code)}
             alt={match.competition.name}
           />
           <div className={styles.date}>
-            <span className={styles.day}>{day}</span> <span className={styles.month}>{month}</span>
+            <span className={`${styles.day} ${isChampionsLeague ? styles.championsLeagueDay : ''}`}>{day}</span>{' '}
+            <span className={styles.month}>{month}</span>
           </div>
         </div>
         <div className={styles.teamContainer}>
@@ -104,12 +107,17 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
     );
   } else if (match.status === 'POSTPONED') {
     return (
-      <div className={styles.postponed}>
+      <div className={`${styles.postponed} ${isChampionsLeague ? styles.championsLeagueCard : ''}`}>
         <div className={styles.tourneyAndDateContainer}>
-          <img className={styles.tourneyLogo} src={match.competition.emblem} alt={match.competition.name} />
+          <img
+            className={`${styles.tourneyLogo} ${isChampionsLeague ? styles.championsLeague : ''}`}
+            src={getLeagueLogo(match.competition.code)}
+            alt={match.competition.name}
+          />
           <div className={styles.postponedInfo}>Postponed</div>
           <div className={styles.date}>
-            <span className={styles.day}>{day}</span> <span className={styles.month}>{month}</span>
+            <span className={`${styles.day} ${isChampionsLeague ? styles.championsLeagueDay : ''}`}>{day}</span>{' '}
+            <span className={styles.month}>{month}</span>
           </div>
         </div>
         <div className={styles.teamContainer}>
@@ -124,11 +132,16 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
     );
   } else {
     return (
-      <div className={styles.matchContainer}>
+      <div className={`${styles.matchContainer} ${isChampionsLeague ? styles.championsLeagueCard : ''}`}>
         <div className={styles.tourneyAndDateContainer}>
-          <img className={styles.tourneyLogo} src={match.competition.emblem} alt={match.competition.name} />
+          <img
+            className={`${styles.tourneyLogo} ${isChampionsLeague ? styles.championsLeague : ''}`}
+            src={getLeagueLogo(match.competition.code)}
+            alt={match.competition.name}
+          />
           <div className={styles.date}>
-            <span className={styles.day}>{day}</span> <span className={styles.month}>{month}</span>
+            <span className={`${styles.day} ${isChampionsLeague ? styles.championsLeagueDay : ''}`}>{day}</span>{' '}
+            <span className={styles.month}>{month}</span>
           </div>
         </div>
         <div className={styles.teamContainer}>

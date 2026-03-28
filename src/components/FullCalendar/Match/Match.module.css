@@ -61,8 +61,8 @@
 }
 
 .tourneyLogo{
-  min-width: 30px;
-  height: 30px;
+  min-width: 35px;
+  height: 35px;
 }
 
 .resultWon {
@@ -78,9 +78,12 @@
 }
 
 .winner {
-  font-weight: 600;
+  /* font-weight: 700; */
 }
-
+.winner + .score {
+  font-weight: 700;
+  /* color: #1e5aa5; */
+}
 .resultDraw {
   display: inline-block;
   padding: 4px 8px;
@@ -158,11 +161,25 @@
   text-align: center;
 }
 
-
 .tourneyLogo.championsLeague {
+  width: 35px;
+  height: 35px;
+
+  background: radial-gradient(circle at 30% 30%, #1e5aa5, #0b2545);
   border-radius: 50%;
-  border: 2px solid transparent;
-  background: linear-gradient(white, white) padding-box,
-              linear-gradient(135deg, #4f54f7, #ffb347) border-box;
-  padding: 2px;
+  border: 1px solid rgba(255,255,255,0.8);
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(30, 90, 165, 0.6);    
+}
+
+.championsLeagueCard {
+  background: #0b2d55;
+  color: #fff;
+  border: 1px solid rgba(30, 90, 165, 0.5);
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+}
+
+.championsLeagueDay {
+  color: #fff;
 }
