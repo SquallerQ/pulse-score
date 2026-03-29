@@ -42,7 +42,7 @@
   background-color: #494949;
 }
 
-.tourneyAndDateContainer{
+.tourneyAndDateContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,7 +50,7 @@
   padding: 5px 10px;
 }
 
-.tourneyLogo{
+.tourneyLogo {
   width: 35px;
   height: 35px;
   padding: 1px;

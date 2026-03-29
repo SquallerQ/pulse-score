@@ -20,7 +20,6 @@ export async function fetchAllLeagues() {
     headers: getAuthHeaders(),
   });
   const data: CompetitionsResponse = await response.json();
-  console.log(data);
   return data.competitions
     .filter((item) => item.name !== 'Championship')
     .map((item) => ({
@@ -38,7 +37,6 @@ export async function fetchChampionsLeagueTeams() {
     headers: getAuthHeaders(),
   });
   const data = await response.json();
-  console.log(data);
 
   return {
     id: data.competition.id,
@@ -60,7 +58,6 @@ export async function fetchLeagueTeams(leagueCode: string) {
   });
 
   const data = await response.json();
-  // console.log(data);
 
   return data.teams.map((item: ListItemForRender) => ({
     id: item.id,
@@ -78,7 +75,6 @@ export async function fetchTeamMatches(teamId: number) {
   });
   if (!response.ok) throw new Error(`Matches request failed: ${response.status}`);
   const data = await response.json();
-  // console.log(data);
 
   const competitions =
     typeof data?.resultSet?.competitions === 'string'
@@ -172,7 +168,6 @@ export async function fetchChampionsLeagueStages() {
 
   const data = await Promise.all(responses.map((res) => res.json()));
 
-  console.log(data);
   return data.map((stageData, index) => ({
     stage: stages[index],
     matches: stageData.matches.map((match: ChampionsLeagueMatchApi) => ({

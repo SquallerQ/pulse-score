@@ -1,0 +1,113 @@
+
+.dayContainer {
+  width: 150px;
+  height: 140px;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  border: 1px solid var(--color-text);
+  border-radius: 4px;
+  
+  gap: 20px;
+  padding: 6px;
+}
+
+.dayContainerPast {
+  background-color: #fbfbfb;
+}
+.dayContainerToday {
+  background-color: #d8fdfd;
+}
+.dayContainerFuture {
+  background-color: #bfffe5;
+}
+
+.date {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  padding: 5px;
+}
+
+.day {
+  font-size: 14px;
+  color: #000;
+}
+
+.month {
+  font-size: 11px;
+  color: #7395AE;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: -50px;
+  /* justify-content: space-between; */
+}
+
+/* .imageContainerScore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+} */
+
+.score {
+  font-size: 20px;
+}
+
+/* .matchContainer {
+  display: flex;
+  flex-direction: column;
+
+} */
+
+.teamContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* padding: 5px 5px 5px 10px; */
+}
+
+.teamContainerImage {
+  width: 25px;
+  height: 25px;
+}
+
+.tourneyLogo {
+  width: 35px;
+  height: 35px;
+  padding: 1px;
+
+  background: radial-gradient(circle at 30% 30%, #fff, #b9cee7);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.8);
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(99, 101, 102, 0.6);   
+}
+
+.tourneyLogo.championsLeague {
+  width: 35px;
+  height: 35px;
+
+  background: radial-gradient(circle at 30% 30%, #1e5aa5, #0b2545);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.8);
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(30, 90, 165, 0.6);    
+}
+
+/* .image {
+
+  width: 60px;
+  height: 60px;
+} */
+
+

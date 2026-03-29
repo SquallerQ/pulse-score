@@ -1,5 +1,5 @@
 import { generateDates } from '../../utils/generateDates.ts';
-import { Day } from '../Day/Day.tsx';
+import { Day } from './Day/Day.tsx';
 import type { TeamMatches } from '../../api/types.ts';
 
 import styles from './Calendar.module.css';
@@ -9,12 +9,10 @@ type CalendarProp = {
 };
 
 export function Calendar({ matches }: CalendarProp) {
-  // console.log(matches);
-
   const daysArray = generateDates();
 
   return (
-    <div className={styles.calendar__container}>
+    <div className={styles.container}>
       {daysArray.map((day, index) => {
         const dayMatches = matches.filter((match) => {
           const matchDate = new Date(match.utcDate).toDateString();

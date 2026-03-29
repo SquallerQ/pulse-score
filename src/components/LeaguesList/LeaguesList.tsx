@@ -32,7 +32,7 @@ export function LeaguesList({
         <League
           competitionType="league"
           league={league}
-          isActive={selectedLeague?.name === league.name}
+          isActive={competitionType === 'league' && selectedLeague?.name === league.name}
           key={index}
           onClick={() => onSelectLeague(league)}
         />
