@@ -1,11 +1,19 @@
 import styles from './Match.module.css';
 import type { TeamMatches, SelectedTeam } from '../../../api/types';
-import CLLogo from '../../../assets/icons/cl-logo-white-ball.svg';
-import PLLogo from '../../../assets/pl-league-logo.svg';
+import CLLogo from '../../../assets/icons/cl-logo-small.svg';
+import PLLogo from '../../../assets/icons/epl-logo-small.svg';
+import FL1Logo from '../../../assets/icons/fr-logo-small.svg';
+import SALogo from '../../../assets/icons/seriea-logo-small.svg';
+import LaLigaLogo from '../../../assets/icons/laliga-logo-small.svg';
+import bundesligaLogo from '../../../assets/icons/bundesliga-logo-small.svg';
 
 const leagueLogos: Record<string, string> = {
   PL: PLLogo,
   CL: CLLogo,
+  FL1: FL1Logo,
+  SA: SALogo,
+  PD: LaLigaLogo,
+  BL1: bundesligaLogo,
 };
 
 type matchProp = {
@@ -14,8 +22,6 @@ type matchProp = {
 };
 
 export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
-  console.log(selectedTeam);
-  console.log(match);
   const matchDate = new Date(match.utcDate);
   const day = !isNaN(matchDate.getTime()) ? matchDate.toLocaleDateString('en-GB', { day: '2-digit' }) : '';
   const month = !isNaN(matchDate.getTime()) ? matchDate.toLocaleDateString('en-GB', { month: 'short' }) : '';
@@ -49,7 +55,6 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
   function getLeagueLogo(code: string) {
     return leagueLogos[code] ?? match.competition.emblem;
   }
-  // UEFA Champions League
 
   if (match.status === 'FINISHED') {
     return (
@@ -78,30 +83,6 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
             <div className={`${styles.teamName} ${isWinner('away') ? styles.winner : ''}`}>{match.awayTeam.name}</div>
             <div className={styles.score}>{match.score.away}</div>
           </div>
-        </div>
-      </div>
-    );
-  } else if (match.status === 'TIMED') {
-    return (
-      <div className={`${styles.timed} ${isChampionsLeague ? styles.championsLeagueCard : ''}`}>
-        <div className={styles.tourneyAndDateContainer}>
-          <img
-            className={`${styles.tourneyLogo} ${isChampionsLeague ? styles.championsLeague : ''}`}
-            src={getLeagueLogo(match.competition.code)}
-            alt={match.competition.name}
-          />
-          <div className={styles.date}>
-            <span className={`${styles.day} ${isChampionsLeague ? styles.championsLeagueDay : ''}`}>{day}</span>{' '}
-            <span className={styles.month}>{month}</span>
-          </div>
-        </div>
-        <div className={styles.teamContainer}>
-          <img className={styles.teamLogo} src={match.homeTeam.crest} alt={match.homeTeam.name}></img>
-          <div className={`${styles.teamName} ${isWinner('home') ? styles.winner : ''}`}>{match.homeTeam.name}</div>
-        </div>
-        <div className={styles.teamContainer}>
-          <img className={styles.teamLogo} src={match.awayTeam.crest} alt={match.awayTeam.name}></img>
-          <div className={`${styles.teamName} ${isWinner('away') ? styles.winner : ''}`}>{match.awayTeam.name}</div>
         </div>
       </div>
     );
