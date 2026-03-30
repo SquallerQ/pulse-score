@@ -10,13 +10,27 @@ import SALogo from '../../../assets/icons/seriea-logo-small.svg';
 import LaLigaLogo from '../../../assets/icons/laliga-logo-small.svg';
 import bundesligaLogo from '../../../assets/icons/bundesliga-logo-small.svg';
 
-const leagueLogos: Record<string, string> = {
-  PL: PLLogo,
-  CL: CLLogo,
-  FL1: FL1Logo,
-  SA: SALogo,
-  PD: LaLigaLogo,
-  BL1: bundesligaLogo,
+// const leagueLogos: Record<string, string> = {
+//   PL: PLLogo,
+//   CL: CLLogo,
+//   FL1: FL1Logo,
+//   SA: SALogo,
+//   PD: LaLigaLogo,
+//   BL1: bundesligaLogo,
+// };
+
+type LeagueConfig = {
+  logo: string;
+  className: string;
+};
+
+const leagueConfig: Record<string, LeagueConfig> = {
+  PL: { logo: PLLogo, className: 'dayContainerPL' },
+  CL: { logo: CLLogo, className: 'dayContainerCL' },
+  FL1: { logo: FL1Logo, className: 'dayContainerFL1' },
+  SA: { logo: SALogo, className: 'dayContainerSA' },
+  PD: { logo: LaLigaLogo, className: 'dayContainerPD' },
+  BL1: { logo: bundesligaLogo, className: 'dayContainerBL1' },
 };
 
 type Day = {
@@ -43,10 +57,22 @@ export function Day({ day, matches }: DayProps) {
     dayTypeClass = styles.dayContainerFuture;
   }
   const monthShort = day.date.toLocaleDateString('en-US', { month: 'short' });
+  const isEmpty = matches.length === 0;
 
   function getLeagueLogo(code: string) {
-    return leagueLogos[code] ?? '';
+    return leagueConfig[code]?.logo ?? '';
     // return leagueLogos[code] ?? match.competition.emblem;
+  }
+
+  function getDayLeagueClass() {
+    if (matches.some((m) => m.competition.code === 'CL')) {
+      return styles[leagueConfig['CL'].className];
+    }
+    for (const match of matches) {
+      const config = leagueConfig[match.competition.code];
+      if (config) return styles[config.className];
+    }
+    return '';
   }
 
   function dayMatch(match: TeamMatches) {
@@ -80,26 +106,25 @@ export function Day({ day, matches }: DayProps) {
   // console.log(matches);
 
   return (
-    <div className={`${styles.dayContainer} ${dayTypeClass}`}>
+    <div
+      className={`${styles.dayContainer} ${dayTypeClass} ${isEmpty ? styles.dayContainerEmpty : ''} ${getDayLeagueClass()}`}
+    >
       <div className={styles.date}>
         <span className={styles.day}>{day.date.getDate()}</span>
         <span className={styles.month}>{monthShort}</span>
       </div>
-
       <div className={styles.matches}>
-        {matches.length === 0 ? (
-          <span className={styles.empty}>No matches</span>
+        {isEmpty ? (
+          <span className={styles.empty}></span>
         ) : (
           matches.map((match) => (
-            <div className={styles.infoContainer}>
+            <div className={styles.cardContainer} key={match.id}>
               <img
                 className={`${styles.tourneyLogo} ${match.competition.code === 'CL' ? styles.championsLeague : ''}`}
                 src={getLeagueLogo(match.competition.code)}
                 alt="league logo"
               />
-              <div className={styles.imageContainer} key={match.id}>
-                {dayMatch(match)}
-              </div>
+              <div className={styles.imageContainer}>{dayMatch(match)}</div>
             </div>
           ))
         )}

@@ -1,10 +1,11 @@
 
 .dayContainer {
-  width: 150px;
-  height: 140px;
+  width: 250px;
+  height: 130px;
 
   display: flex;
   flex-direction: column;
+
   row-gap: 20px;
 
   border: 1px solid var(--color-text);
@@ -24,6 +25,33 @@
   background-color: #bfffe5;
 }
 
+.dayContainerEmpty {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.dayContainerCL {
+  background: #0b2d55;
+  color: #fff;
+  /* border: 1px solid rgba(217, 232, 250, 0.5); */
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+  background: url('../../../assets/cl-card-bg.webp');
+  background-repeat: no-repeat;
+}
+
+.dayContainerPL {
+  background: #0b2d55;
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+  background: url('../../../assets/epl-card-bg2.jpg');
+  background-repeat: no-repeat;
+  background-position: left;
+  
+}
+
 .date {
   display: inline-flex;
   align-items: center;
@@ -34,7 +62,7 @@
 
 .day {
   font-size: 14px;
-  color: #000;
+  color: #ffffff;
 }
 
 .month {
@@ -44,7 +72,7 @@
   text-transform: uppercase;
 }
 
-.infoContainer {
+.cardContainer {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -68,6 +96,13 @@
   flex-direction: column;
 
 } */
+
+.teamsContainer {
+  display: flex;
+  flex-direction: column;
+
+  row-gap: 5px;
+}
 
 .teamContainer {
   display: flex;
@@ -102,6 +137,16 @@
   border: 1px solid rgba(255,255,255,0.8);
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(30, 90, 165, 0.6);    
+}
+
+.cardContainerChampionsLeague {
+  background: #0b2d55;
+  color: #fff;
+  border: 1px solid rgba(217, 232, 250, 0.5);
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+  background: url('../../../assets/cl-card-bg.webp');
+  background-repeat: no-repeat;
 }
 
 /* .image {
