@@ -52,6 +52,47 @@
   
 }
 
+.dayContainerPL {
+  background: #0b2d55;
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+  background: url('../../../assets/epl-card-bg2.jpg');
+  background-repeat: no-repeat;
+  background-position: left;
+  
+}
+
+.dayContainerPD {
+  background: #0b2d55;
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+  background: url('../../../assets/la-liga-card-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.dayContainerSA {
+  background: #0b2d55;
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+  background: url('../../../assets/seriea-card-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.dayContainerFL1 {
+  background: #0b2d55;
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+  background: url('../../../assets/league1-card-bg.png');
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
 .date {
   display: inline-flex;
   align-items: center;
