@@ -1,4 +1,3 @@
-
 .dayContainer {
   width: 250px;
   height: 130px;
@@ -28,16 +27,41 @@
 .dayContainerEmpty {
   width: 60px;
   height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  
   border-radius: 50%;
+  border: 1px solid var(--color-border);
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(6px);
+
+}
+
+.dayContainerEmpty.dayContainerPast {
+
+}
+
+.dayContainerEmpty.dayContainerToday {
+
+}
+
+.dayContainerEmpty.dayContainerFuture {
+
 }
 
 .dayContainerCL {
   background: #0b2d55;
   color: #fff;
-  /* border: 1px solid rgba(217, 232, 250, 0.5); */
 
   box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/cl-card-bg.webp');
+  background: url('../../../assets/cards-bg/cl-card-bg.webp');
   background-repeat: no-repeat;
 }
 
@@ -46,51 +70,74 @@
   color: #fff;
 
   box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/epl-card-bg2.jpg');
+  background: url('../../../assets/cards-bg/epl-card-bg.jpg');
   background-repeat: no-repeat;
   background-position: left;
-  
-}
-
-.dayContainerPL {
-  background: #0b2d55;
-  color: #fff;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/epl-card-bg2.jpg');
-  background-repeat: no-repeat;
-  background-position: left;
-  
-}
-
-.dayContainerPD {
-  background: #0b2d55;
-  color: #fff;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/la-liga-card-bg.jpg');
-  background-repeat: no-repeat;
-  background-position: right;
-}
-
-.dayContainerSA {
-  background: #0b2d55;
-  color: #fff;
-
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/seriea-card-bg.jpg');
-  background-repeat: no-repeat;
-  background-position: right;
 }
 
 .dayContainerFL1 {
-  background: #0b2d55;
+  background: 
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 2px,
+    transparent 2px, transparent 10px), #0a1f44;
+
   color: #fff;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/league1-card-bg.png');
-  background-repeat: no-repeat;
-  background-position: right;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 10px rgba(10, 31, 68, 0.4);
+}
+
+.dayContainerBL1 {
+  background: 
+    linear-gradient(135deg, rgba(255,255,255,0.05) 25%, transparent 25%) -10px 0,
+    linear-gradient(225deg, rgba(255,255,255,0.05) 25%, transparent 25%) -10px 0,
+    linear-gradient(315deg, rgba(255,255,255,0.05) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%);
+  background-size: 20px 20px;
+  background-color: #a0001b;
+
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.dayContainerSA {
+  position: relative;
+  overflow: hidden;
+
+  background: 
+    linear-gradient(rgba(12, 30, 60, 0.75), rgba(12, 30, 60, 0.85)),
+    url('../../../assets/cards-bg/seriea-card-bg.jpg');
+
+  background-size: cover;
+  background-position: center;
+
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 12px rgba(0, 140, 255, 0.25);
+}
+
+.dayContainerPD {
+  position: relative;
+  overflow: hidden;
+
+  background: 
+    linear-gradient(
+      to right,
+      rgba(120, 20, 20, 0.85) 0%,
+      rgba(120, 20, 20, 0.75) 40%,
+      rgba(120, 20, 20, 0.35) 70%,
+      rgba(120, 20, 20, 0.2) 100%
+    ),
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 40%),
+    url('../../../assets/cards-bg/la-liga-card-bg.jpg');
+
+  background-size: cover;
+  background-position: center;
+
+  color: #fff;
+
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.25),
+    0 0 12px rgba(233, 83, 82, 0.35);
 }
 
 .date {
@@ -108,7 +155,7 @@
 
 .month {
   font-size: 11px;
-  color: #7395AE;
+  color: #ffffff;
   font-size: 10px;
   text-transform: uppercase;
 }
@@ -118,38 +165,23 @@
   flex-direction: column;
   gap: 15px;
   margin-top: -50px;
-  /* justify-content: space-between; */
 }
-
-/* .imageContainerScore {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-} */
 
 .score {
   font-size: 20px;
 }
 
-/* .matchContainer {
-  display: flex;
-  flex-direction: column;
-
-} */
-
 .teamsContainer {
   display: flex;
   flex-direction: column;
 
-  row-gap: 5px;
+  row-gap: 7px;
 }
 
 .teamContainer {
   display: flex;
   align-items: center;
   gap: 10px;
-  /* padding: 5px 5px 5px 10px; */
 }
 
 .teamContainerImage {
@@ -179,21 +211,4 @@
 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(30, 90, 165, 0.6);    
 }
-
-.cardContainerChampionsLeague {
-  background: #0b2d55;
-  color: #fff;
-  border: 1px solid rgba(217, 232, 250, 0.5);
-
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/cl-card-bg.webp');
-  background-repeat: no-repeat;
-}
-
-/* .image {
-
-  width: 60px;
-  height: 60px;
-} */
-
 

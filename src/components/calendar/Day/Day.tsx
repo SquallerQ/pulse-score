@@ -1,37 +1,7 @@
 import styles from './Day.module.css';
-// import CLLogo from '../../../assets/champ-league-logo.svg';
-
 import type { TeamMatches } from '../../../api/types';
 
-import CLLogo from '../../../assets/icons/cl-logo-small.svg';
-import PLLogo from '../../../assets/icons/epl-logo-small.svg';
-import FL1Logo from '../../../assets/icons/fr-logo-small.svg';
-import SALogo from '../../../assets/icons/seriea-logo-small.svg';
-import LaLigaLogo from '../../../assets/icons/laliga-logo-small.svg';
-import bundesligaLogo from '../../../assets/icons/bundesliga-logo-small.svg';
-
-// const leagueLogos: Record<string, string> = {
-//   PL: PLLogo,
-//   CL: CLLogo,
-//   FL1: FL1Logo,
-//   SA: SALogo,
-//   PD: LaLigaLogo,
-//   BL1: bundesligaLogo,
-// };
-
-type LeagueConfig = {
-  logo: string;
-  className: string;
-};
-
-const leagueConfig: Record<string, LeagueConfig> = {
-  PL: { logo: PLLogo, className: 'dayContainerPL' },
-  CL: { logo: CLLogo, className: 'dayContainerCL' },
-  FL1: { logo: FL1Logo, className: 'dayContainerFL1' },
-  SA: { logo: SALogo, className: 'dayContainerSA' },
-  PD: { logo: LaLigaLogo, className: 'dayContainerPD' },
-  BL1: { logo: bundesligaLogo, className: 'dayContainerBL1' },
-};
+import { leagueConfig } from '../../../utils/leagueConfig';
 
 type Day = {
   date: Date;
@@ -46,8 +16,6 @@ type DayProps = {
 };
 
 export function Day({ day, matches }: DayProps) {
-  console.log(matches);
-
   let dayTypeClass = '';
   if (day.isPast) {
     dayTypeClass = styles.dayContainerPast;
@@ -59,9 +27,8 @@ export function Day({ day, matches }: DayProps) {
   const monthShort = day.date.toLocaleDateString('en-US', { month: 'short' });
   const isEmpty = matches.length === 0;
 
-  function getLeagueLogo(code: string) {
-    return leagueConfig[code]?.logo ?? '';
-    // return leagueLogos[code] ?? match.competition.emblem;
+  function getLeagueLogo(code: string, fallbackEmblem: string) {
+    return leagueConfig[code]?.logo ?? fallbackEmblem;
   }
 
   function getDayLeagueClass() {
@@ -103,7 +70,6 @@ export function Day({ day, matches }: DayProps) {
       );
     }
   }
-  // console.log(matches);
 
   return (
     <div
@@ -121,7 +87,7 @@ export function Day({ day, matches }: DayProps) {
             <div className={styles.cardContainer} key={match.id}>
               <img
                 className={`${styles.tourneyLogo} ${match.competition.code === 'CL' ? styles.championsLeague : ''}`}
-                src={getLeagueLogo(match.competition.code)}
+                src={getLeagueLogo(match.competition.code, match.competition.emblem)}
                 alt="league logo"
               />
               <div className={styles.imageContainer}>{dayMatch(match)}</div>
