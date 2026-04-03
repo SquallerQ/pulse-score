@@ -29,9 +29,6 @@ body {
 
   --color-bg-team-buttons: #7395AE;
   --color-bg-league-buttons: #ffffff;
-
-  --color-border: rgba(0, 0, 0, 0.15);
-  --color-surface: rgba(115, 149, 174, 0.10);
 }
 
 .dark {
@@ -41,8 +38,5 @@ body {
 
   --color-bg-team-buttons: #88BDBC;
   --color-bg-league-buttons: #434343;
-
-  --color-border: rgba(255, 255, 255, 0.12);
-  --color-surface: rgba(255, 255, 255, 0.05);
 }
 

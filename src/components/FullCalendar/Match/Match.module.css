@@ -176,7 +176,7 @@
   border: 1px solid rgba(217, 232, 250, 0.5);
 
   box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/cl-card-bg.webp');
+  background: url('../../../assets/cards-bg/cl-card-bg.webp');
   background-repeat: no-repeat;
   /* background-position: center; */
 }

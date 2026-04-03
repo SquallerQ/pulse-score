@@ -117,7 +117,7 @@ export type TableRow = {
   goalDifference: number;
   team: {
     id: number;
-    name: string;
+    shortName: string;
     crest: string;
   };
 };

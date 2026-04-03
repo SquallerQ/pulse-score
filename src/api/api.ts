@@ -148,7 +148,7 @@ export async function fetchLeagueTable(league: string) {
       goalDifference: item.goalDifference,
       team: {
         id: item.team.id,
-        name: item.team.name,
+        shortName: item.team.shortName,
         crest: item.team.crest,
       },
     })),

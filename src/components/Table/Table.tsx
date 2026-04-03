@@ -11,6 +11,8 @@ export type LeagueTable = {
 };
 
 export function Table({ leagueTable }: TableProps) {
+  console.log(leagueTable);
+
   if (!leagueTable || !leagueTable.table) {
     return <div>No data</div>;
   }
@@ -20,13 +22,15 @@ export function Table({ leagueTable }: TableProps) {
       {leagueTable.table.map((item: TableRow) => {
         {
           return (
-            <div key={item.team.id} className={styles.tableContainer}>
-              <div>{item.position}</div>
-              <div>
+            <div key={item.team.id} className={styles.tableRow}>
+              <div className={styles.position}>{item.position}</div>
+
+              <div className={styles.team}>
                 <img className={styles.tableLogo} src={item.team.crest} alt="" />
+                <span>{item.team.shortName}</span>
               </div>
-              <div>{item.team.name}</div>
-              <div>{item.points}</div>
+
+              <div className={styles.points}>{item.points}</div>
             </div>
           );
         }
