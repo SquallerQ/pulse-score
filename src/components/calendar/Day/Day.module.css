@@ -14,16 +14,6 @@
   padding: 6px;
 }
 
-.dayContainerPast {
-  background-color: #fbfbfb;
-}
-.dayContainerToday {
-  background-color: #d8fdfd;
-}
-.dayContainerFuture {
-  background-color: #bfffe5;
-}
-
 .dayContainerEmpty {
   width: 60px;
   height: 60px;
@@ -31,7 +21,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  
   
   /* border-radius: 50%; */
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -52,10 +41,6 @@
   transform: scale(1.15);
   backdrop-filter: blur(6px);
   filter: brightness(1.55);
-}
-
-.dayContainerEmpty.dayContainerFuture {
-
 }
 
 .dayContainerCL {
@@ -171,6 +156,7 @@
 
 .score {
   font-size: 20px;
+  text-align: center;
 }
 
 .teamsContainer {
@@ -182,6 +168,13 @@
 
 .teamContainer {
   display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.finished .teamContainer {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 26px;
   align-items: center;
   gap: 10px;
 }

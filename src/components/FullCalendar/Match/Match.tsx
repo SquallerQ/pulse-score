@@ -1,20 +1,6 @@
-import styles from './Match.module.css';
+import { leagueConfig } from '../../../utils/leagueConfig';
 import type { TeamMatches, SelectedTeam } from '../../../api/types';
-import CLLogo from '../../../assets/icons/cl-logo-small.svg';
-import PLLogo from '../../../assets/icons/epl-logo-small.svg';
-import FL1Logo from '../../../assets/icons/fr-logo-small.svg';
-import SALogo from '../../../assets/icons/seriea-logo-small.svg';
-import LaLigaLogo from '../../../assets/icons/laliga-logo-small.svg';
-import bundesligaLogo from '../../../assets/icons/bundesliga-logo-small.svg';
-
-const leagueLogos: Record<string, string> = {
-  PL: PLLogo,
-  CL: CLLogo,
-  FL1: FL1Logo,
-  SA: SALogo,
-  PD: LaLigaLogo,
-  BL1: bundesligaLogo,
-};
+import styles from './Match.module.css';
 
 type matchProp = {
   match: TeamMatches;
@@ -53,7 +39,7 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
   const isChampionsLeague = match.competition.name === 'UEFA Champions League';
 
   function getLeagueLogo(code: string) {
-    return leagueLogos[code] ?? match.competition.emblem;
+    return leagueConfig[code].logo ?? match.competition.emblem;
   }
 
   if (match.status === 'FINISHED') {

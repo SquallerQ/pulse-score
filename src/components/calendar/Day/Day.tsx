@@ -45,14 +45,16 @@ export function Day({ day, matches }: DayProps) {
   function dayMatch(match: TeamMatches) {
     {
       return match.status === 'FINISHED' ? (
-        <div className={styles.teamsContainer}>
+        <div className={`${styles.finished} ${styles.teamsContainer}`}>
           <div className={styles.teamContainer}>
-            <img className={styles.image} src={match.awayTeam.crest} alt={match.awayTeam.name} />
-            <div className={styles.score}>{match.score.away}</div> -{' '}
+            <img className={styles.teamContainerImage} src={match.awayTeam.crest} alt={match.awayTeam.name} />
+            <div className={styles.teamContainerName}>{match.awayTeam.name}</div>
+            <div className={styles.score}>{match.score.away}</div>
           </div>
           <div className={styles.teamContainer}>
+            <img className={styles.teamContainerImage} src={match.homeTeam.crest} alt={match.homeTeam.name} />
+            <div className={styles.teamContainerName}>{match.homeTeam.name}</div>
             <div className={styles.score}>{match.score.home}</div>
-            <img className={styles.image} src={match.homeTeam.crest} alt={match.homeTeam.name} />
           </div>
         </div>
       ) : (
