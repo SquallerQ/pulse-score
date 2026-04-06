@@ -154,13 +154,18 @@ export function MainPage() {
           <button onClick={() => handleSelectCalendarFormat('compactCalendar')}>Calendar</button>
           <button onClick={() => handleSelectCalendarFormat('fullCalendar')}>Full Calendar</button>
         </div>
-        {calendarView === 'compactCalendar' ? (
-          <Calendar matches={matchesQuery.data?.matches ?? []} />
-        ) : (
-          <FullCalendar matches={matchesQuery.data?.matches ?? []} selectedTeam={selectedTeamData} />
-        )}
-
-        <Table leagueTable={leagueTableQuery.data ?? null}></Table>
+        <div className={styles.calendarTableContainer}>
+          <div className={styles.calendarContainer}>
+            {calendarView === 'compactCalendar' ? (
+              <Calendar matches={matchesQuery.data?.matches ?? []} />
+            ) : (
+              <FullCalendar matches={matchesQuery.data?.matches ?? []} selectedTeam={selectedTeamData} />
+            )}
+          </div>
+          <div className={styles.TableContainer}>
+            <Table leagueTable={leagueTableQuery.data ?? null}></Table>
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -25,3 +25,43 @@
   display: flex;
   gap: 5px;
 }
+
+.calendarTableContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.calendarContainer {
+  width: 80%;
+  position: relative;
+  overflow: hidden;
+
+  border-radius: 5px;
+  border: 1px solid var(--color-text);
+  background: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.calendarContainer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+    linear-gradient(rgba(20, 30, 50, 0.7), rgba(20, 30, 50, 0.85)),
+    url('../../assets/bg.jpeg');
+
+  background-size: cover;
+  background-position: center;
+
+  /* filter: blur(3px); */
+  /* transform: scale(1.05); */
+
+  z-index: 0;
+}
+
+.TableContainer {
+  order: -1;
+  min-width: 450px;
+  flex-shrink: 0;
+}
