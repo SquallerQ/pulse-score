@@ -1,30 +1,58 @@
 .container {
-  min-width: 300px;
-  min-height: 100px;
-  padding: 10px;
-
   display: flex;
   justify-content: space-between;
-  background-color: yellow;
+  
+  padding: 10px;
+  
+  border-radius: 5px;
+  border: 1px solid var(--color-text);
+  
+  background: rgba(115, 149, 174, 0.1);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.teamContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-left: 20px;
+}
+
+.teamLogo {
+  width: 80px;
+  height: 80px;
 }
 
 .teamName {
   color: var(--color-text)
 }
 
+.tourneyContainer {
+  display: flex;
+  gap: 10px;
+}
+
 .lastMatchesLeagueContainer {
-  padding: 10px 20px 10px 0px;
+  padding: 10px 20px 10px 5px;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fbfbfb;
+  /* border: 1px solid #000; */
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 12px rgba(30, 90, 165, 0.4);
 }
 
 .lastMatchesContainer {
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+  margin-left: 5px;
 }
 
 .lastMatches { 
@@ -40,33 +68,41 @@
 .matchResult_lose {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  background-color: #ff5252;
-  border: 1px solid #000;
+  align-items: center;
+  font-size: 12px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #f34539;
 } 
 
 .matchResult_win {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  background-color: #86ff66;
-  border: 1px solid #000;
+  align-items: center;
+  font-size: 12px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #4caf50;
 } 
 
 .matchResult_draw {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  background-color: #0c65ff;
-  border: 1px solid #000;
+  align-items: center;
+  font-size: 12px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #ff9800;
 } 
 
 .stadium {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-text);
+  align-items: center;
+  font-size: 12px;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #4c479d;
 }
 
 .rivalLogo {
@@ -85,7 +121,13 @@
   justify-content: center;
   align-items: center;
 
-  border: 1px solid #000;
+  color: #fff;
+
+  border-radius: 5px;
+  background: url('/src/assets/cards-bg/cl-card-bg.webp');
+  background-repeat: no-repeat;
+  background-position: right;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 12px rgba(30, 90, 165, 0.4);
 }
 
 .CLcontainer {
@@ -98,11 +140,16 @@
   display: flex;
   align-items: center;
   gap: 8px;
+
+  color: #bcffbc;
 }
+
 .CLinactive {
   display: flex;
   align-items: center;
   gap: 8px;
+
+  margin-bottom: 3px;
 }
 
 .CLactive::before {
@@ -110,7 +157,7 @@
   display: inline-block;
   width: 10px;
   height: 10px;
-  background-color: #56c356;
+  background-color: #bcffbc;
   border-radius: 50%;
 }
 
@@ -122,10 +169,23 @@
   background-color: #ff0000;
   border-radius: 50%;
 }
+
+.stage {
+  margin-bottom: 3px;
+}
+
+.CLmatchesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .CLmatchContainer {
+  justify-content: space-between;
   display: flex;
   gap: 5px;
 }
+
 .CLlogoSmall {
   width: 20px;
   height: 20px;
@@ -134,5 +194,5 @@
 .clEmblem {
   width: 80px;
   height: 80px;
-  margin: 0 10px;
+  margin: 0 15px;
 }

@@ -1,6 +1,6 @@
 import styles from './TeamInfo.module.css';
 import plLogo from '../../assets/pl-league-logo.svg';
-import clLogo from '../../assets/champ-league-logo.svg';
+import clLogo from '../../assets/champ-league-white-logo.svg';
 import type { TeamMatches, ChampionsLeagueStage } from '../../api/types';
 
 type SelectedTeam = {
@@ -177,52 +177,62 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
         ) : (
           <div className={styles.CLinactive}>Inactive</div>
         )}
-        {isActive === true ? <span>Stage: {stage}</span> : <span>`Lost in {_stage}`</span>}
-        <div className={styles.CLmatchContainer}>
-          {matchArray[0].status === 'FINISHED' ? (
-            <>
-              <img
-                className={styles.CLlogoSmall}
-                src={matchArray[0].homeTeam.crest}
-                alt={matchArray[0].homeTeam.name}
-              />
-              <span>{matchArray[0].homeTeam.name}</span>
-              <span>{matchArray[0].score.home}</span>
-              <span>{matchArray[0].score.away}</span>
-              <span>{matchArray[0].awayTeam.name}</span>
-
-              <img
-                className={styles.CLlogoSmall}
-                src={matchArray[0].awayTeam.crest}
-                alt={matchArray[0].awayTeam.name}
-              />
-            </>
-          ) : (
-            <span></span>
-          )}
-        </div>
-        <div className={styles.CLmatchContainer}>
-          {matchArray[1].status === 'FINISHED' ? (
-            <>
-              <img
-                className={styles.CLlogoSmall}
-                src={matchArray[1].homeTeam.crest}
-                alt={matchArray[1].homeTeam.name}
-              />
-              <span>{matchArray[1].homeTeam.name}</span>
-              <span>{matchArray[1].score.home}</span>
-              <span>{matchArray[1].score.away}</span>
-              <span>{matchArray[1].awayTeam.name}</span>
-
-              <img
-                className={styles.CLlogoSmall}
-                src={matchArray[1].awayTeam.crest}
-                alt={matchArray[1].awayTeam.name}
-              />
-            </>
-          ) : (
-            <span> - </span>
-          )}
+        {isActive === true ? (
+          <div className={styles.stage}>Stage: {stage}</div>
+        ) : (
+          <div className={styles.stage}>`Lost in {_stage}`</div>
+        )}
+        <div className={styles.CLmatchesContainer}>
+          <div className={styles.CLmatchContainer}>
+            {matchArray[0].status === 'FINISHED' ? (
+              <>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[0].homeTeam.crest}
+                    alt={matchArray[0].homeTeam.name}
+                  />
+                </div>
+                <div>{matchArray[0].homeTeam.name} </div>
+                <div>{matchArray[0].score.home}</div>-<div>{matchArray[0].score.away}</div>
+                <div>{matchArray[0].awayTeam.name}</div>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[0].awayTeam.crest}
+                    alt={matchArray[0].awayTeam.name}
+                  />
+                </div>
+              </>
+            ) : (
+              <span></span>
+            )}
+          </div>
+          <div className={styles.CLmatchContainer}>
+            {matchArray[1].status === 'FINISHED' ? (
+              <>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[1].homeTeam.crest}
+                    alt={matchArray[1].homeTeam.name}
+                  />
+                </div>
+                <div>{matchArray[1].homeTeam.name}</div>
+                <div>{matchArray[1].score.home}</div> - <div>{matchArray[1].score.away}</div>
+                <div>{matchArray[1].awayTeam.name}</div>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[1].awayTeam.crest}
+                    alt={matchArray[1].awayTeam.name}
+                  />
+                </div>
+              </>
+            ) : (
+              <span> - </span>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -232,37 +242,42 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     <div className={styles.container}>No Info</div>
   ) : (
     <div className={styles.container}>
-      <div className={styles.teamName}>{selectedTeam.name}</div>
-      {hasChampionsLeague ? (
-        <div className={styles.championsLeagueContainer}>
-          <img className={styles.clEmblem} src={clLogo} alt="Champions League" />
-          <div>{getChampionsLeagueStage()}</div>
-        </div>
-      ) : null}
-      <div className={styles.lastMatchesLeagueContainer}>
-        <img className={styles.leagueEmblem} src={leagueEmblem()} alt={selectedTeam.leagueName} />
-        <div className={styles.lastMatchesContainer}>
-          <div className={styles.lastMatches}>
-            {selectedTeam ? (
-              lastMatches.map((item) => <span key={item.id}>{getVenueBadge(item)}</span>)
-            ) : (
-              <span>No Info</span>
-            )}
+      <div className={styles.teamContainer}>
+        <img className={styles.teamLogo} src={selectedTeam.logo} alt={selectedTeam.name}></img>
+        <div className={styles.teamName}>{selectedTeam.name}</div>
+      </div>
+      <div className={styles.tourneyContainer}>
+        {hasChampionsLeague ? (
+          <div className={styles.championsLeagueContainer}>
+            <img className={styles.clEmblem} src={clLogo} alt="Champions League" />
+            <div>{getChampionsLeagueStage()}</div>
           </div>
-          <div className={styles.lastMatches}>
-            {selectedTeam ? (
-              lastMatches.map((item) => <span key={item.id}>{getResultBadge(item)}</span>)
-            ) : (
-              <span>No Info</span>
-            )}
-          </div>
+        ) : null}
+        <div className={styles.lastMatchesLeagueContainer}>
+          <img className={styles.leagueEmblem} src={leagueEmblem()} alt={selectedTeam.leagueName} />
+          <div className={styles.lastMatchesContainer}>
+            <div className={styles.lastMatches}>
+              {selectedTeam ? (
+                lastMatches.map((item) => <span key={item.id}>{getVenueBadge(item)}</span>)
+              ) : (
+                <span>No Info</span>
+              )}
+            </div>
+            <div className={styles.lastMatches}>
+              {selectedTeam ? (
+                lastMatches.map((item) => <span key={item.id}>{getResultBadge(item)}</span>)
+              ) : (
+                <span>No Info</span>
+              )}
+            </div>
 
-          <div className={styles.lastMatches}>
-            {selectedTeam ? (
-              lastMatches.map((item) => <span key={item.id}>{getOpponentBadge(item)}</span>)
-            ) : (
-              <span>No Info</span>
-            )}
+            <div className={styles.lastMatches}>
+              {selectedTeam ? (
+                lastMatches.map((item) => <span key={item.id}>{getOpponentBadge(item)}</span>)
+              ) : (
+                <span>No Info</span>
+              )}
+            </div>
           </div>
         </div>
       </div>
