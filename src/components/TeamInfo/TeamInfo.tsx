@@ -16,12 +16,12 @@ type TeamInfoProps = {
   selectedTeam: SelectedTeam | null;
   lastMatches: TeamMatches[];
   hasChampionsLeague: boolean;
-  championsLeagueStage?: ChampionsLeagueStage[];
+  championsLeagueStages?: ChampionsLeagueStage[];
 };
 
-export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, championsLeagueStage }: TeamInfoProps) {
+export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, championsLeagueStages }: TeamInfoProps) {
   // console.log(selectedTeam);
-  // console.log(championsLeagueStage);
+  // console.log(championsLeagueStages);
 
   function getResultBadge(match: TeamMatches) {
     if (selectedTeam?.name === match.awayTeam.name) {
@@ -79,21 +79,30 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
   type CLMatch = ChampionsLeagueStage['matches'][number];
 
   function getChampionsLeagueStage() {
-    if (!hasChampionsLeague || !selectedTeam || !championsLeagueStage?.length) {
+    if (!hasChampionsLeague || !selectedTeam || !championsLeagueStages?.length) {
       return null;
     }
 
-    const reversedStages = [...championsLeagueStage].reverse();
+    const reversedStages = [...championsLeagueStages].reverse();
 
     let actualStage: string | undefined;
-    for (let i = 0; i < championsLeagueStage.length; i++) {
-      if (championsLeagueStage[i].matches.length === 0) {
-        actualStage = championsLeagueStage[i - 1]?.stage;
+    for (const stageData of championsLeagueStages) {
+      if (stageData.matches.length === 0) continue;
+
+      const allFinished = stageData.matches.every((m) => m.status === 'FINISHED');
+      const hasActiveMatches = stageData.matches.some((m) => m.status === 'TIMED' || m.status === 'SCHEDULED');
+
+      if (hasActiveMatches) {
+        actualStage = stageData.stage;
         break;
       }
-    }
 
-    console.log(actualStage);
+      if (!allFinished) {
+        actualStage = stageData.stage;
+        break;
+      }
+      actualStage = stageData.stage;
+    }
 
     for (const stageData of reversedStages) {
       if (stageData.matches && stageData.matches.length > 0) {
@@ -103,17 +112,20 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
         if (teamMatchAway || teamMatchHome) {
           let stage;
           switch (stageData.stage) {
+            case 'PLAYOFFS':
+              stage = 'PLAYOFFS';
+              break;
             case 'LAST_16':
               stage = 'LAST_16';
               break;
-            case 'LAST_8':
-              stage = 'LAST_8';
+            case 'QUARTER_FINALS':
+              stage = 'QUARTER_FINALS';
               break;
-            case 'LAST_4':
-              stage = 'LAST_4';
+            case 'SEMI_FINALS':
+              stage = 'SEMI_FINALS';
               break;
-            case 'LAST_2':
-              stage = 'LAST_2';
+            case 'FINAL':
+              stage = 'FINAL';
               break;
             default:
               stage = stageData.stage;
@@ -135,29 +147,30 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
 
     let stage;
     switch (_stage) {
+      case 'PLAYOFFS':
+        stage = 'Playoffs';
+        break;
       case 'LAST_16':
         stage = '1/8';
         break;
-      case 'LAST_8':
+      case 'QUARTER_FINALS':
         stage = '1/4';
         break;
-      case 'LAST_4':
+      case 'SEMI_FINALS':
         stage = '1/2';
         break;
-      case 'LAST_2':
+      case 'FINAL':
         stage = 'Final';
         break;
       default:
-        stage = 'lost in group stage';
-        break;
+        stage = _stage;
     }
-    console.log(_actualStage);
 
     if (!_teamMatchAway || !_teamMatchHome) {
       return (
         <div className={styles.CLcontainer}>
           {isActive ? <div className={styles.CLactive}>Active</div> : <div className={styles.CLinactive}>Inactive</div>}
-          {isActive ? <span>Stage: {stage}</span> : <span>Lost in {_stage}</span>}
+          {isActive ? <span>Stage: {stage}</span> : <span>Lost in {stage}</span>}
           <div className={styles.CLmatchContainer}>
             <span>No match data</span>
           </div>
@@ -180,12 +193,12 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
         {isActive === true ? (
           <div className={styles.stage}>Stage: {stage}</div>
         ) : (
-          <div className={styles.stage}>`Lost in {_stage}`</div>
+          <div className={styles.stage}>Lost in {stage}</div>
         )}
         <div className={styles.CLmatchesContainer}>
           <div className={styles.CLmatchContainer}>
             {matchArray[0].status === 'FINISHED' ? (
-              <>
+              <div className={styles.matchRow}>
                 <div>
                   <img
                     className={styles.CLlogoSmall}
@@ -193,9 +206,11 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
                     alt={matchArray[0].homeTeam.name}
                   />
                 </div>
-                <div>{matchArray[0].homeTeam.name} </div>
-                <div>{matchArray[0].score.home}</div>-<div>{matchArray[0].score.away}</div>
-                <div>{matchArray[0].awayTeam.name}</div>
+                <div className={styles.teamName}>{matchArray[0].homeTeam.name} </div>
+                <div className={styles.scoreBox}>{matchArray[0].score.home}</div>
+                <div className={styles.scoreBox}>-</div>
+                <div className={styles.scoreBox}>{matchArray[0].score.away}</div>
+                <div className={styles.teamName}>{matchArray[0].awayTeam.name}</div>
                 <div>
                   <img
                     className={styles.CLlogoSmall}
@@ -203,14 +218,34 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
                     alt={matchArray[0].awayTeam.name}
                   />
                 </div>
-              </>
+              </div>
             ) : (
-              <span></span>
+              <div className={styles.matchRow}>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[0].homeTeam.crest}
+                    alt={matchArray[0].homeTeam.name}
+                  />
+                </div>
+                <div className={styles.teamName}>{matchArray[0].homeTeam.name}</div>
+                <div className={styles.scoreBox}></div>
+                <div className={styles.scoreBox}></div>
+                <div className={styles.scoreBox}></div>
+                <div className={styles.teamName}>{matchArray[0].awayTeam.name}</div>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[0].awayTeam.crest}
+                    alt={matchArray[0].awayTeam.name}
+                  />
+                </div>
+              </div>
             )}
           </div>
           <div className={styles.CLmatchContainer}>
             {matchArray[1].status === 'FINISHED' ? (
-              <>
+              <div className={styles.matchRow}>
                 <div>
                   <img
                     className={styles.CLlogoSmall}
@@ -218,9 +253,11 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
                     alt={matchArray[1].homeTeam.name}
                   />
                 </div>
-                <div>{matchArray[1].homeTeam.name}</div>
-                <div>{matchArray[1].score.home}</div> - <div>{matchArray[1].score.away}</div>
-                <div>{matchArray[1].awayTeam.name}</div>
+                <div className={styles.teamName}>{matchArray[1].homeTeam.name}</div>
+                <div className={styles.scoreBox}>{matchArray[1].score.home}</div>
+                <div className={styles.scoreBox}>-</div>
+                <div className={styles.scoreBox}>{matchArray[1].score.away}</div>
+                <div className={styles.teamName}>{matchArray[1].awayTeam.name}</div>
                 <div>
                   <img
                     className={styles.CLlogoSmall}
@@ -228,9 +265,29 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
                     alt={matchArray[1].awayTeam.name}
                   />
                 </div>
-              </>
+              </div>
             ) : (
-              <span> - </span>
+              <div className={styles.matchRow}>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[1].homeTeam.crest}
+                    alt={matchArray[1].homeTeam.name}
+                  />
+                </div>
+                <div className={styles.teamName}>{matchArray[1].homeTeam.name}</div>
+                <div className={styles.scoreBox}></div>
+                <div className={styles.scoreBox}></div>
+                <div className={styles.scoreBox}></div>
+                <div className={styles.teamName}>{matchArray[1].awayTeam.name}</div>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={matchArray[1].awayTeam.crest}
+                    alt={matchArray[1].awayTeam.name}
+                  />
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -244,7 +301,7 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     <div className={styles.container}>
       <div className={styles.teamContainer}>
         <img className={styles.teamLogo} src={selectedTeam.logo} alt={selectedTeam.name}></img>
-        <div className={styles.teamName}>{selectedTeam.name}</div>
+        <div className={styles.teamNameLogo}>{selectedTeam.name}</div>
       </div>
       <div className={styles.tourneyContainer}>
         {hasChampionsLeague ? (

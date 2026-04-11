@@ -61,7 +61,7 @@ export function MainPage() {
     queryFn: () => fetchChampionsLeagueStages(),
     // enabled: competitionType === 'cup',
   });
-  // console.log(championsLeagueQuery.data);
+  console.log(championsLeagueQuery.data);
 
   const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
@@ -148,7 +148,7 @@ export function MainPage() {
           selectedTeam={selectedTeamData}
           lastMatches={lastFiveLeagueMatches}
           hasChampionsLeague={hasChampionsLeague}
-          championsLeagueStage={championsLeagueQuery.data}
+          championsLeagueStages={championsLeagueQuery.data}
         />
         <div className={styles.calendarButtonContainer}>
           <button onClick={() => handleSelectCalendarFormat('compactCalendar')}>Calendar</button>

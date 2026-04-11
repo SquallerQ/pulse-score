@@ -24,9 +24,10 @@
 .teamLogo {
   width: 80px;
   height: 80px;
+  margin-bottom: 10px;
 }
 
-.teamName {
+.teamNameLogo {
   color: var(--color-text)
 }
 
@@ -166,7 +167,7 @@
   display: inline-block;
   width: 10px;
   height: 10px;
-  background-color: #ff0000;
+  background-color: #ff8b8b;
   border-radius: 50%;
 }
 
@@ -186,6 +187,13 @@
   gap: 5px;
 }
 
+.matchRow {
+  display: grid;
+  grid-template-columns: auto auto minmax(20px, auto) minmax(10px, auto) minmax(20px, auto) auto auto;
+  align-items: center;
+  gap: 5px;
+}
+
 .CLlogoSmall {
   width: 20px;
   height: 20px;
@@ -194,5 +202,16 @@
 .clEmblem {
   width: 80px;
   height: 80px;
-  margin: 0 15px;
+  margin: 0 35px 0 20px;
+}
+
+
+.scoreBox {
+  min-width: 10px;
+  text-align: center;
+}
+
+.teamName {
+  white-space: nowrap;
+  color: #fff;
 }

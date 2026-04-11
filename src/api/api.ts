@@ -156,7 +156,7 @@ export async function fetchLeagueTable(league: string) {
 }
 
 export async function fetchChampionsLeagueStages() {
-  const stages = ['LAST_16', 'LAST_8', 'LAST_4', 'LAST_2'];
+  const stages = ['PLAYOFFS', 'LAST_16', 'QUARTER_FINALS', 'SEMI_FINALS', 'FINAL'];
 
   const responses = await Promise.all(
     stages.map((stage) =>
@@ -167,7 +167,6 @@ export async function fetchChampionsLeagueStages() {
   );
 
   const data = await Promise.all(responses.map((res) => res.json()));
-
   return data.map((stageData, index) => ({
     stage: stages[index],
     matches: stageData.matches.map((match: ChampionsLeagueMatchApi) => ({
