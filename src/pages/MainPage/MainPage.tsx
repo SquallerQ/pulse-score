@@ -61,7 +61,7 @@ export function MainPage() {
     queryFn: () => fetchChampionsLeagueStages(),
     // enabled: competitionType === 'cup',
   });
-  console.log(championsLeagueQuery.data);
+  // console.log(championsLeagueQuery.data);
 
   const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
@@ -134,38 +134,51 @@ export function MainPage() {
 
       <section className={styles.content}>
         {competitionType === 'league' ? (
-          <TeamList
-            teams={teamsQuery.data ?? []}
-            leagueCode={leagueCode}
-            selectedTeam={selectedTeam}
-            onSelectTeam={setSelectedTeam}
-          />
+          <>
+            <TeamList
+              teams={teamsQuery.data ?? []}
+              leagueCode={leagueCode}
+              selectedTeam={selectedTeam}
+              onSelectTeam={setSelectedTeam}
+            />
+            <TeamInfo
+              selectedTeam={selectedTeamData}
+              lastMatches={lastFiveLeagueMatches}
+              hasChampionsLeague={hasChampionsLeague}
+              championsLeagueStages={championsLeagueQuery.data}
+            />
+
+            <div className={styles.calendarButtonContainer}>
+              <button
+                onClick={() => handleSelectCalendarFormat('compactCalendar')}
+                className={calendarView === 'compactCalendar' ? styles.active : ''}
+              >
+                Calendar
+              </button>
+              <button
+                onClick={() => handleSelectCalendarFormat('fullCalendar')}
+                className={calendarView === 'fullCalendar' ? styles.active : ''}
+              >
+                Full Calendar
+              </button>
+            </div>
+
+            <div className={styles.calendarTableContainer}>
+              <div className={styles.calendarContainer}>
+                {calendarView === 'compactCalendar' ? (
+                  <Calendar matches={matchesQuery.data?.matches ?? []} />
+                ) : (
+                  <FullCalendar matches={matchesQuery.data?.matches ?? []} selectedTeam={selectedTeamData} />
+                )}
+              </div>
+              <div className={styles.TableContainer}>
+                <Table leagueTable={leagueTableQuery.data ?? null} selectedTeam={selectedTeamData}></Table>
+              </div>
+            </div>
+          </>
         ) : (
           <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
         )}
-
-        <TeamInfo
-          selectedTeam={selectedTeamData}
-          lastMatches={lastFiveLeagueMatches}
-          hasChampionsLeague={hasChampionsLeague}
-          championsLeagueStages={championsLeagueQuery.data}
-        />
-        <div className={styles.calendarButtonContainer}>
-          <button onClick={() => handleSelectCalendarFormat('compactCalendar')}>Calendar</button>
-          <button onClick={() => handleSelectCalendarFormat('fullCalendar')}>Full Calendar</button>
-        </div>
-        <div className={styles.calendarTableContainer}>
-          <div className={styles.calendarContainer}>
-            {calendarView === 'compactCalendar' ? (
-              <Calendar matches={matchesQuery.data?.matches ?? []} />
-            ) : (
-              <FullCalendar matches={matchesQuery.data?.matches ?? []} selectedTeam={selectedTeamData} />
-            )}
-          </div>
-          <div className={styles.TableContainer}>
-            <Table leagueTable={leagueTableQuery.data ?? null}></Table>
-          </div>
-        </div>
       </section>
     </div>
   );

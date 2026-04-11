@@ -24,6 +24,37 @@
 .calendarButtonContainer {
   display: flex;
   gap: 5px;
+
+  margin: 0px 0px 0px 10px;
+}
+
+.calendarButtonContainer button {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: transparent;
+  border-radius: 6px;
+  font-size: 16px;
+  
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.calendarButtonContainer button:hover {
+  background-color: #e0e0e0;
+  border-color: #bbb;
+}
+
+.calendarButtonContainer button:active {
+  transform: scale(0.98);
+}
+
+.calendarButtonContainer button.active {
+  background-color: var(--color-bg-team-buttons);
+  color: #fff;
+}
+
+.calendarButtonContainer button.active:hover {
+  cursor: auto;
 }
 
 .calendarTableContainer {

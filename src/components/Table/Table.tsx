@@ -3,8 +3,18 @@ import type { TableRow } from '../../api/types';
 
 import styles from './Table.module.css';
 
+type SelectedTeam = {
+  id: number;
+  name: string;
+  logo: string;
+  color: string;
+  leagueEmblem: string;
+  leagueName: string;
+};
+
 type TableProps = {
   leagueTable: LeagueTable | null;
+  selectedTeam: SelectedTeam;
 };
 
 export type LeagueTable = {
@@ -16,9 +26,7 @@ export type LeagueTable = {
   };
 };
 
-export function Table({ leagueTable }: TableProps) {
-  console.log(leagueTable);
-
+export function Table({ leagueTable, selectedTeam }: TableProps) {
   if (!leagueTable || !leagueTable.table) {
     return <div>No data</div>;
   }
@@ -35,7 +43,7 @@ export function Table({ leagueTable }: TableProps) {
             src={config?.logo || leagueTable.competition.emblem}
             alt={leagueTable.competition.name}
           />
-          <span>{leagueTable.competition.name}</span>
+          <span className={styles.leagueName}>{leagueTable.competition.name}</span>
         </div>
         <span className={styles.stat}>P</span>
         <span className={styles.win}>W</span>
@@ -46,7 +54,10 @@ export function Table({ leagueTable }: TableProps) {
       {leagueTable.table.map((item: TableRow) => {
         {
           return (
-            <div key={item.team.id} className={styles.row}>
+            <div
+              key={item.team.id}
+              className={`${styles.row} ${selectedTeam?.id === item.team.id ? styles.selectedTeam : ''}`}
+            >
               <div className={styles.position}>{item.position}</div>
 
               <div className={styles.team}>

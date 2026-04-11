@@ -31,6 +31,7 @@ body {
   --color-bg-league-buttons: #ffffff;
 
   --color-bg-table-row: #d1e7e6;
+  --color-bg-selected-team: #fdfdfd;
 }
 
 .dark {
@@ -42,5 +43,6 @@ body {
   --color-bg-league-buttons: #434343;
 
   --color-bg-table-row: #4d4d4d;
+  --color-bg-selected-team: #000;
 }
 

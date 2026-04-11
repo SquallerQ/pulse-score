@@ -20,9 +20,6 @@ type TeamInfoProps = {
 };
 
 export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, championsLeagueStages }: TeamInfoProps) {
-  // console.log(selectedTeam);
-  // console.log(championsLeagueStages);
-
   function getResultBadge(match: TeamMatches) {
     if (selectedTeam?.name === match.awayTeam.name) {
       if (match.score.winner === 'HOME_TEAM') {
