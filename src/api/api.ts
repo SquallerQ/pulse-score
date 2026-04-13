@@ -192,3 +192,14 @@ export async function fetchChampionsLeagueStages() {
     })),
   }));
 }
+
+// export async function a() {
+//   const response = await fetch(`${API_BASE}/competitions/CL/standings`, {
+//     headers: getAuthHeaders(),
+//   });
+//   const data = await response.json();
+//   console.log(data);
+  
+// }
+
+// a()

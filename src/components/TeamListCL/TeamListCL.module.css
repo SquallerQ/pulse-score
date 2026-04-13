@@ -1,10 +1,11 @@
 .container {
+  position: relative;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* max-width: 90vh; */
 
-    padding: 20px;
+  padding: 20px;
 
   border: 1px solid var(--color-text);
   border-radius: 5px;
@@ -13,5 +14,62 @@
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+
+  z-index: 1;
 }
 
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+    linear-gradient(rgb(71 83 109 / 70%), rgb(31 41 63 / 85%)),
+    url('../../assets/cl-bg.webp');
+
+  background-size: cover;
+  background-position: center;
+
+  /* filter: blur(3px); */
+  /* transform: scale(1.05); */
+  z-index: -1;
+}
+
+
+.bracket {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+
+  gap: 40px;
+  align-items: center;
+}
+
+.side {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.final {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.last16 {
+  gap: 20px;
+}
+
+.quarters {
+  gap: 60px;
+}
+
+.semi {
+  gap: 120px;
+}

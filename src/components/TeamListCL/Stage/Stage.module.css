@@ -1,0 +1,33 @@
+.stage {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  gap: 16px;
+}
+
+.pair {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  min-height: 56px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 24px 24px;
+  gap: 6px;
+  align-items: center;
+  min-height: 20px;
+}
+
+.team {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score {
+  text-align: right;
+}

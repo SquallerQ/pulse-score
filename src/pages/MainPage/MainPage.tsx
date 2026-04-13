@@ -177,7 +177,7 @@ export function MainPage() {
             </div>
           </>
         ) : (
-          <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} />
+          <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} championsLeagueStages={championsLeagueQuery.data} />
         )}
       </section>
     </div>
