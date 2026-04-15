@@ -1,0 +1,15 @@
+.teamsContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.teamContainer {
+  display: flex;
+}
+
+
+
+.teamLogo {
+  width: 20px;
+  height: 20px;
+}

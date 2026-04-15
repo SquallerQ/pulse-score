@@ -1,22 +1,33 @@
 .stage {
-  display: grid;
-  grid-template-rows: repeat(4, auto);
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
 }
 
 .pair {
-  display: grid;
-  grid-template-rows: repeat(2, auto);
-  gap: 6px;
-  padding: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+
+  min-width: 250px;
+  height: 90px;
+  
+  padding: 15px 20px;
+
+  color: #fff;
+  background: #0b2d55;
+  border-radius: 3px;
+  border: 1px solid rgba(217, 232, 250, 0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+
+  background-image: url('../../../assets/cards-bg/cl-card-bg.webp')
 }
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 24px 24px;
+  grid-template-columns: 30px minmax(0, 1fr) 26px 26px;
   gap: 6px;
   align-items: center;
   min-height: 20px;
@@ -29,5 +40,16 @@
 }
 
 .score {
-  text-align: right;
+  text-align: center;
+  font-weight: bold;
+  background-color: hsl(226.32deg 90.48% 12.35% / 92%);
+}
+
+.teamLogo {
+  width: 22px;
+  height: 22px; 
+}
+
+.pair.final {
+  height: 150px;
 }

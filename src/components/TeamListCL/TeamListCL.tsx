@@ -1,5 +1,7 @@
 import styles from './TeamListCL.module.css';
 import { TeamCL } from './TeamCL/TeamCL';
+import { Playoffs } from './Playoffs/Playoffs';
+
 import { Stage } from './Stage/Stage';
 
 import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/types';
@@ -16,6 +18,9 @@ type TeamListCLItem = {
 };
 
 export function TeamListCL({ teams, championsLeagueStages }: PropsType) {
+  const playoffsMatches =
+    championsLeagueStages?.filter((item) => item.stage === 'PLAYOFFS').flatMap((item) => item.matches) ?? [];
+
   const last16Matches =
     championsLeagueStages?.filter((item) => item.stage === 'LAST_16').flatMap((item) => item.matches) ?? [];
 
@@ -70,6 +75,7 @@ export function TeamListCL({ teams, championsLeagueStages }: PropsType) {
     }
     return teamAScore > teamBScore ? teamAId : teamBId;
   }
+  const playoffsPairs = buildPairs(playoffsMatches);
 
   const last16Pairs = sortPairsByIdOrder(buildPairs(last16Matches), pairOrder);
 
@@ -140,13 +146,16 @@ export function TeamListCL({ teams, championsLeagueStages }: PropsType) {
     finalPairs.every((pair) => pair[0].homeTeam.id != null && pair[0].awayTeam.id != null);
   const finalPairsSorted = canSortFinal ? sortPairsByTeamIds(finalPairs, finalOrderByWinners) : finalPairs;
 
-  console.log(semiLeft);
-
   return (
     <>
       <div className={styles.container}>
         {teams.map((item) => {
           return <TeamCL team={item} key={item.id} />;
+        })}
+      </div>
+      <div className={styles.playoffsContainer}>
+        {playoffsPairs.map((item) => {
+          return <Playoffs match={item} />;
         })}
       </div>
       <div className={styles.bracket}>
@@ -157,7 +166,7 @@ export function TeamListCL({ teams, championsLeagueStages }: PropsType) {
         </div>
 
         <div className={styles.final}>
-          <Stage matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} />
+          <Stage matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
         </div>
 
         <div className={styles.side}>

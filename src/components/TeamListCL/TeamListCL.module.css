@@ -24,7 +24,7 @@
   inset: 0;
 
   background: 
-    linear-gradient(rgb(71 83 109 / 70%), rgb(31 41 63 / 85%)),
+    /* linear-gradient(rgb(71 83 109 / 70%), rgb(31 41 63 / 85%)), */
     url('../../assets/cl-bg.webp');
 
   background-size: cover;
@@ -42,6 +42,19 @@
 
   gap: 40px;
   align-items: center;
+  padding: 20px;
+
+  border-radius: 5px;
+  border: 1px solid var(--color-text);
+  
+  background: rgba(115, 149, 174, 0.1);
+  backdrop-filter: blur(8px);
+
+  background: linear-gradient(rgba(20, 30, 50, 0.7), rgba(20, 30, 50, 0.85)), url(/src/assets/bg.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  background-position: center;
 }
 
 .side {
@@ -50,26 +63,6 @@
   gap: 30px;
 }
 
-.final {
+.playoffsContainer {
   display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.stage {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.last16 {
-  gap: 20px;
-}
-
-.quarters {
-  gap: 60px;
-}
-
-.semi {
-  gap: 120px;
 }
