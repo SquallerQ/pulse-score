@@ -1,15 +1,81 @@
+.matchContainer {
+  min-width: 250px;
+  min-height: 130px;
+
+  color: #fff;
+  border-radius: 3px;
+  border: 1px solid rgba(217, 232, 250, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 12px rgba(30, 90, 165, 0.4);
+
+  background: #0b2d55;
+  background-image: url('../../../assets/cards-bg/cl-card-bg.webp');
+}
+
+.tourneyAndDateContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 5px 10px;
+}
+
+.tourneyLogo {
+  width: 35px;
+  height: 35px;
+  padding: 1px;
+
+  background: radial-gradient(circle at 30% 30%, #1e5aa5, #0b2545);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(30, 90, 165, 0.6);
+}
+
+.date {
+  padding: 0 5px 2px 4px;
+  border: 1px solid #e9e9e9;
+  border-radius: 50%;
+}
+
+.day {
+  font-size: 14px;
+  color: #fff;
+}
+
+.month {
+  font-size: 10px;
+  color: #c4d8ef;
+  text-transform: uppercase;
+}
+
 .teamsContainer {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  padding: 10px 20px 15px;
 }
 
 .teamContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 26px 26px;
+  gap: 6px;
+  align-items: center;
+  min-height: 20px;
 }
 
-
-
 .teamLogo {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
+}
+
+.teamName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.score {
+  text-align: center;
+  font-weight: 700;
+  background-color: hsl(226.32deg 90.48% 12.35% / 92%);
 }
