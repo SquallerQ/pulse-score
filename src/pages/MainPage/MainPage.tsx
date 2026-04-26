@@ -13,6 +13,7 @@ import {
   fetchChampionsLeagueTeams,
   fetchChampionsLeagueStages,
   fetchLeagueTable,
+  championsLeagueTable,
 } from '../../api/api';
 import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
@@ -61,7 +62,7 @@ export function MainPage() {
     queryFn: () => fetchChampionsLeagueStages(),
     // enabled: competitionType === 'cup',
   });
-  // console.log(championsLeagueQuery.data);
+  console.log(championsLeagueQuery.data);
 
   const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
@@ -88,7 +89,13 @@ export function MainPage() {
     queryFn: () => fetchLeagueTable(leagueCode),
   });
 
-  // console.log(leagueTableQuery.data);
+  const championsLeagueTableQuery = useQuery({
+    queryKey: queryKeys.championsLeagueTable(),
+    queryFn: championsLeagueTable,
+    enabled: competitionType === 'cup',
+  });
+
+  console.log(leagueTableQuery.data);
 
   function handleSelectLeague(league: LeagueItem) {
     setLeagueCode(league.code);
@@ -177,7 +184,11 @@ export function MainPage() {
             </div>
           </>
         ) : (
-          <TeamListCL teams={cupTeamsQuery.data?.teamsArray ?? []} championsLeagueStages={championsLeagueQuery.data} />
+          <TeamListCL
+            teams={cupTeamsQuery.data?.teamsArray ?? []}
+            championsLeagueStages={championsLeagueQuery.data}
+            leagueTable={championsLeagueTableQuery.data ?? null}
+          />
         )}
       </section>
     </div>

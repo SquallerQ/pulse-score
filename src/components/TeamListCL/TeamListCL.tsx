@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import styles from './TeamListCL.module.css';
 import { TeamCL } from './TeamCL/TeamCL';
 import { Playoffs } from './Playoffs/Playoffs';
 
 import { Stage } from './Stage/Stage';
+import { TableCL, type LeagueTable } from '../TableCL/TableCL';
+import { CLInfo } from '../TableCL/CLInfo';
 
 import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/types';
 
 type PropsType = {
   teams: TeamListCLItem[];
   championsLeagueStages?: ChampionsLeagueStage[];
+  leagueTable: LeagueTable | null;
 };
 
 type TeamListCLItem = {
@@ -17,7 +21,13 @@ type TeamListCLItem = {
   logo: string;
 };
 
-export function TeamListCL({ teams, championsLeagueStages }: PropsType) {
+export function TeamListCL({ teams, championsLeagueStages, leagueTable }: PropsType) {
+  const [contentView, setContentView] = useState<'bracket' | 'table'>('bracket');
+  const totalTeams = leagueTable?.table.length ?? 36;
+  const directSpots = Math.min(8, totalTeams);
+  const playoffSpots = Math.max(Math.min(24, totalTeams) - 8, 0);
+  const eliminatedSpots = Math.max(totalTeams - 24, 0);
+
   const playoffsMatches =
     championsLeagueStages?.filter((item) => item.stage === 'PLAYOFFS').flatMap((item) => item.matches) ?? [];
 
@@ -32,8 +42,6 @@ export function TeamListCL({ teams, championsLeagueStages }: PropsType) {
 
   const finalMatches =
     championsLeagueStages?.filter((item) => item.stage === 'FINAL').flatMap((item) => item.matches) ?? [];
-
-  console.log(finalMatches);
 
   const pairOrder = [552068, 552069, 552070, 552071, 552072, 552073, 552075, 552074];
 
@@ -153,28 +161,77 @@ export function TeamListCL({ teams, championsLeagueStages }: PropsType) {
           return <TeamCL team={item} key={item.id} />;
         })}
       </div>
-      <div className={styles.playoffsContainer}>
-        {playoffsPairs.map((item) => {
-          return <Playoffs match={item} />;
-        })}
-      </div>
-      <div className={styles.bracket}>
-        <div className={styles.side}>
-          <Stage matches={last16Left} expectedPairs={4} />
-          <Stage matches={quarterLeft} expectedPairs={2} />
-          <Stage matches={semiLeft} expectedPairs={1} />
-        </div>
 
-        <div className={styles.final}>
-          <Stage matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
-        </div>
-
-        <div className={styles.side}>
-          <Stage matches={semiRight} expectedPairs={1} />
-          <Stage matches={quarterRight} expectedPairs={2} />
-          <Stage matches={last16Right} expectedPairs={4} />
-        </div>
+      <div className={styles.toggleButtonContainer}>
+        <button
+          onClick={() => setContentView('bracket')}
+          className={contentView === 'bracket' ? styles.active : ''}
+          type="button"
+        >
+          Bracket
+        </button>
+        <button
+          onClick={() => setContentView('table')}
+          className={contentView === 'table' ? styles.active : ''}
+          type="button"
+        >
+          Table
+        </button>
       </div>
+
+      {contentView === 'bracket' ? (
+        <>
+          <div className={styles.playoffsContainer}>
+            {playoffsPairs.map((item) => {
+              return <Playoffs match={item} />;
+            })}
+          </div>
+          <div className={styles.bracket}>
+            <div className={styles.side}>
+              <Stage matches={last16Left} expectedPairs={4} />
+              <Stage matches={quarterLeft} expectedPairs={2} />
+              <Stage matches={semiLeft} expectedPairs={1} />
+            </div>
+
+            <div className={styles.final}>
+              <Stage matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
+            </div>
+
+            <div className={styles.side}>
+              <Stage matches={semiRight} expectedPairs={1} />
+              <Stage matches={quarterRight} expectedPairs={2} />
+              <Stage matches={last16Right} expectedPairs={4} />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className={styles.contentContainer}>
+          <div className={styles.tableSection}>
+            <div className={styles.tableStats}>
+              <div className={styles.statCard}>
+                <span className={styles.statLabel}>Teams</span>
+                <strong className={styles.statValue}>{totalTeams}</strong>
+              </div>
+              <div className={styles.statCard}>
+                <span className={styles.statLabel}>Direct to R16</span>
+                <strong className={styles.statValue}>{directSpots}</strong>
+              </div>
+              <div className={styles.statCard}>
+                <span className={styles.statLabel}>Play-off</span>
+                <strong className={styles.statValue}>{playoffSpots}</strong>
+              </div>
+              <div className={styles.statCard}>
+                <span className={styles.statLabel}>Eliminated</span>
+                <strong className={styles.statValue}>{eliminatedSpots}</strong>
+              </div>
+            </div>
+            <div className={styles.tableContainer}>
+              <TableCL leagueTable={leagueTable} />
+            </div>
+            <CLInfo />
+          </div>
+        </div>
+      )}
     </>
   );
 }

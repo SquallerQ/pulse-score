@@ -193,13 +193,34 @@ export async function fetchChampionsLeagueStages() {
   }));
 }
 
-// export async function a() {
-//   const response = await fetch(`${API_BASE}/competitions/CL/standings`, {
-//     headers: getAuthHeaders(),
-//   });
-//   const data = await response.json();
-//   console.log(data);
-  
-// }
+export async function championsLeagueTable() {
+  const response = await fetch(`${API_BASE}/competitions/CL/standings`, {
+    headers: getAuthHeaders(),
+  });
+  const data = await response.json();
 
-// a()
+  return {
+    competition: {
+      id: data.competition.id,
+      emblem: data.competition.emblem,
+      code: data.competition.code,
+      name: data.competition.name,
+    },
+    table: data.standings[0].table.map((item: TableRow) => ({
+      position: item.position,
+      playedGames: item.playedGames,
+      won: item.won,
+      draw: item.draw,
+      lost: item.lost,
+      points: item.points,
+      goalsFor: item.goalsFor,
+      goalsAgainst: item.goalsAgainst,
+      goalDifference: item.goalDifference,
+      team: {
+        id: item.team.id,
+        shortName: item.team.shortName,
+        crest: item.team.crest,
+      },
+    })),
+  };
+}
