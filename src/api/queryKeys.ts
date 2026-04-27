@@ -6,4 +6,5 @@ export const queryKeys = {
   championsLeagueMatches: () => ['championsLeagueMatches'] as const,
   championsLeagueTable: () => ['championsLeagueTable'] as const,
   leagueTable: (leagueCode: string) => ['leagueTable', leagueCode] as const,
+  leagueInfo: (leagueCode: string) => ['leagueInfo', leagueCode] as const,
 };

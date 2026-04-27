@@ -1,5 +1,6 @@
 import styles from './League.module.css';
 import championLeagueLogo from '../../../assets/champ-league-logo.svg';
+import plLeague from '../../../assets/pl-league-logo-league-list.svg';
 
 type LeagueItem = {
   id: number;
@@ -17,6 +18,8 @@ type LeagueProps = {
   onSelectCup?: () => void;
 };
 
+const PLName = 'Premier League';
+
 export function League({ competitionType, league, isActive, onClick, onSelectCup }: LeagueProps) {
   {
     return competitionType === 'cup' ? (
@@ -28,7 +31,7 @@ export function League({ competitionType, league, isActive, onClick, onSelectCup
     ) : (
       <div className={styles.container}>
         <button className={styles.button} type="button" onClick={onClick} aria-pressed={isActive}>
-          <img className={styles.images} src={league?.emblem} alt={league?.name} />
+          <img className={styles.images} src={league?.name === PLName ? plLeague : league?.emblem} alt={league?.name} />
         </button>
       </div>
     );

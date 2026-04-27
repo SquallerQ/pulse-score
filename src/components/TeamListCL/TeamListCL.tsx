@@ -180,10 +180,10 @@ export function TeamListCL({ teams, championsLeagueStages, leagueTable }: PropsT
       </div>
 
       {contentView === 'bracket' ? (
-        <>
+        <div className={styles.contentContainer}>
           <div className={styles.playoffsContainer}>
             {playoffsPairs.map((item) => {
-              return <Playoffs match={item} />;
+              return <Playoffs match={item} key={item[0].id} />;
             })}
           </div>
           <div className={styles.bracket}>
@@ -203,7 +203,7 @@ export function TeamListCL({ teams, championsLeagueStages, leagueTable }: PropsT
               <Stage matches={last16Right} expectedPairs={4} />
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <div className={styles.contentContainer}>
           <div className={styles.tableSection}>

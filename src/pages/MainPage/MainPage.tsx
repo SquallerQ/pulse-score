@@ -4,6 +4,7 @@ import { FullCalendar } from '../../components/FullCalendar/FullCalendar';
 import { TeamList } from '../../components/TeamList/TeamList';
 import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
 import { TeamInfo } from '../../components/TeamInfo/TeamInfo';
+import { LeagueInfo } from '../../components/LeagueInfo/LeagueInfo';
 import { Table } from '../../components/Table/Table';
 
 import {
@@ -15,6 +16,9 @@ import {
   fetchLeagueTable,
   championsLeagueTable,
 } from '../../api/api';
+
+import { fetchLastSeasonChampion } from '../../api/api-football';
+
 import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
@@ -62,7 +66,6 @@ export function MainPage() {
     queryFn: () => fetchChampionsLeagueStages(),
     // enabled: competitionType === 'cup',
   });
-  console.log(championsLeagueQuery.data);
 
   const leaguesQuery = useQuery({
     queryKey: queryKeys.leagues('all'),
@@ -95,7 +98,10 @@ export function MainPage() {
     enabled: competitionType === 'cup',
   });
 
-  console.log(leagueTableQuery.data);
+  const leagueInfoQuery = useQuery({
+    queryKey: queryKeys.leagueInfo(leagueCode),
+    queryFn: () => fetchLastSeasonChampion(leagueCode),
+  });
 
   function handleSelectLeague(league: LeagueItem) {
     setLeagueCode(league.code);
@@ -148,12 +154,16 @@ export function MainPage() {
               selectedTeam={selectedTeam}
               onSelectTeam={setSelectedTeam}
             />
-            <TeamInfo
-              selectedTeam={selectedTeamData}
-              lastMatches={lastFiveLeagueMatches}
-              hasChampionsLeague={hasChampionsLeague}
-              championsLeagueStages={championsLeagueQuery.data}
-            />
+            {selectedTeam !== null ? (
+              <TeamInfo
+                selectedTeam={selectedTeamData}
+                lastMatches={lastFiveLeagueMatches}
+                hasChampionsLeague={hasChampionsLeague}
+                championsLeagueStages={championsLeagueQuery.data}
+              />
+            ) : (
+              <LeagueInfo leagueInfo={leagueInfoQuery.data ?? null} />
+            )}
 
             <div className={styles.calendarButtonContainer}>
               <button

@@ -224,3 +224,16 @@ export async function championsLeagueTable() {
     })),
   };
 }
+
+// export async function fetchLeagueInfo(leagueCode: string) {
+//   const response = await fetch(`${API_BASE}/competitions/${leagueCode}`, {
+//     headers: getAuthHeaders(),
+//   });
+//   const data = await response.json();
+//   console.log(data);
+  
+//   return data;
+// }
+
+// fetchLeagueInfo('PL');
+
