@@ -25,6 +25,14 @@ type LeagueInfo = {
   flag: string;
   season: number;
   standings: TeamStanding[];
+  championsHistory: {
+    season: number;
+    team: {
+      id: number;
+      name: string;
+      logo: string;
+    };
+  }[];
 };
 
 type ApiFootballStandingItem = {
@@ -50,13 +58,38 @@ export async function fetchLastSeasonChampion(_league: string) {
 
   if (!league) return null;
 
-  const response = await fetch(`${API_BASE}/standings?league=${league}&season=2024`, {
-    headers: getAuthHeaders(),
-  });
-  const data = await response.json();
+  const seasons = [2024, 2023, 2022];
 
-  const leagueData = data.response[0]?.league;
+  const responses = await Promise.all(
+    seasons.map((season) =>
+      fetch(`${API_BASE}/standings?league=${league}&season=${season}`, {
+        headers: getAuthHeaders(),
+      })
+    )
+  );
+
+  const data = await Promise.all(responses.map((response) => response.json()));
+
+  const leagueData = data[0]?.response[0]?.league;
   if (!leagueData) return null;
+
+  const championsHistory = data
+    .map((seasonData, index) => {
+      const seasonLeague = seasonData.response[0]?.league;
+      const champion = seasonLeague?.standings?.[0]?.[0];
+
+      if (!champion) return null;
+
+      return {
+        season: seasons[index],
+        team: {
+          id: champion.team.id,
+          name: champion.team.name,
+          logo: champion.team.logo,
+        },
+      };
+    })
+    .filter(Boolean);
 
   return {
     id: leagueData.id,
@@ -74,5 +107,6 @@ export async function fetchLastSeasonChampion(_league: string) {
         logo: item.team.logo,
       },
     })),
+    championsHistory,
   } as LeagueInfo;
 }
