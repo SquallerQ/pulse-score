@@ -24,8 +24,10 @@ body {
 
 :root {
   --color-bg: #ffffff;
-  --color-text: #00010D;
+  --color-text: #12263a;
   --color-text-muted: rgba(0, 1, 13, 0.6);
+  --container-bg: radial-gradient(circle at top left, rgba(146, 180, 214, 0.2), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(232, 240, 247, 0.92));
 
   --color-bg-team-buttons: #7395AE;
   --color-bg-league-buttons: #ffffff;
@@ -38,6 +40,8 @@ body {
   --color-text: #ffffff;
   --color-bg: #1A1A1D;
   --color-text-muted: rgba(255, 255, 255, 0.65);
+  --container-bg: radial-gradient(circle at top left, rgba(88, 112, 138, 0.18), transparent 34%),
+  linear-gradient(135deg, rgba(26, 26, 29, 0.96), rgba(34, 34, 38, 0.94));;
 
   --color-bg-team-buttons: #88BDBC;
   --color-bg-league-buttons: #434343;

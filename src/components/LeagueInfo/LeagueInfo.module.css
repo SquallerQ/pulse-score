@@ -1,37 +1,30 @@
 .container {
-  padding: 18px 20px;
-  border-radius: 10px;
+  padding: 14px 16px;
+  border-radius: 8px;
   border: 1px solid rgba(34, 52, 72, 0.14);
-  background:
-    radial-gradient(circle at top left, rgba(146, 180, 214, 0.2), transparent 34%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(232, 240, 247, 0.92));
+  background: var(--container-bg);
   backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgba(30, 42, 56, 0.08);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 18px;
 }
 
 .leagueMeta {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  padding: 4px 8px 4px 4px;
+  border-radius: 10px;
+  background-color: #f2f7fb;
 }
 
 .leagueLogo {
-  width: 46px;
-  height: 46px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
 .leagueLabel {
   margin: 0 0 2px;
-  font-size: 11px;
+  font-size: 9px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #6a7f96;
@@ -39,32 +32,32 @@
 
 .leagueTitle {
   margin: 0;
-  font-size: 22px;
+  font-size: 17px;
   font-weight: 600;
   color: #12263a;
 }
 
 .seasonBadge {
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
-  color: #1e4d7b;
+  color: var(--color);
   background: rgba(115, 149, 174, 0.16);
 }
 
 .content {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  gap: 14px;
   align-items: stretch;
 }
 
 .championContainer {
   position: relative;
-  min-width: 220px;
-  padding: 18px 16px;
-  border-radius: 14px;
+  width: 190px;
+  height: 180px;
+  padding: 14px 12px;
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -76,9 +69,9 @@
 
 .championGlow {
   position: absolute;
-  top: -20px;
-  width: 90px;
-  height: 90px;
+  top: -16px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(247, 204, 89, 0.55), transparent 70%);
   pointer-events: none;
@@ -86,15 +79,15 @@
 
 .championLogo {
   position: relative;
-  width: 84px;
-  height: 84px;
-  margin-bottom: 10px;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 8px;
   object-fit: contain;
 }
 
 .championText {
   margin: 0 0 4px;
-  font-size: 11px;
+  font-size: 9px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #8c6a1d;
@@ -102,7 +95,7 @@
 
 .championName {
   margin: 0 0 4px;
-  font-size: 22px;
+  font-size: 17px;
   font-weight: 700;
   text-align: center;
   color: #1d2733;
@@ -110,142 +103,180 @@
 
 .championPoints {
   margin: 0;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 600;
   color: #7d6330;
 }
 
-.infoGrid {
-  flex: 1;
-  min-width: 420px;
-  display: grid;
-  grid-template-columns: minmax(300px, 1.4fr) minmax(220px, 1fr);
-  gap: 16px;
+.middleColumn {
+  /* width: 220px; */
+  flex-direction: column;
+  justify-content: space-between;
+  display: flex;
+  gap: 10px;
+}
+
+.middleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .section {
-  padding: 14px 16px;
-  border-radius: 14px;
+  /* height: 145px; */
+
+  padding: 12px 12px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.78);
+  /* background: var(--color-light-bg); */
   border: 1px solid rgba(93, 120, 148, 0.14);
   box-shadow: 0 6px 20px rgba(28, 43, 58, 0.06);
 }
 
 .sectionTitle {
-  margin: 0 0 12px;
-  font-size: 13px;
+  margin: 0 0 10px;
+  font-size: 11px;
   font-weight: 600;
   color: #27425f;
 }
 
 .podium {
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 12px;
-  min-height: 170px;
+  align-items: end;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .teamCard {
   position: relative;
-  flex: 1;
-  min-width: 90px;
-  padding: 12px 10px 14px;
-  border-radius: 12px;
-  text-align: center;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  text-align: left;
   background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(93, 120, 148, 0.14);
   box-shadow: 0 6px 20px rgba(28, 43, 58, 0.06);
 }
 
 .firstPlace {
-  min-height: 162px;
+  height: 125px;
   background: linear-gradient(180deg, rgba(255, 244, 199, 0.98), rgba(255, 255, 255, 0.96));
 }
 
 .secondPlace {
-  min-height: 144px;
+  height: 115px;
   background: linear-gradient(180deg, rgba(239, 243, 247, 0.98), rgba(255, 255, 255, 0.96));
 }
 
 .thirdPlace {
-  min-height: 132px;
+  height: 105px;
   background: linear-gradient(180deg, rgba(247, 226, 210, 0.98), rgba(255, 255, 255, 0.96));
 }
 
 .rankBadge {
   position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 28px;
-  height: 28px;
-  padding-top: 4px;
+  top: 0;
+  right: 8px;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 22px;
+  height: 22px;
+  /* padding-top: 3px; */
   border-radius: 50%;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 700;
   color: #fff;
   background: #23496d;
 }
 
 .teamLogo {
-  width: 54px;
-  height: 54px;
-  margin: 10px auto 8px;
+  width: 35px;
+  height: 35px;
+  margin: 0;
   object-fit: contain;
+  flex-shrink: 0;
+}
+
+.teamInfo {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .teamName {
   display: block;
-  margin: 0 0 6px;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 600;
   color: #203449;
-  text-align: center;
+  text-align: left;
+  /* padding-right: 24px; */
 }
 
 .teamPoints {
   margin: 0;
-  font-size: 12px;
+  font-size: 9px;
   color: #5f7388;
   white-space: nowrap;
+  text-align: center;
 }
 
 .historyCard {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* height: 145px; */
+}
+
+.topThreeSection {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
 }
 
 .historyList {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+}
+
+.historyList .teamLogo {
+  width: 25px;
+  height: 25px;
 }
 
 .listRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .listTeam {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .seasonPill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 46px;
-  height: 24px;
-  padding: 0 8px;
+  min-width: 38px;
+  height: 20px;
+  padding: 0 6px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 700;
   color: #23496d;
   background: rgba(115, 149, 174, 0.16);

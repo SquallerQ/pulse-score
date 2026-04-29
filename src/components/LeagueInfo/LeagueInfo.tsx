@@ -37,19 +37,6 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.leagueMeta}>
-          {leagueInfo?.logo ? (
-            <img className={styles.leagueLogo} src={leagueInfo.logo} alt={leagueInfo.name ?? 'League'} />
-          ) : null}
-          <div>
-            <p className={styles.leagueLabel}>Previous season snapshot</p>
-            <h3 className={styles.leagueTitle}>{leagueInfo?.name ?? 'League'}</h3>
-          </div>
-        </div>
-        {leagueInfo?.season ? <div className={styles.seasonBadge}>{leagueInfo.season}</div> : null}
-      </div>
-
       <div className={styles.content}>
         <div className={styles.championContainer}>
           <div className={styles.championGlow}></div>
@@ -59,24 +46,18 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
           <p className={styles.championPoints}>{topThree[0]?.points} pts</p>
         </div>
 
-        <div className={styles.infoGrid}>
-          <div className={styles.section}>
-            <p className={styles.sectionTitle}>Top 3 last season</p>
-            <div className={styles.podium}>
-              {topThree.map((item, index) => (
-                <div
-                  key={item.team.name}
-                  className={`${styles.teamCard} ${
-                    index === 0 ? styles.firstPlace : index === 1 ? styles.secondPlace : styles.thirdPlace
-                  }`}
-                >
-                  <div className={styles.rankBadge}>{item.rank}</div>
-                  <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
-                  <p className={styles.teamName}>{item.team.name}</p>
-                  <p className={styles.teamPoints}>{item.points} pts</p>
-                </div>
-              ))}
+        <div className={styles.middleColumn}>
+          <div className={styles.middleHeader}>
+            <div className={styles.leagueMeta}>
+              {leagueInfo?.logo ? (
+                <img className={styles.leagueLogo} src={leagueInfo.logo} alt={leagueInfo.name ?? 'League'} />
+              ) : null}
+              <div>
+                <p className={styles.leagueLabel}>Previous season snapshot</p>
+                <h3 className={styles.leagueTitle}>{leagueInfo?.name ?? 'League'}</h3>
+              </div>
             </div>
+            {leagueInfo?.season ? <div className={styles.seasonBadge}>{leagueInfo.season}</div> : null}
           </div>
 
           <div className={`${styles.section} ${styles.historyCard}`}>
@@ -92,6 +73,27 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+
+        <div className={`${styles.section} ${styles.topThreeSection}`}>
+          <p className={styles.sectionTitle}>Top 3 last season</p>
+          <div className={styles.podium}>
+            {topThree.map((item, index) => (
+              <div
+                key={item.team.name}
+                className={`${styles.teamCard} ${
+                  index === 0 ? styles.firstPlace : index === 1 ? styles.secondPlace : styles.thirdPlace
+                }`}
+              >
+                <div className={styles.rankBadge}>{item.rank}</div>
+                <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
+                <div className={styles.teamInfo}>
+                  <p className={styles.teamName}>{item.team.name}</p>
+                  <p className={styles.teamPoints}>{item.points} pts</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
