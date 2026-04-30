@@ -109,16 +109,15 @@
 }
 
 .middleColumn {
-  /* width: 220px; */
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  display: flex;
-  gap: 10px;
+  width: 380px;
 }
 
 .middleHeader {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   gap: 10px;
 }
@@ -233,7 +232,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* height: 145px; */
+  min-height: 145px;
 }
 
 .topThreeSection {
@@ -241,6 +240,44 @@
   min-width: 260px;
   display: flex;
   flex-direction: column;
+}
+
+.snapshotCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 96px;
+}
+
+.snapshotList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.snapshotRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(93, 120, 148, 0.14);
+}
+
+.snapshotRow:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.snapshotLabel {
+  font-size: 10px;
+  color: #5f7388;
+}
+
+.snapshotValue {
+  font-size: 12px;
+  font-weight: 700;
+  color: #203449;
 }
 
 .historyList {
@@ -281,4 +318,57 @@
   color: #23496d;
   background: rgba(115, 149, 174, 0.16);
   flex-shrink: 0;
+}
+
+.timelineCard {
+  width: 220px;
+  min-height: 140px;
+}
+
+.timelineColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timelineBadge {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.timelineList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timelineRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timelineDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #23496d;
+  flex-shrink: 0;
+}
+
+.timelineLogo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.timelineTeam {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 600;
+  color: #203449;
 }

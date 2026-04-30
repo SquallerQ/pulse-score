@@ -30,6 +30,8 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
   const champion = leagueInfo?.standings?.[0];
   const topThree = leagueInfo?.standings?.slice(0, 3) ?? [];
   const championsHistory = leagueInfo?.championsHistory ?? [];
+  const secondPlace = topThree[1];
+  const gapToSecond = champion && secondPlace ? champion.points - secondPlace.points : null;
 
   if (!champion) {
     return <div className={styles.container}>Loading league info...</div>;
@@ -57,21 +59,19 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
                 <h3 className={styles.leagueTitle}>{leagueInfo?.name ?? 'League'}</h3>
               </div>
             </div>
-            {leagueInfo?.season ? <div className={styles.seasonBadge}>{leagueInfo.season}</div> : null}
           </div>
 
-          <div className={`${styles.section} ${styles.historyCard}`}>
-            <p className={styles.sectionTitle}>Champions by season</p>
-            <div className={styles.historyList}>
-              {championsHistory.map((item) => (
-                <div key={item.season} className={styles.listRow}>
-                  <div className={styles.listTeam}>
-                    <span className={styles.seasonPill}>{item.season}</span>
-                    <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
-                    <span className={styles.teamName}>{item.team.name}</span>
-                  </div>
-                </div>
-              ))}
+          <div className={`${styles.section} ${styles.snapshotCard}`}>
+            <p className={styles.sectionTitle}>Title Race Snapshot</p>
+            <div className={styles.snapshotList}>
+              <div className={styles.snapshotRow}>
+                <span className={styles.snapshotLabel}>Champion</span>
+                <span className={styles.snapshotValue}>{champion.points} pts</span>
+              </div>
+              <div className={styles.snapshotRow}>
+                <span className={styles.snapshotLabel}>Gap to 2nd</span>
+                <span className={styles.snapshotValue}>{gapToSecond !== null ? `+${gapToSecond}` : '-'}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -95,6 +95,28 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className={styles.timelineColumn}>
+          {leagueInfo?.season ? (
+            <div className={styles.timelineBadge}>
+              <div className={styles.seasonBadge}>{leagueInfo.season}</div>
+            </div>
+          ) : null}
+
+          <div className={`${styles.section} ${styles.timelineCard}`}>
+            <p className={styles.sectionTitle}>Champions by season</p>
+          <div className={styles.timelineList}>
+            {championsHistory.map((item) => (
+              <div key={item.season} className={styles.timelineRow}>
+                <span className={styles.seasonPill}>{item.season}</span>
+                <span className={styles.timelineDot}></span>
+                <img className={styles.timelineLogo} src={item.team.logo} alt={item.team.name} />
+                <span className={styles.timelineTeam}>{item.team.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
         </div>
       </div>
     </div>
