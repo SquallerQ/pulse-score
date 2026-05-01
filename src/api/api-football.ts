@@ -45,6 +45,38 @@ type ApiFootballStandingItem = {
   };
 };
 
+export type TopScorer = {
+  id: number;
+  name: string;
+  photo: string;
+  nationality: string;
+  goals: number;
+  assists: number;
+  team: {
+    name: string;
+    logo: string;
+  };
+};
+
+type ApiFootballPlayer = {
+  player: {
+    id: number;
+    name: string;
+    photo: string;
+    nationality: string;
+  };
+  statistics: Array<{
+    goals: {
+      total: number;
+      assists: number;
+    };
+    team: {
+      name: string;
+      logo: string;
+    };
+  }>;
+};
+
 export const API_FOOTBALL_LEAGUE_IDS: Record<string, number> = {
   PL: 39, // Premier League
   PD: 140, // La Liga
@@ -109,4 +141,29 @@ export async function fetchLastSeasonChampion(_league: string) {
     })),
     championsHistory,
   } as LeagueInfo;
+}
+
+export async function fetchTopScorers(_league: string) {
+  const league = API_FOOTBALL_LEAGUE_IDS[_league];
+  if (!league) return null;
+
+  const response = await fetch(`${API_BASE}/players/topscorers?league=${league}&season=2024`, {
+    headers: getAuthHeaders(),
+  });
+  const data = await response.json();
+
+  return data.response.map(
+    (item: ApiFootballPlayer): TopScorer => ({
+      id: item.player.id,
+      name: item.player.name,
+      photo: item.player.photo,
+      nationality: item.player.nationality,
+      goals: item.statistics[0].goals.total,
+      assists: item.statistics[0].goals.assists,
+      team: {
+        name: item.statistics[0].team.name,
+        logo: item.statistics[0].team.logo,
+      },
+    })
+  );
 }

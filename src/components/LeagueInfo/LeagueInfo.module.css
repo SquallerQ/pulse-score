@@ -164,17 +164,17 @@
 }
 
 .firstPlace {
-  height: 125px;
+  height: 129px;
   background: linear-gradient(180deg, rgba(255, 244, 199, 0.98), rgba(255, 255, 255, 0.96));
 }
 
 .secondPlace {
-  height: 115px;
+  height: 110px;
   background: linear-gradient(180deg, rgba(239, 243, 247, 0.98), rgba(255, 255, 255, 0.96));
 }
 
 .thirdPlace {
-  height: 105px;
+  height: 100px;
   background: linear-gradient(180deg, rgba(247, 226, 210, 0.98), rgba(255, 255, 255, 0.96));
 }
 
@@ -236,10 +236,146 @@
 }
 
 .topThreeSection {
-  flex: 1;
   min-width: 260px;
   display: flex;
   flex-direction: column;
+}
+
+.topThreeSection.section{
+  padding-bottom: 8px;
+}
+
+.topScorersSection {
+  flex: 1;
+  min-height: 90px;
+  padding: 10px 10px 10px 8px;
+}
+
+.topScorersSection .sectionTitle {
+  margin: 0;
+}
+
+.topScorersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.topScorer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(93, 120, 148, 0.14);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 6px 20px rgba(28, 43, 58, 0.06);
+}
+
+.topScorerFirstPlace {
+  background: linear-gradient(180deg, rgba(255, 244, 199, 0.98), rgba(255, 255, 255, 0.96));
+}
+
+.topScorerSecondPlace {
+  background: linear-gradient(180deg, rgba(239, 243, 247, 0.98), rgba(255, 255, 255, 0.96));
+}
+
+.topScorerThirdPlace {
+  background: linear-gradient(180deg, rgba(247, 226, 210, 0.98), rgba(255, 255, 255, 0.96));
+}
+
+.topScorerPlace {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: #23496d;
+}
+
+.topScorerPhoto {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.topScorerInfo {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.topScorerName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 9px;
+  font-weight: 700;
+  color: #203449;
+}
+
+.topScorerMeta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.topScorerTeamLogo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.topScorerTeamName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 8px;
+  color: #5f7388;
+}
+
+.topScorerStats {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.topScorerStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  padding: 2px 4px;
+  border-radius: 8px;
+  background: rgba(35, 73, 109, 0.08);
+}
+
+.topScorerStatLabel {
+  font-size: 8px;
+  font-weight: 700;
+  color: #6a7f96;
+  text-transform: uppercase;
+}
+
+.topScorerStatValue {
+  font-size: 9px;
+  font-weight: 700;
+  color: #203449;
 }
 
 .snapshotCard {
@@ -321,10 +457,12 @@
 }
 
 .timelineCard {
-  width: 220px;
-  min-height: 140px;
+  width: 350px;
+  min-height: 145px;
 }
-
+.timelineCard .sectionTitle {
+  margin-bottom: 25px;
+}
 .timelineColumn {
   display: flex;
   flex-direction: column;

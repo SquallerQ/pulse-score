@@ -17,7 +17,7 @@ import {
   championsLeagueTable,
 } from '../../api/api';
 
-import { fetchLastSeasonChampion } from '../../api/api-football';
+import { fetchLastSeasonChampion, fetchTopScorers } from '../../api/api-football';
 
 import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
@@ -103,6 +103,13 @@ export function MainPage() {
     queryFn: () => fetchLastSeasonChampion(leagueCode),
   });
 
+  const leagueInfoTopScorersQuery = useQuery({
+    queryKey: queryKeys.leagueInfoTopScorers(leagueCode),
+    queryFn: () => fetchTopScorers(leagueCode),
+  });
+
+  const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
+
   function handleSelectLeague(league: LeagueItem) {
     setLeagueCode(league.code);
     setCompetitionType('league');
@@ -162,7 +169,7 @@ export function MainPage() {
                 championsLeagueStages={championsLeagueQuery.data}
               />
             ) : (
-              <LeagueInfo leagueInfo={leagueInfoQuery.data ?? null} />
+              <LeagueInfo leagueInfo={leagueInfoQuery.data ?? null} topScorers={TopThreeScorersLastSeason ?? null} />
             )}
 
             <div className={styles.calendarButtonContainer}>

@@ -1,5 +1,7 @@
 import styles from './LeagueInfo.module.css';
 
+import type { TopScorer } from '../../api/api-football';
+
 type LeagueInfoData = {
   name?: string;
   country?: string;
@@ -24,9 +26,12 @@ type LeagueInfoData = {
 
 type LeagueInfoProps = {
   leagueInfo: LeagueInfoData | null;
+  topScorers: TopScorer[] | null;
 };
 
-export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
+export function LeagueInfo({ leagueInfo, topScorers }: LeagueInfoProps) {
+  console.log(topScorers);
+
   const champion = leagueInfo?.standings?.[0];
   const topThree = leagueInfo?.standings?.slice(0, 3) ?? [];
   const championsHistory = leagueInfo?.championsHistory ?? [];
@@ -97,6 +102,44 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
           </div>
         </div>
 
+        <div className={`${styles.section} ${styles.topScorersSection}`}>
+          <p className={styles.sectionTitle}>Top Scorers last season</p>
+          <div className={styles.topScorersContainer}>
+            {topScorers?.map((item, index) => (
+              <div
+                key={item.id}
+                className={`${styles.topScorer} ${
+                  index === 0
+                    ? styles.topScorerFirstPlace
+                    : index === 1
+                      ? styles.topScorerSecondPlace
+                      : styles.topScorerThirdPlace
+                }`}
+              >
+                <div className={styles.topScorerPlace}>{index + 1}</div>
+                <img className={styles.topScorerPhoto} src={item.photo} alt={item.name} />
+                <div className={styles.topScorerInfo}>
+                  <div className={styles.topScorerName}>{item.name}</div>
+                  <div className={styles.topScorerMeta}>
+                    <img className={styles.topScorerTeamLogo} src={item.team.logo} alt={item.team.name} />
+                    <span className={styles.topScorerTeamName}>{item.team.name}</span>
+                  </div>
+                </div>
+                <div className={styles.topScorerStats}>
+                  <div className={styles.topScorerStat}>
+                    <span className={styles.topScorerStatLabel}>G</span>
+                    <span className={styles.topScorerStatValue}>{item.goals}</span>
+                  </div>
+                  <div className={styles.topScorerStat}>
+                    <span className={styles.topScorerStatLabel}>A</span>
+                    <span className={styles.topScorerStatValue}>{item.assists ?? '-'}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className={styles.timelineColumn}>
           {leagueInfo?.season ? (
             <div className={styles.timelineBadge}>
@@ -106,17 +149,17 @@ export function LeagueInfo({ leagueInfo }: LeagueInfoProps) {
 
           <div className={`${styles.section} ${styles.timelineCard}`}>
             <p className={styles.sectionTitle}>Champions by season</p>
-          <div className={styles.timelineList}>
-            {championsHistory.map((item) => (
-              <div key={item.season} className={styles.timelineRow}>
-                <span className={styles.seasonPill}>{item.season}</span>
-                <span className={styles.timelineDot}></span>
-                <img className={styles.timelineLogo} src={item.team.logo} alt={item.team.name} />
-                <span className={styles.timelineTeam}>{item.team.name}</span>
-              </div>
-            ))}
+            <div className={styles.timelineList}>
+              {championsHistory.map((item) => (
+                <div key={item.season} className={styles.timelineRow}>
+                  <span className={styles.seasonPill}>{item.season}</span>
+                  <span className={styles.timelineDot}></span>
+                  <img className={styles.timelineLogo} src={item.team.logo} alt={item.team.name} />
+                  <span className={styles.timelineTeam}>{item.team.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
