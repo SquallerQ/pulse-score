@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   padding: 10px;
   border-radius: 5px;
 
@@ -6,6 +7,34 @@
 
   background: rgba(115, 149, 174, 0.1);
   backdrop-filter: blur(8px);
+}
+
+.updatingBadge {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #23496d;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(93, 120, 148, 0.18);
+  box-shadow: 0 4px 12px rgba(28, 43, 58, 0.08);
+}
+
+.updatingSpinner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(35, 73, 109, 0.22);
+  border-top-color: #23496d;
+  animation: tableUpdatingSpin 0.8s linear infinite;
 }
 
 .header,
@@ -183,4 +212,105 @@
 
 .selectedTeam .position {
   color: var(--color-text);
+}
+
+.skeletonContainer {
+  position: relative;
+}
+
+.skeletonHeader,
+.skeletonRow,
+.skeletonLine,
+.skeletonCircle {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonHeader::before,
+.skeletonRow::before,
+.skeletonLine::before,
+.skeletonCircle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(222, 228, 235, 0.9) 25%,
+    rgba(242, 245, 248, 1) 50%,
+    rgba(222, 228, 235, 0.9) 75%
+  );
+  background-size: 200% 100%;
+  animation: tableSkeletonLoading 1.4s ease-in-out infinite;
+}
+
+.skeletonHeader,
+.skeletonRow {
+  background-color: rgba(115, 149, 174, 0.08);
+}
+
+.skeletonLine {
+  border-radius: 999px;
+  background-color: rgba(222, 228, 235, 0.9);
+}
+
+.skeletonCircle {
+  border-radius: 50%;
+  background-color: rgba(222, 228, 235, 0.9);
+}
+
+.skeletonLeagueEmblem {
+  width: 40px;
+  height: 40px;
+}
+
+.skeletonLeagueName {
+  width: 120px;
+  height: 12px;
+}
+
+.skeletonPosition {
+  width: 12px;
+  height: 12px;
+}
+
+.skeletonStat {
+  width: 20px;
+  height: 20px;
+}
+
+.skeletonPts {
+  width: 24px;
+  height: 24px;
+}
+
+.skeletonTeamLogo {
+  width: 20px;
+  height: 20px;
+}
+
+.skeletonTeamName {
+  width: 80px;
+  height: 12px;
+}
+
+.skeletonCell {
+  width: 18px;
+  height: 12px;
+  justify-self: center;
+}
+
+@keyframes tableSkeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes tableUpdatingSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }

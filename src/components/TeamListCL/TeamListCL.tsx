@@ -5,6 +5,7 @@ import { Playoffs } from './Playoffs/Playoffs';
 
 import { Stage } from './Stage/Stage';
 import { TableCL, type LeagueTable } from '../TableCL/TableCL';
+import { TableCLSkeleton } from '../TableCL/TableCLSkeleton';
 import { CLInfo } from '../TableCL/CLInfo';
 
 import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/types';
@@ -13,6 +14,8 @@ type PropsType = {
   teams: TeamListCLItem[];
   championsLeagueStages?: ChampionsLeagueStage[];
   leagueTable: LeagueTable | null;
+  showTableSkeleton?: boolean;
+  isTableUpdating?: boolean;
 };
 
 type TeamListCLItem = {
@@ -21,7 +24,13 @@ type TeamListCLItem = {
   logo: string;
 };
 
-export function TeamListCL({ teams, championsLeagueStages, leagueTable }: PropsType) {
+export function TeamListCL({
+  teams,
+  championsLeagueStages,
+  leagueTable,
+  showTableSkeleton = false,
+  isTableUpdating = false,
+}: PropsType) {
   const [contentView, setContentView] = useState<'bracket' | 'table'>('bracket');
   const totalTeams = leagueTable?.table.length ?? 36;
   const directSpots = Math.min(8, totalTeams);
@@ -226,7 +235,11 @@ export function TeamListCL({ teams, championsLeagueStages, leagueTable }: PropsT
               </div>
             </div>
             <div className={styles.tableContainer}>
-              <TableCL leagueTable={leagueTable} />
+              {showTableSkeleton ? (
+                <TableCLSkeleton />
+              ) : (
+                <TableCL leagueTable={leagueTable} isUpdating={isTableUpdating} />
+              )}
             </div>
             <CLInfo />
           </div>

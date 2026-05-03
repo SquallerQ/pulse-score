@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid rgba(129, 176, 255, 0.45);
@@ -6,6 +7,34 @@
   color: #e7f0ff;
   backdrop-filter: blur(8px);
   box-shadow: 0 14px 30px rgba(5, 10, 24, 0.45), inset 0 0 0 1px rgba(155, 198, 255, 0.08);
+}
+
+.updatingBadge {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #e7f0ff;
+  background: rgba(7, 17, 38, 0.9);
+  border: 1px solid rgba(129, 176, 255, 0.32);
+  box-shadow: 0 4px 14px rgba(5, 10, 24, 0.28);
+}
+
+.updatingSpinner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(231, 240, 255, 0.2);
+  border-top-color: #e7f0ff;
+  animation: tableClUpdatingSpin 0.8s linear infinite;
 }
 
 .header,
@@ -157,4 +186,105 @@
   font-size: 11px;
   background: rgb(16 24 44 / 88%);
   color: #f7f7f7;
+}
+
+.skeletonContainer {
+  position: relative;
+}
+
+.skeletonHeader,
+.skeletonRow,
+.skeletonLine,
+.skeletonCircle {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonHeader::before,
+.skeletonRow::before,
+.skeletonLine::before,
+.skeletonCircle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(53, 79, 122, 0.88) 25%,
+    rgba(109, 140, 188, 0.98) 50%,
+    rgba(53, 79, 122, 0.88) 75%
+  );
+  background-size: 200% 100%;
+  animation: tableClSkeletonLoading 1.4s ease-in-out infinite;
+}
+
+.skeletonHeader,
+.skeletonRow {
+  background-color: rgba(18, 35, 67, 0.86);
+}
+
+.skeletonLine {
+  border-radius: 999px;
+  background-color: rgba(53, 79, 122, 0.9);
+}
+
+.skeletonCircle {
+  border-radius: 50%;
+  background-color: rgba(53, 79, 122, 0.9);
+}
+
+.skeletonLeagueEmblem {
+  width: 40px;
+  height: 40px;
+}
+
+.skeletonLeagueName {
+  width: 140px;
+  height: 12px;
+}
+
+.skeletonPosition {
+  width: 12px;
+  height: 12px;
+}
+
+.skeletonStat {
+  width: 20px;
+  height: 20px;
+}
+
+.skeletonPts {
+  width: 24px;
+  height: 24px;
+}
+
+.skeletonTeamLogo {
+  width: 20px;
+  height: 20px;
+}
+
+.skeletonTeamName {
+  width: 92px;
+  height: 12px;
+}
+
+.skeletonCell {
+  width: 18px;
+  height: 12px;
+  justify-self: center;
+}
+
+@keyframes tableClSkeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes tableClUpdatingSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -15,6 +15,7 @@ type SelectedTeam = {
 type TableProps = {
   leagueTable: LeagueTable | null;
   selectedTeam: SelectedTeam;
+  isUpdating?: boolean;
 };
 
 export type LeagueTable = {
@@ -26,7 +27,7 @@ export type LeagueTable = {
   };
 };
 
-export function Table({ leagueTable, selectedTeam }: TableProps) {
+export function Table({ leagueTable, selectedTeam, isUpdating = false }: TableProps) {
   if (!leagueTable || !leagueTable.table) {
     return <div>No data</div>;
   }
@@ -35,6 +36,12 @@ export function Table({ leagueTable, selectedTeam }: TableProps) {
 
   return (
     <div className={styles.container}>
+      {isUpdating ? (
+        <div className={styles.updatingBadge}>
+          <span className={styles.updatingSpinner}></span>
+          <span>Updating...</span>
+        </div>
+      ) : null}
       <div className={styles.header}>
         <div></div>
         <div className={styles.teamHeader}>

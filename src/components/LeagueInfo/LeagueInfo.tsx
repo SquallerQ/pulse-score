@@ -27,11 +27,10 @@ type LeagueInfoData = {
 type LeagueInfoProps = {
   leagueInfo: LeagueInfoData | null;
   topScorers: TopScorer[] | null;
+  isUpdating?: boolean;
 };
 
-export function LeagueInfo({ leagueInfo, topScorers }: LeagueInfoProps) {
-  console.log(topScorers);
-
+export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: LeagueInfoProps) {
   const champion = leagueInfo?.standings?.[0];
   const topThree = leagueInfo?.standings?.slice(0, 3) ?? [];
   const championsHistory = leagueInfo?.championsHistory ?? [];
@@ -44,6 +43,12 @@ export function LeagueInfo({ leagueInfo, topScorers }: LeagueInfoProps) {
 
   return (
     <div className={styles.container}>
+      {isUpdating ? (
+        <div className={styles.updatingBadge}>
+          <span className={styles.updatingSpinner}></span>
+          <span>Updating...</span>
+        </div>
+      ) : null}
       <div className={styles.content}>
         <div className={styles.championContainer}>
           <div className={styles.championGlow}></div>

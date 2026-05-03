@@ -5,6 +5,7 @@ import styles from './TableCL.module.css';
 
 type TableCLProps = {
   leagueTable: LeagueTable | null;
+  isUpdating?: boolean;
 };
 
 export type LeagueTable = {
@@ -16,7 +17,7 @@ export type LeagueTable = {
   };
 };
 
-export function TableCL({ leagueTable }: TableCLProps) {
+export function TableCL({ leagueTable, isUpdating = false }: TableCLProps) {
   if (!leagueTable || !leagueTable.table) {
     return <div>No data</div>;
   }
@@ -25,6 +26,12 @@ export function TableCL({ leagueTable }: TableCLProps) {
 
   return (
     <div className={styles.container}>
+      {isUpdating ? (
+        <div className={styles.updatingBadge}>
+          <span className={styles.updatingSpinner}></span>
+          <span>Updating...</span>
+        </div>
+      ) : null}
       <div className={styles.header}>
         <div></div>
         <div className={styles.teamHeader}>
