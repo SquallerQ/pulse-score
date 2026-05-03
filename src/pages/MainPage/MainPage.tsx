@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Calendar } from '../../components/Calendar/Calendar';
 import { FullCalendar } from '../../components/FullCalendar/FullCalendar';
 import { TeamList } from '../../components/TeamList/TeamList';
+import { TeamListSkeleton } from '../../components/TeamList/TeamListSkeleton';
 import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
 import { TeamInfo } from '../../components/TeamInfo/TeamInfo';
 import { LeagueInfo } from '../../components/LeagueInfo/LeagueInfo';
@@ -59,6 +60,7 @@ export function MainPage() {
     queryKey: queryKeys.championsLeagueTeams(),
     queryFn: () => fetchChampionsLeagueTeams(),
     enabled: competitionType === 'cup',
+    placeholderData: (previousData) => previousData,
   });
 
   // console.log(cupTeamsQuery.data);
@@ -67,6 +69,7 @@ export function MainPage() {
     queryKey: queryKeys.championsLeagueMatches(),
     queryFn: () => fetchChampionsLeagueStages(),
     // enabled: competitionType === 'cup',
+    placeholderData: (previousData) => previousData,
   });
 
   const leaguesQuery = useQuery({
@@ -78,6 +81,7 @@ export function MainPage() {
     queryKey: queryKeys.teams(leagueCode, '2025'),
     queryFn: () => fetchLeagueTeams(leagueCode),
     enabled: competitionType === 'league',
+    placeholderData: (previousData) => previousData,
   });
 
   const leagues = leaguesQuery.data ?? [];
@@ -121,9 +125,14 @@ export function MainPage() {
   const isLeagueInfoUpdating = leagueInfoQuery.isFetching || leagueInfoTopScorersQuery.isFetching;
   const shouldShowTableSkeleton = leagueTableQuery.isPending && !leagueTableQuery.data;
   const isTableUpdating = leagueTableQuery.isFetching;
+  const shouldShowTeamListSkeleton = teamsQuery.isPending && !teamsQuery.data;
+  const isTeamListUpdating = teamsQuery.isFetching;
   const shouldShowChampionsLeagueTableSkeleton =
     championsLeagueTableQuery.isPending && !championsLeagueTableQuery.data;
   const isChampionsLeagueTableUpdating = championsLeagueTableQuery.isFetching;
+  const shouldShowChampionsLeagueTeamsSkeleton = cupTeamsQuery.isPending && !cupTeamsQuery.data;
+  const shouldShowChampionsLeagueBracketSkeleton = championsLeagueQuery.isPending && !championsLeagueQuery.data;
+  const isChampionsLeagueUpdating = cupTeamsQuery.isFetching || championsLeagueQuery.isFetching;
 
   function handleSelectLeague(league: LeagueItem) {
     setLeagueCode(league.code);
@@ -170,12 +179,17 @@ export function MainPage() {
       <section className={styles.content}>
         {competitionType === 'league' ? (
           <>
-            <TeamList
-              teams={teamsQuery.data ?? []}
-              leagueCode={leagueCode}
-              selectedTeam={selectedTeam}
-              onSelectTeam={setSelectedTeam}
-            />
+            {shouldShowTeamListSkeleton ? (
+              <TeamListSkeleton />
+            ) : (
+              <TeamList
+                teams={teamsQuery.data ?? []}
+                leagueCode={leagueCode}
+                selectedTeam={selectedTeam}
+                onSelectTeam={setSelectedTeam}
+                isUpdating={isTeamListUpdating}
+              />
+            )}
             {selectedTeam !== null ? (
               <TeamInfo
                 selectedTeam={selectedTeamData}
@@ -236,6 +250,9 @@ export function MainPage() {
             leagueTable={championsLeagueTableQuery.data ?? null}
             showTableSkeleton={shouldShowChampionsLeagueTableSkeleton}
             isTableUpdating={isChampionsLeagueTableUpdating}
+            showTeamsSkeleton={shouldShowChampionsLeagueTeamsSkeleton}
+            showBracketSkeleton={shouldShowChampionsLeagueBracketSkeleton}
+            isUpdating={isChampionsLeagueUpdating}
           />
         )}
       </section>

@@ -17,11 +17,18 @@ type TeamListProps = {
   leagueCode: string;
   selectedTeam: SelectedTeam | null;
   onSelectTeam: (team: SelectedTeam) => void;
+  isUpdating?: boolean;
 };
 
-export function TeamList({ teams, leagueCode, selectedTeam, onSelectTeam }: TeamListProps) {
+export function TeamList({ teams, leagueCode, selectedTeam, onSelectTeam, isUpdating = false }: TeamListProps) {
   return (
     <div className={styles.container}>
+      {isUpdating ? (
+        <div className={styles.updatingBadge}>
+          <span className={styles.updatingSpinner}></span>
+          <span>Updating...</span>
+        </div>
+      ) : null}
       {teams.map((team) => {
         return (
           <Team

@@ -99,3 +99,125 @@
   background-color: rgba(232, 80, 164, 0.14);
   border: 1px solid rgba(232, 80, 164, 0.45);
 }
+
+.skeletonContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonContainer,
+.skeletonLine,
+.skeletonBlock {
+  position: relative;
+}
+
+.skeletonContainer::before,
+.skeletonLine::before,
+.skeletonBlock::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(53, 79, 122, 0.88) 25%,
+    rgba(109, 140, 188, 0.98) 50%,
+    rgba(53, 79, 122, 0.88) 75%
+  );
+  background-size: 200% 100%;
+  animation: clInfoSkeletonLoading 1.4s ease-in-out infinite;
+}
+
+.skeletonLine,
+.skeletonBlock {
+  overflow: hidden;
+  background-color: rgba(53, 79, 122, 0.9);
+}
+
+.skeletonLine {
+  border-radius: 999px;
+}
+
+.skeletonBlock {
+  border-radius: 8px;
+}
+
+.skeletonTitle {
+  width: 62%;
+  height: 18px;
+  margin-bottom: 16px;
+}
+
+.skeletonSubTitle {
+  width: 40%;
+  height: 14px;
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+
+.skeletonParagraph {
+  width: 100%;
+  height: 12px;
+  margin-top: 8px;
+}
+
+.skeletonParagraphShort {
+  width: 78%;
+  height: 12px;
+  margin-top: 8px;
+}
+
+.skeletonProgressWrap {
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
+
+.skeletonProgressBar {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+}
+
+.skeletonProgressLabels {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.skeletonProgressLabel {
+  width: 30px;
+  height: 10px;
+}
+
+.skeletonLegend {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.skeletonLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skeletonBox {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex: 0 0 12px;
+}
+
+.skeletonLegendText {
+  width: 78%;
+  height: 12px;
+}
+
+@keyframes clInfoSkeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

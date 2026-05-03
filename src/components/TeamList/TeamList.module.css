@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -13,4 +14,77 @@
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+}
+
+.updatingBadge {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #23496d;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(93, 120, 148, 0.18);
+  box-shadow: 0 4px 12px rgba(28, 43, 58, 0.08);
+}
+
+.updatingSpinner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(35, 73, 109, 0.22);
+  border-top-color: #23496d;
+  animation: teamListUpdatingSpin 0.8s linear infinite;
+}
+
+.skeletonContainer {
+  position: relative;
+}
+
+.teamSkeletonCard {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 6px;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(34, 52, 72, 0.2);
+  background: rgba(196, 209, 221, 0.52);
+}
+
+.teamSkeletonCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(222, 228, 235, 0.9) 25%,
+    rgba(242, 245, 248, 1) 50%,
+    rgba(222, 228, 235, 0.9) 75%
+  );
+  background-size: 200% 100%;
+  animation: teamListSkeletonLoading 1.4s ease-in-out infinite;
+}
+
+@keyframes teamListSkeletonLoading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes teamListUpdatingSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }

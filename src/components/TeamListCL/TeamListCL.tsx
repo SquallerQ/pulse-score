@@ -7,6 +7,7 @@ import { Stage } from './Stage/Stage';
 import { TableCL, type LeagueTable } from '../TableCL/TableCL';
 import { TableCLSkeleton } from '../TableCL/TableCLSkeleton';
 import { CLInfo } from '../TableCL/CLInfo';
+import { CLInfoSkeleton } from '../TableCL/CLInfoSkeleton';
 
 import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/types';
 
@@ -16,6 +17,9 @@ type PropsType = {
   leagueTable: LeagueTable | null;
   showTableSkeleton?: boolean;
   isTableUpdating?: boolean;
+  showTeamsSkeleton?: boolean;
+  showBracketSkeleton?: boolean;
+  isUpdating?: boolean;
 };
 
 type TeamListCLItem = {
@@ -30,6 +34,9 @@ export function TeamListCL({
   leagueTable,
   showTableSkeleton = false,
   isTableUpdating = false,
+  showTeamsSkeleton = false,
+  showBracketSkeleton = false,
+  isUpdating = false,
 }: PropsType) {
   const [contentView, setContentView] = useState<'bracket' | 'table'>('bracket');
   const totalTeams = leagueTable?.table.length ?? 36;
@@ -164,11 +171,19 @@ export function TeamListCL({
   const finalPairsSorted = canSortFinal ? sortPairsByTeamIds(finalPairs, finalOrderByWinners) : finalPairs;
 
   return (
-    <>
+    <div className={styles.wrapper}>
+      {isUpdating ? (
+        <div className={styles.updatingBadge}>
+          <span className={styles.updatingSpinner}></span>
+          <span>Updating...</span>
+        </div>
+      ) : null}
       <div className={styles.container}>
-        {teams.map((item) => {
-          return <TeamCL team={item} key={item.id} />;
-        })}
+        {showTeamsSkeleton
+          ? Array.from({ length: 8 }).map((_, index) => <div key={index} className={styles.teamSkeletonCard}></div>)
+          : teams.map((item) => {
+              return <TeamCL team={item} key={item.id} />;
+            })}
       </div>
 
       <div className={styles.toggleButtonContainer}>
@@ -189,30 +204,75 @@ export function TeamListCL({
       </div>
 
       {contentView === 'bracket' ? (
-        <div className={styles.contentContainer}>
-          <div className={styles.playoffsContainer}>
-            {playoffsPairs.map((item) => {
-              return <Playoffs match={item} key={item[0].id} />;
-            })}
+        showBracketSkeleton ? (
+          <div className={`${styles.contentContainer} ${styles.skeletonContentContainer}`}>
+            <div className={styles.playoffsSkeletonContainer}>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className={styles.playoffSkeletonCard}></div>
+              ))}
+            </div>
+            <div className={`${styles.bracket} ${styles.bracketSkeleton}`}>
+              <div className={styles.side}>
+                <div className={styles.stageSkeletonColumn}>
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <div key={index} className={styles.stageSkeletonCard}></div>
+                  ))}
+                </div>
+                <div className={styles.stageSkeletonColumn}>
+                  {Array.from({ length: 2 }).map((_, index) => (
+                    <div key={index} className={styles.stageSkeletonCard}></div>
+                  ))}
+                </div>
+                <div className={styles.stageSkeletonColumn}>
+                  <div className={styles.stageSkeletonCard}></div>
+                </div>
+              </div>
+              <div className={styles.finalSkeletonColumn}>
+                <div className={styles.stageSkeletonCard}></div>
+              </div>
+              <div className={styles.side}>
+                <div className={styles.stageSkeletonColumn}>
+                  <div className={styles.stageSkeletonCard}></div>
+                </div>
+                <div className={styles.stageSkeletonColumn}>
+                  {Array.from({ length: 2 }).map((_, index) => (
+                    <div key={index} className={styles.stageSkeletonCard}></div>
+                  ))}
+                </div>
+                <div className={styles.stageSkeletonColumn}>
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <div key={index} className={styles.stageSkeletonCard}></div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className={styles.bracket}>
-            <div className={styles.side}>
-              <Stage matches={last16Left} expectedPairs={4} />
-              <Stage matches={quarterLeft} expectedPairs={2} />
-              <Stage matches={semiLeft} expectedPairs={1} />
+        ) : (
+          <div className={styles.contentContainer}>
+            <div className={styles.playoffsContainer}>
+              {playoffsPairs.map((item) => {
+                return <Playoffs match={item} key={item[0].id} />;
+              })}
             </div>
+            <div className={styles.bracket}>
+              <div className={styles.side}>
+                <Stage matches={last16Left} expectedPairs={4} />
+                <Stage matches={quarterLeft} expectedPairs={2} />
+                <Stage matches={semiLeft} expectedPairs={1} />
+              </div>
 
-            <div className={styles.final}>
-              <Stage matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
-            </div>
+              <div className={styles.final}>
+                <Stage matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
+              </div>
 
-            <div className={styles.side}>
-              <Stage matches={semiRight} expectedPairs={1} />
-              <Stage matches={quarterRight} expectedPairs={2} />
-              <Stage matches={last16Right} expectedPairs={4} />
+              <div className={styles.side}>
+                <Stage matches={semiRight} expectedPairs={1} />
+                <Stage matches={quarterRight} expectedPairs={2} />
+                <Stage matches={last16Right} expectedPairs={4} />
+              </div>
             </div>
           </div>
-        </div>
+        )
       ) : (
         <div className={styles.contentContainer}>
           <div className={styles.tableSection}>
@@ -241,10 +301,10 @@ export function TeamListCL({
                 <TableCL leagueTable={leagueTable} isUpdating={isTableUpdating} />
               )}
             </div>
-            <CLInfo />
+            {showTableSkeleton ? <CLInfoSkeleton /> : <CLInfo />}
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
