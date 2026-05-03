@@ -297,8 +297,11 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
   ) : (
     <div className={styles.container}>
       <div className={styles.teamContainer}>
+        <div className={styles.teamGlow}></div>
         <img className={styles.teamLogo} src={selectedTeam.logo} alt={selectedTeam.name}></img>
+        <div className={styles.teamLabel}>Selected team</div>
         <div className={styles.teamNameLogo}>{selectedTeam.name}</div>
+        <div className={styles.teamLeagueName}>{selectedTeam.leagueName}</div>
       </div>
       <div className={styles.tourneyContainer}>
         {hasChampionsLeague ? (

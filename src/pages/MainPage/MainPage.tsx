@@ -127,8 +127,7 @@ export function MainPage() {
   const isTableUpdating = leagueTableQuery.isFetching;
   const shouldShowTeamListSkeleton = teamsQuery.isPending && !teamsQuery.data;
   const isTeamListUpdating = teamsQuery.isFetching;
-  const shouldShowChampionsLeagueTableSkeleton =
-    championsLeagueTableQuery.isPending && !championsLeagueTableQuery.data;
+  const shouldShowChampionsLeagueTableSkeleton = championsLeagueTableQuery.isPending && !championsLeagueTableQuery.data;
   const isChampionsLeagueTableUpdating = championsLeagueTableQuery.isFetching;
   const shouldShowChampionsLeagueTeamsSkeleton = cupTeamsQuery.isPending && !cupTeamsQuery.data;
   const shouldShowChampionsLeagueBracketSkeleton = championsLeagueQuery.isPending && !championsLeagueQuery.data;
