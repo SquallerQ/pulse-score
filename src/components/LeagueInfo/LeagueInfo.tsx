@@ -100,8 +100,8 @@ export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: Leagu
                 <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
                 <div className={styles.teamInfo}>
                   <p className={styles.teamName}>{item.team.name}</p>
-                  <p className={styles.teamPoints}>{item.points} pts</p>
                 </div>
+                <div className={styles.teamPoints}>{item.points} pts</div>
               </div>
             ))}
           </div>

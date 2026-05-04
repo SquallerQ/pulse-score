@@ -178,17 +178,17 @@
 
 .teamCard {
   position: relative;
-  min-width: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  min-width: 150px;
   padding: 8px 10px;
   border-radius: 10px;
   text-align: left;
-  background: rgba(255, 255, 255, 0.82);
   border: 1px solid rgba(93, 120, 148, 0.14);
+  background: rgba(255, 255, 255, 0.82);
   box-shadow: 0 6px 20px rgba(28, 43, 58, 0.06);
 }
 
@@ -217,7 +217,6 @@
   align-items: center;
   min-width: 22px;
   height: 22px;
-  /* padding-top: 3px; */
   border-radius: 50%;
   font-size: 10px;
   font-weight: 700;
@@ -242,18 +241,18 @@
 
 .teamName {
   display: block;
+  margin: 0;
   font-size: 10px;
   font-weight: 600;
   color: #203449;
   text-align: left;
-  /* padding-right: 24px; */
 }
 
 .teamPoints {
   margin: 0;
+  white-space: nowrap;
   font-size: 9px;
   color: #5f7388;
-  white-space: nowrap;
   text-align: center;
 }
 
@@ -276,6 +275,7 @@
 
 .topScorersSection {
   flex: 1;
+  max-width: 850px;
   min-height: 90px;
   padding: 10px 10px 10px 8px;
 }
@@ -664,5 +664,148 @@
 @keyframes updatingSpin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+
+@media (max-width: 1980px) {
+  .timelineCard {
+    width: auto;
+  }
+  .middleColumn {
+    width: auto;
+  }
+}
+@media (max-width: 1650px) {
+  .middleColumn {
+    display: none;
+  }
+}
+
+@media (max-width: 1450px) {
+  .content {
+    flex-wrap: wrap;
+  }
+
+  .championContainer {
+    flex: 0 0 190px;
+  }
+
+  .middleColumn,
+  .topThreeSection,
+  .timelineColumn {
+    width: auto;
+    min-width: 260px;
+  }
+
+  .middleColumn {
+    flex: 1 1 320px;
+  }
+
+  .topThreeSection {
+    flex: 0 1 320px;
+  }
+
+  .timelineColumn {
+    flex: 1 1 280px;
+  }
+
+  .topScorersSection {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .timelineCard {
+    width: 100%;
+  }
+
+  .podium {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .teamCard {
+    min-width: 0;
+    width: 100%;
+    min-height: 34px;
+    height: auto;
+    padding: 6px 8px;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .teamLogo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .teamInfo {
+    flex: 1;
+  }
+
+  .teamName {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  .teamPoints {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    color: #203449;
+  }
+
+  .firstPlace,
+  .secondPlace,
+  .thirdPlace {
+    min-height: 34px;
+  }
+
+}
+
+@media (max-width: 1100px) {
+  .content {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .middleColumn {
+    display: none;
+  }
+
+  .championContainer,
+  .topThreeSection,
+  .topScorersSection,
+  .timelineColumn,
+  .timelineCard {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .championContainer {
+    height: auto;
+    min-height: 180px;
+  }
+
+  .timelineBadge {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding: 12px;
+  }
+
+  .topThreeSection,
+  .topScorersSection,
+  .timelineCard {
+    padding: 12px 10px;
   }
 }

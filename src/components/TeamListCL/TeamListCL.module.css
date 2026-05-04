@@ -270,7 +270,7 @@
 .toggleButtonContainer {
   display: flex;
   gap: 5px;
-  margin: 0 0 0 10px;
+  margin: 20px 0 20px 10px;
 }
 
 .toggleButtonContainer button {
