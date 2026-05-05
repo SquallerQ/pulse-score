@@ -6,7 +6,7 @@
   justify-content: space-around;
   align-items: center;
   
-  border: 1px solid var(--color-text);
+  border: 1px solid #12263a;
   background-color: var(--color-bg-team-buttons);
 
   transition: all .3s ease;
@@ -37,4 +37,20 @@
 .logo {
   width: 70px;
   height: 70px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: 84px;
+    height: 84px;
+  }
+
+  .active {
+    transform: scale(1.08);
+  }
+
+  .logo {
+    width: 56px;
+    height: 56px;
+  }
 }

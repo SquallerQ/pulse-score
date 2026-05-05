@@ -121,3 +121,179 @@
   font-weight: 700;
   background-color: hsl(226.32deg 90.48% 12.35% / 92%);
 }
+
+@media (max-width: 1200px) {
+  .matchContainer {
+    min-width: 220px;
+    min-height: 118px;
+  }
+
+  .finalCard {
+    min-height: 134px;
+  }
+
+  .teamsContainer {
+    padding: 10px 14px 14px;
+    gap: 10px;
+  }
+
+  .teamContainer {
+    grid-template-columns: 26px minmax(0, 1fr) 24px 24px;
+    gap: 5px;
+  }
+
+  .teamLogo {
+    width: 22px;
+    height: 22px;
+  }
+
+  .teamName {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 900px) {
+  .stage {
+    gap: 10px;
+  }
+
+  .matchContainer {
+    min-width: 190px;
+    min-height: 108px;
+  }
+
+  .finalCard {
+    min-height: 122px;
+  }
+
+  .tourneyAndDateContainer {
+    padding: 5px 8px;
+  }
+
+  .tourneyLogo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .winnerContainer {
+    padding: 2px 4px;
+    gap: 4px;
+  }
+
+  .winnerBadge {
+    max-width: 76px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 9px;
+  }
+
+  .winnerTeamLogo {
+    width: 20px;
+    height: 20px;
+  }
+
+  .date {
+    padding: 2px 6px 3px 5px;
+  }
+
+  .day {
+    font-size: 12px;
+  }
+
+  .month {
+    font-size: 9px;
+  }
+
+  .teamsContainer {
+    padding: 8px 10px 12px;
+    gap: 8px;
+  }
+
+  .teamContainer {
+    grid-template-columns: 22px minmax(0, 1fr) 22px 22px;
+    gap: 4px;
+  }
+
+  .teamLogo {
+    width: 18px;
+    height: 18px;
+  }
+
+  .teamName {
+    font-size: 12px;
+  }
+
+  .score {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .stage {
+    gap: 8px;
+  }
+
+  .matchContainer {
+    min-width: 168px;
+    min-height: 98px;
+    border-radius: 8px;
+  }
+
+  .finalCard {
+    min-height: 112px;
+  }
+
+  .tourneyAndDateContainer {
+    padding: 4px 6px;
+  }
+
+  .tourneyLogo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .winnerBadge {
+    max-width: 60px;
+    font-size: 8px;
+  }
+
+  .winnerTeamLogo {
+    width: 16px;
+    height: 16px;
+  }
+
+  .date {
+    padding: 1px 5px 2px 4px;
+  }
+
+  .day {
+    font-size: 10px;
+  }
+
+  .month {
+    font-size: 8px;
+  }
+
+  .teamsContainer {
+    padding: 7px 8px 10px;
+    gap: 7px;
+  }
+
+  .teamContainer {
+    grid-template-columns: 18px minmax(0, 1fr) 20px 20px;
+  }
+
+  .teamLogo {
+    width: 16px;
+    height: 16px;
+  }
+
+  .teamName {
+    font-size: 11px;
+  }
+
+  .score {
+    font-size: 11px;
+  }
+}

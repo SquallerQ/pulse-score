@@ -1,6 +1,7 @@
 .container {
   width: 100px;
   height: 100px;
+  flex: 0 0 auto;
 }
 
 .button {
@@ -33,4 +34,36 @@
 .images{
   width: 90px;
   height: 90px;
+}
+
+@media (max-width: 900px) {
+  .container {
+    width: 84px;
+    height: 84px;
+  }
+
+  .button[aria-pressed="true"] {
+    transform: scale(1.08);
+  }
+
+  .images {
+    width: 74px;
+    height: 74px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: 72px;
+    height: 72px;
+  }
+
+  .button {
+    padding: 4px;
+  }
+
+  .images {
+    width: 64px;
+    height: 64px;
+  }
 }

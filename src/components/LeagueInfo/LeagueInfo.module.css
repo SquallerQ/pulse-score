@@ -690,6 +690,7 @@
 
   .championContainer {
     flex: 0 0 190px;
+    order: -3;
   }
 
   .middleColumn,
@@ -704,20 +705,19 @@
   }
 
   .topThreeSection {
+    order: -2;
     flex: 0 1 320px;
   }
 
   .timelineColumn {
     flex: 1 1 280px;
+    order: -1;
   }
 
   .topScorersSection {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
+    max-width: stretch;
     min-width: 0;
-  }
-
-  .timelineCard {
-    width: 100%;
   }
 
   .podium {
@@ -786,6 +786,11 @@
   .timelineCard {
     width: 100%;
     min-width: 0;
+    flex: 0 1 auto;
+  }
+
+  .timelineColumn {
+    order: -3;
   }
 
   .championContainer {
@@ -793,8 +798,12 @@
     min-height: 180px;
   }
 
-  .timelineBadge {
-    justify-content: flex-start;
+  .timelineCard {
+    min-height: 0;
+  }
+
+  .timelineCard .sectionTitle {
+    margin-bottom: 10px;
   }
 }
 

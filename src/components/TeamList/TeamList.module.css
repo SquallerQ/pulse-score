@@ -4,16 +4,39 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 10px;
 
   padding: 20px;
+  overflow: hidden;
 
   border: 1px solid rgba(34, 52, 72, 0.54);
   border-radius: 5px;
   
-  background: rgba(115, 149, 174, 0.1);
+  background:
+    radial-gradient(circle at top left, rgba(182, 210, 236, 0.28), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(115, 149, 174, 0.2), transparent 36%),
+    linear-gradient(145deg, rgba(250, 252, 255, 0.94), rgba(230, 239, 247, 0.9));
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 8px 24px rgba(30, 42, 56, 0.08);
   transition: all 0.3s ease;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 1px,
+      transparent 48px
+    );
+  pointer-events: none;
 }
 
 .updatingBadge {
@@ -52,7 +75,6 @@
   position: relative;
   width: 100px;
   height: 100px;
-  margin: 6px;
   overflow: hidden;
   border-radius: 4px;
   border: 1px solid rgba(34, 52, 72, 0.2);
@@ -86,5 +108,31 @@
 @keyframes teamListUpdatingSpin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 16px 14px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 14px 12px;
+    gap: 8px;
+  }
+
+  .updatingBadge {
+    top: 6px;
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+
+  .teamSkeletonCard {
+    width: 84px;
+    height: 84px;
   }
 }

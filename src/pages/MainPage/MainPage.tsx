@@ -3,7 +3,7 @@ import { Calendar } from '../../components/Calendar/Calendar';
 import { FullCalendar } from '../../components/FullCalendar/FullCalendar';
 import { TeamList } from '../../components/TeamList/TeamList';
 import { TeamListSkeleton } from '../../components/TeamList/TeamListSkeleton';
-import { TeamListCL } from '../../components/TeamListCL/TeamListCL';
+import { TeamListCL } from '../../components/TeamListCL/ChampionsLeagueSection';
 import { TeamInfo } from '../../components/TeamInfo/TeamInfo';
 import { LeagueInfo } from '../../components/LeagueInfo/LeagueInfo';
 import { LeagueInfoSkeleton } from '../../components/LeagueInfo/LeagueInfoSkeleton';

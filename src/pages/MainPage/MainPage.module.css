@@ -96,3 +96,71 @@
   min-width: 450px;
   flex-shrink: 0;
 }
+
+@media (max-width: 1100px) {
+  .main__container {
+    padding: 10px 20px;
+    gap: 16px;
+  }
+
+  .calendarTableContainer {
+    flex-direction: column;
+  }
+
+  .calendarContainer {
+    width: 100%;
+  }
+
+  .TableContainer {
+    order: 0;
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .main__container {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 14px;
+    gap: 14px;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .content {
+    width: 100%;
+    gap: 16px;
+  }
+
+  .calendarButtonContainer {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .main__container {
+    padding: 8px 10px;
+    gap: 12px;
+  }
+
+  .content {
+    gap: 14px;
+  }
+
+  .calendarButtonContainer {
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .calendarButtonContainer button {
+    padding: 7px 12px;
+    font-size: 14px;
+  }
+
+  .calendarTableContainer {
+    gap: 14px;
+  }
+}

@@ -12,6 +12,7 @@ export function TeamCL({ team }: TeamProps) {
   return (
     <div className={styles.container}>
       <img className={styles.image} src={team.logo} alt={team.name} />
+      <span className={styles.teamName}>{team.name}</span>
     </div>
   );
 }
