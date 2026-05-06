@@ -1,17 +1,17 @@
 import { leagueConfig } from '../../../utils/leagueConfig';
-import styles from './Stage.module.css';
+import styles from './BracketRound.module.css';
 import type { ChampionsLeagueStageMatch } from '../../../api/types';
 
 type MatchPair = [ChampionsLeagueStageMatch | undefined, ChampionsLeagueStageMatch | undefined];
 
-type StageProps = {
+type BracketRoundProps = {
   matches: MatchPair[];
   expectedPairs?: number;
   includeSecondLeg?: boolean;
   stage?: string;
 };
 
-export function Stage({ matches, expectedPairs, includeSecondLeg = true, stage }: StageProps) {
+export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, stage }: BracketRoundProps) {
   const tournamentLogo = leagueConfig.CL.logo;
 
   return (

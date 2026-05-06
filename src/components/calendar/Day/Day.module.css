@@ -210,3 +210,130 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(30, 90, 165, 0.6);    
 }
 
+@media (max-width: 900px) {
+  .dayContainer,
+  .dayContainerEmpty {
+    width: 220px;
+    height: 116px;
+  }
+
+  .dayContainer {
+    row-gap: 14px;
+    gap: 14px;
+    padding: 6px;
+  }
+
+  .date {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .day {
+    font-size: 13px;
+  }
+
+  .month {
+    font-size: 9px;
+  }
+
+  .cardContainer {
+    gap: 10px;
+    margin-top: -34px;
+  }
+
+  .teamsContainer {
+    row-gap: 6px;
+  }
+
+  .teamContainer {
+    gap: 8px;
+  }
+
+  .finished .teamContainer {
+    grid-template-columns: 24px minmax(0, 1fr) 22px;
+    gap: 8px;
+  }
+
+  .teamContainerImage {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tourneyLogo,
+  .tourneyLogo.championsLeague {
+    width: 30px;
+    height: 30px;
+  }
+
+  .score {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dayContainer,
+  .dayContainerEmpty {
+    width: 184px;
+    height: 98px;
+  }
+
+  .dayContainer {
+    row-gap: 10px;
+    gap: 10px;
+    padding: 5px;
+  }
+
+  .dayContainerEmpty .date {
+    margin-top: 10px;
+  }
+
+  .date {
+    gap: 3px;
+    padding: 3px;
+  }
+
+  .day {
+    font-size: 12px;
+  }
+
+  .month {
+    font-size: 8px;
+  }
+
+  .cardContainer {
+    gap: 8px;
+    margin-top: -24px;
+  }
+
+  .teamsContainer {
+    row-gap: 5px;
+  }
+
+  .teamContainer {
+    gap: 6px;
+  }
+
+  .finished .teamContainer {
+    grid-template-columns: 20px minmax(0, 1fr) 20px;
+    gap: 6px;
+  }
+
+  .teamContainerName {
+    font-size: 12px;
+  }
+
+  .teamContainerImage {
+    width: 18px;
+    height: 18px;
+  }
+
+  .tourneyLogo,
+  .tourneyLogo.championsLeague {
+    width: 26px;
+    height: 26px;
+  }
+
+  .score {
+    font-size: 15px;
+  }
+}

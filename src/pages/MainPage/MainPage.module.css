@@ -163,4 +163,8 @@
   .calendarTableContainer {
     gap: 14px;
   }
+
+  .TableContainer {
+    min-width: 0;
+  }
 }

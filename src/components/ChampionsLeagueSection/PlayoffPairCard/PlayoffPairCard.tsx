@@ -1,7 +1,7 @@
 import { leagueConfig } from '../../../utils/leagueConfig';
-import styles from './Playoffs.module.css';
+import styles from './PlayoffPairCard.module.css';
 
-type PlayoffsMatch = {
+type PlayoffPairMatch = {
   status: string;
   utcDate: string;
   homeTeam: {
@@ -18,11 +18,11 @@ type PlayoffsMatch = {
   };
 };
 
-type PlayoffsProps = {
-  match: [PlayoffsMatch | undefined, PlayoffsMatch | undefined];
+type PlayoffPairCardProps = {
+  match: [PlayoffPairMatch | undefined, PlayoffPairMatch | undefined];
 };
 
-export function Playoffs({ match }: PlayoffsProps) {
+export function PlayoffPairCard({ match }: PlayoffPairCardProps) {
   const [firstLeg, secondLeg] = match;
   const tournamentLogo = leagueConfig.CL.logo;
 

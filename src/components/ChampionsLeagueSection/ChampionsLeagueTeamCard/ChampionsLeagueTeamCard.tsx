@@ -1,4 +1,4 @@
-import styles from './TeamCL.module.css';
+import styles from './ChampionsLeagueTeamCard.module.css';
 
 type TeamProps = {
   team: {
@@ -8,7 +8,7 @@ type TeamProps = {
   };
 };
 
-export function TeamCL({ team }: TeamProps) {
+export function ChampionsLeagueTeamCard({ team }: TeamProps) {
   return (
     <div className={styles.container}>
       <img className={styles.image} src={team.logo} alt={team.name} />

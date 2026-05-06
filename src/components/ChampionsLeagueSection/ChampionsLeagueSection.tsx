@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import styles from './TeamListCL.module.css';
-import { TeamCL } from './TeamCL/TeamCL';
-import { Playoffs } from './Playoffs/Playoffs';
+import styles from './ChampionsLeagueSection.module.css';
+import { ChampionsLeagueTeamCard } from './ChampionsLeagueTeamCard/ChampionsLeagueTeamCard';
+import { PlayoffPairCard } from './PlayoffPairCard/PlayoffPairCard';
 
-import { Stage } from './Stage/Stage';
+import { BracketRound } from './BracketRound/BracketRound';
 import { TableCL, type LeagueTable } from '../TableCL/TableCL';
 import { TableCLSkeleton } from '../TableCL/TableCLSkeleton';
 import { CLInfo } from '../TableCL/CLInfo';
@@ -12,7 +12,7 @@ import { CLInfoSkeleton } from '../TableCL/CLInfoSkeleton';
 import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/types';
 
 type PropsType = {
-  teams: TeamListCLItem[];
+  teams: ChampionsLeagueTeamItem[];
   championsLeagueStages?: ChampionsLeagueStage[];
   leagueTable: LeagueTable | null;
   showTableSkeleton?: boolean;
@@ -22,13 +22,13 @@ type PropsType = {
   isUpdating?: boolean;
 };
 
-type TeamListCLItem = {
+type ChampionsLeagueTeamItem = {
   id: number;
   name: string;
   logo: string;
 };
 
-export function TeamListCL({
+export function ChampionsLeagueSection({
   teams,
   championsLeagueStages,
   leagueTable,
@@ -182,7 +182,7 @@ export function TeamListCL({
         {showTeamsSkeleton
           ? Array.from({ length: 8 }).map((_, index) => <div key={index} className={styles.teamSkeletonCard}></div>)
           : teams.map((item) => {
-              return <TeamCL team={item} key={item.id} />;
+              return <ChampionsLeagueTeamCard team={item} key={item.id} />;
             })}
       </div>
 
@@ -251,24 +251,24 @@ export function TeamListCL({
           <div className={styles.contentContainer}>
             <div className={styles.playoffsContainer}>
               {playoffsPairs.map((item) => {
-                return <Playoffs match={item} key={item[0].id} />;
+                return <PlayoffPairCard match={item} key={item[0].id} />;
               })}
             </div>
             <div className={styles.bracket}>
               <div className={styles.side}>
-                <Stage matches={last16Left} expectedPairs={4} />
-                <Stage matches={quarterLeft} expectedPairs={2} />
-                <Stage matches={semiLeft} expectedPairs={1} />
+                <BracketRound matches={last16Left} expectedPairs={4} />
+                <BracketRound matches={quarterLeft} expectedPairs={2} />
+                <BracketRound matches={semiLeft} expectedPairs={1} />
               </div>
 
               <div className={styles.final}>
-                <Stage matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
+                <BracketRound matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
               </div>
 
               <div className={styles.side}>
-                <Stage matches={semiRight} expectedPairs={1} />
-                <Stage matches={quarterRight} expectedPairs={2} />
-                <Stage matches={last16Right} expectedPairs={4} />
+                <BracketRound matches={semiRight} expectedPairs={1} />
+                <BracketRound matches={quarterRight} expectedPairs={2} />
+                <BracketRound matches={last16Right} expectedPairs={4} />
               </div>
             </div>
           </div>

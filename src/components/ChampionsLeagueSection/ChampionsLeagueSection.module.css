@@ -332,7 +332,6 @@
 
 @media (max-width: 900px) {
   .container {
-    justify-content: flex-start;
     padding: 14px 12px;
     gap: 8px;
   }
