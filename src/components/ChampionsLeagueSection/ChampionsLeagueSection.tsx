@@ -62,8 +62,18 @@ export function ChampionsLeagueSection({
   const pairOrder = [552068, 552069, 552070, 552071, 552072, 552073, 552075, 552074];
 
   function buildPairs(matches: ChampionsLeagueStageMatch[]) {
+    if (!matches.length) {
+      return [];
+    }
+
     const firstLeg = matches.filter((m) => m.matchday === 1);
     const secondLeg = matches.filter((m) => m.matchday === 2);
+
+    if (!firstLeg.length) {
+      return [...matches]
+        .sort((a, b) => new Date(a.utcDate).getTime() - new Date(b.utcDate).getTime())
+        .map((match) => [match, undefined] as [ChampionsLeagueStageMatch, ChampionsLeagueStageMatch | undefined]);
+    }
 
     return firstLeg.map((match1) => {
       const match2 = secondLeg.find(

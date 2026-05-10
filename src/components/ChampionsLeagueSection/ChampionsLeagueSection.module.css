@@ -363,6 +363,13 @@
     padding: 12px 10px;
     gap: 8px;
   }
+  .contentContainer {
+    padding: 0;
+  }
+  .tableSection {
+    margin-top: 0;
+    border-radius: 0;
+  }
 
   .teamSkeletonCard {
     width: 84px;

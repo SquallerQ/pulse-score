@@ -58,13 +58,14 @@ export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, 
             <div className={styles.tourneyAndDateContainer}>
               <img className={styles.tourneyLogo} src={tournamentLogo} alt="UEFA Champions League" />
               <div className={styles.winnerContainer}>
-                {winner && (
-                  <img
-                    className={styles.winnerTeamLogo}
-                    src={winner === homeName ? homeTeamLogo : awayTeamLogo}
-                    alt="Winner logo"
-                  />
-                )}
+                {winner &&
+                  (winner === homeName ? (
+                    homeTeamLogo ? (
+                      <img className={styles.winnerTeamLogo} src={homeTeamLogo} alt="Winner logo" />
+                    ) : null
+                  ) : awayTeamLogo ? (
+                    <img className={styles.winnerTeamLogo} src={awayTeamLogo} alt="Winner logo" />
+                  ) : null)}
 
                 <div className={styles.winnerBadge}>{winner ?? ''}</div>
               </div>
@@ -74,13 +75,17 @@ export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, 
             </div>
             <div className={styles.teamsContainer}>
               <div className={styles.teamContainer}>
-                <img className={styles.teamLogo} src={m1?.homeTeam?.crest} alt={homeName} />
+                {m1?.homeTeam?.crest ? (
+                  <img className={styles.teamLogo} src={m1.homeTeam.crest} alt={homeName} />
+                ) : null}
                 <div className={`${styles.teamName} ${winner === homeName ? styles.winnerTeam : ''}`}>{homeName}</div>
                 <div className={styles.score}>{homeLeg1}</div>
                 {includeSecondLeg && <div className={styles.score}>{awayLeg2}</div>}
               </div>
               <div className={styles.teamContainer}>
-                <img className={styles.teamLogo} src={m1?.awayTeam?.crest} alt={awayName} />
+                {m1?.awayTeam?.crest ? (
+                  <img className={styles.teamLogo} src={m1.awayTeam.crest} alt={awayName} />
+                ) : null}
                 <div className={`${styles.teamName} ${winner === awayName ? styles.winnerTeam : ''}`}>{awayName}</div>
                 <div className={styles.score}>{awayLeg1}</div>
                 {includeSecondLeg && <div className={styles.score}>{homeLeg2}</div>}

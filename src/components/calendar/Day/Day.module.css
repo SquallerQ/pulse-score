@@ -337,3 +337,23 @@
     font-size: 15px;
   }
 }
+
+@media (max-width: 400px) {
+  .dayContainerEmpty {
+    height: 62px;
+    min-height: 62px;
+  }
+
+  .dayContainerEmpty .date {
+    margin-top: 0;
+    padding: 2px 3px;
+  }
+
+  .dayContainerEmpty .day {
+    font-size: 11px;
+  }
+
+  .dayContainerEmpty .month {
+    font-size: 7px;
+  }
+}

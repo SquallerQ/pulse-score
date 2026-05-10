@@ -74,10 +74,6 @@
   background-color: #4caf50;
 }
 
-.winner {
-  /* font-weight: 700; */
-}
-
 .winner + .score {
   font-weight: 700;
 }
@@ -178,7 +174,6 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
   background: url('../../../assets/cards-bg/cl-card-bg.webp');
   background-repeat: no-repeat;
-  /* background-position: center; */
 }
 
 .championsLeagueDay {
