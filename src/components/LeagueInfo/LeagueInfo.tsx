@@ -1,6 +1,6 @@
 import styles from './LeagueInfo.module.css';
 
-import type { TopScorer } from '../../api/api-football';
+import type { TopScorer } from '../../api/apiFootballApi';
 
 type LeagueInfoData = {
   name?: string;

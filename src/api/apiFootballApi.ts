@@ -85,12 +85,17 @@ export const API_FOOTBALL_LEAGUE_IDS: Record<string, number> = {
   FL1: 61, // Ligue 1
 };
 
+function getPreviousSeasonYear() {
+  return new Date().getFullYear() - 2;
+}
+
 export async function fetchLastSeasonChampion(_league: string) {
   const league = API_FOOTBALL_LEAGUE_IDS[_league];
 
   if (!league) return null;
 
-  const seasons = [2024, 2023, 2022];
+  const previousSeasonYear = getPreviousSeasonYear();
+  const seasons = [previousSeasonYear, previousSeasonYear - 1, previousSeasonYear - 2];
 
   const responses = await Promise.all(
     seasons.map((season) =>
@@ -147,7 +152,9 @@ export async function fetchTopScorers(_league: string) {
   const league = API_FOOTBALL_LEAGUE_IDS[_league];
   if (!league) return null;
 
-  const response = await fetch(`${API_BASE}/players/topscorers?league=${league}&season=2024`, {
+  const previousSeasonYear = getPreviousSeasonYear();
+
+  const response = await fetch(`${API_BASE}/players/topscorers?league=${league}&season=${previousSeasonYear}`, {
     headers: getAuthHeaders(),
   });
   const data = await response.json();

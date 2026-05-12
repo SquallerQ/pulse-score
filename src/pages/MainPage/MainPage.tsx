@@ -18,9 +18,9 @@ import {
   fetchChampionsLeagueStages,
   fetchLeagueTable,
   championsLeagueTable,
-} from '../../api/api';
+} from '../../api/footballDataApi';
 
-import { fetchLastSeasonChampion, fetchTopScorers } from '../../api/api-football';
+import { fetchLastSeasonChampion, fetchTopScorers } from '../../api/apiFootballApi';
 
 import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
