@@ -1,6 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { MainPage } from './pages/MainPage/MainPage';
 import { Header } from './components/Header/Header';
+
+const HistoryPage = lazy(() => import('./pages/HistoryPage/HistoryPage'));
 
 function App() {
   return (
@@ -8,7 +11,15 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route />
+
+        <Route
+          path="/history"
+          element={
+            <Suspense fallback={<div>Loading....</div>}>
+              <HistoryPage />
+            </Suspense>
+          }
+        />
       </Routes>
     </div>
   );

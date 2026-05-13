@@ -118,6 +118,9 @@ export function MainPage() {
     placeholderData: (previousData) => previousData,
   });
 
+  console.log(leagueInfoTopScorersQuery.data);
+  
+
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =
     (leagueInfoQuery.isPending && !leagueInfoQuery.data) ||
