@@ -27,6 +27,7 @@ import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { queryKeys } from '../../api/queryKeys';
 import { useQuery } from '@tanstack/react-query';
+import { useLeagueParams } from '../../features/filters/useLeagueParams';
 
 import styles from './MainPage.module.css';
 
@@ -52,9 +53,9 @@ type LeagueItem = {
 
 export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
-  const [leagueCode, setLeagueCode] = useState('PL');
   const [competitionType, setCompetitionType] = useState<'league' | 'cup'>('league');
   const [calendarView, setCalendarView] = useState<'fullCalendar' | 'compactCalendar'>('compactCalendar');
+  const { leagueCode, season, setLeagueCode } = useLeagueParams();
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
@@ -78,7 +79,7 @@ export function MainPage() {
   });
 
   const teamsQuery = useQuery({
-    queryKey: queryKeys.teams(leagueCode, '2025'),
+    queryKey: queryKeys.teams(leagueCode, season),
     queryFn: () => fetchLeagueTeams(leagueCode),
     enabled: competitionType === 'league',
     placeholderData: (previousData) => previousData,
@@ -118,9 +119,6 @@ export function MainPage() {
     placeholderData: (previousData) => previousData,
   });
 
-  console.log(leagueInfoTopScorersQuery.data);
-  
-
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =
     (leagueInfoQuery.isPending && !leagueInfoQuery.data) ||
@@ -142,6 +140,7 @@ export function MainPage() {
     setSelectedTeam(null);
   }
   function handleSelectCup() {
+    setLeagueCode('CL');
     setCompetitionType('cup');
     setSelectedTeam(null);
   }

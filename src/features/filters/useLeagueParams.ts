@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { normalizeLeague, normalizeSeason, type LeagueCode } from './model';
+import { normalizeLeague, normalizeSeason } from './model';
 
 type SetFiltersInput = {
-  league?: LeagueCode;
+  league?: string;
   season?: string;
 };
 
@@ -28,9 +28,10 @@ export function useLeagueParams() {
   }, [leagueCode, season, searchParams, setSearchParams]);
 
   const setLeagueCode = useCallback(
-    (nextLeague: LeagueCode) => {
+    (nextLeague: string) => {
+      const normalized = normalizeLeague(nextLeague);
       const nextParams = new URLSearchParams(searchParams);
-      nextParams.set('league', nextLeague);
+      nextParams.set('league', normalized);
       setSearchParams(nextParams);
     },
     [searchParams, setSearchParams]
@@ -51,7 +52,7 @@ export function useLeagueParams() {
       const nextParams = new URLSearchParams(searchParams);
 
       if (league) {
-        nextParams.set('league', league);
+        nextParams.set('league', normalizeLeague(league));
       }
       if (typeof nextSeason === 'string') {
         nextParams.set('season', normalizeSeason(nextSeason));
