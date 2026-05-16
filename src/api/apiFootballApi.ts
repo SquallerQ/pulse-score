@@ -174,3 +174,35 @@ export async function fetchTopScorers(_league: string) {
     })
   );
 }
+
+// export async function fetchChooseSeasonChampion(_league: string, season = getPreviousSeasonYear()) {
+//   const league = API_FOOTBALL_LEAGUE_IDS[_league];
+
+//   if (!league) return null;
+
+//   const response = fetch(`${API_BASE}/standings?league=${league}&season=${season}`, {
+//     headers: getAuthHeaders(),
+//   });
+
+//   const data = await response.json();
+//   console.log(data);
+
+//   //   return {
+//   //     id: leagueData.id,
+//   //     name: leagueData.name,
+//   //     country: leagueData.country,
+//   //     logo: leagueData.logo,
+//   //     flag: leagueData.flag,
+//   //     season: leagueData.season,
+//   //     standings: leagueData.standings[0].slice(0, 3).map((item: ApiFootballStandingItem) => ({
+//   //       rank: item.rank,
+//   //       points: item.points,
+//   //       team: {
+//   //         id: item.team.id,
+//   //         name: item.team.name,
+//   //         logo: item.team.logo,
+//   //       },
+//   //     })),
+//   //     championsHistory,
+//   //   } as LeagueInfo;
+// }

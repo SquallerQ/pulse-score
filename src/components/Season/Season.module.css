@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  padding: 20px;
+
+  border: 1px solid #ccc;
+  color: #fff;
+  background-color: var(--color-bg-team-buttons);
+}

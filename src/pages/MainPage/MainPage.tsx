@@ -13,7 +13,6 @@ import { TableSkeleton } from '../../components/Table/TableSkeleton';
 import {
   fetchLeagueTeams,
   fetchTeamMatches,
-  fetchAllLeagues,
   fetchChampionsLeagueTeams,
   fetchChampionsLeagueStages,
   fetchLeagueTable,
@@ -28,6 +27,7 @@ import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 import { queryKeys } from '../../api/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
+import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 
 import styles from './MainPage.module.css';
 
@@ -55,7 +55,9 @@ export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
   const [competitionType, setCompetitionType] = useState<'league' | 'cup'>('league');
   const [calendarView, setCalendarView] = useState<'fullCalendar' | 'compactCalendar'>('compactCalendar');
+
   const { leagueCode, season, setLeagueCode } = useLeagueParams();
+  const { leagues, currentLeague } = useLeagues(leagueCode);
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
@@ -73,20 +75,12 @@ export function MainPage() {
     placeholderData: (previousData) => previousData,
   });
 
-  const leaguesQuery = useQuery({
-    queryKey: queryKeys.leagues('all'),
-    queryFn: fetchAllLeagues,
-  });
-
   const teamsQuery = useQuery({
     queryKey: queryKeys.teams(leagueCode, season),
     queryFn: () => fetchLeagueTeams(leagueCode),
     enabled: competitionType === 'league',
     placeholderData: (previousData) => previousData,
   });
-
-  const leagues = leaguesQuery.data ?? [];
-  const currentLeague = leagues.find((league) => league.code === leagueCode) ?? leagues[0] ?? null;
 
   const matchesQuery = useQuery<TeamMatchesResponse>({
     queryKey: queryKeys.teamMatches(selectedTeam?.leagueCode ?? '', selectedTeam?.teamId ?? 0),
