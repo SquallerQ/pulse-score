@@ -1,36 +1,44 @@
 import styles from './HistoryPage.module.css';
+import championLeagueLogo from '../../assets/champ-league-logo.svg';
 
 import { Season } from '../../components/Season/Season';
-import { HistoryLeague } from '../../components/HistoryLeague/HistoryLeague';
+import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
+import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
+
+import { seasonsArray } from '../../utils/generateSeasons';
 
 export default function HistoryPage() {
-  const { season, setSeason, leagueCode, setLeagueCode } = useLeagueParams();
+  const { setSeason, leagueCode, mode } = useLeagueParams();
   const { leagues, currentLeague } = useLeagues(leagueCode);
+  const { selectLeague, selectCup } = useCompetitionSelection();
 
-  const seasonsArray = [] as number[];
-  function generateSeasons() {
-    const date = new Date();
-    const lastSeason = date.getFullYear();
-    for (let i = 0; i < 10; i++) {
-      const year = lastSeason - i;
-      seasonsArray.push(year);
-    }
+  if (!currentLeague) {
+    return <div>Loading league...</div>;
   }
-  generateSeasons();
-
-  // console.log(seasonsArray);
 
   return (
     <div className={styles.container}>
-      <div>
-        {leagues.map((league) => {
-          // console.log(league);
+      <div className={styles.leaguesContainer}>
+        <div className={styles.leaguesContainer_currentLeague}>
+          {leagueCode === 'CL' ? (
+            <img className={styles.currentLeagueEmblem} src={championLeagueLogo} alt="Champions League" />
+          ) : (
+            <img className={styles.currentLeagueEmblem} src={currentLeague.emblem} alt={currentLeague.name} />
+          )}
+        </div>
 
-          return <HistoryLeague key={league.id} league={league} setLeagueCode={setLeagueCode} />;
-        })}
+        <div data-layout="row" className={styles.leaguesContainer_leagues}>
+          <LeaguesList
+            leagues={leagues}
+            selectedLeague={currentLeague}
+            mode={mode}
+            onSelectLeague={selectLeague}
+            onSelectCup={selectCup}
+          />
+        </div>
       </div>
 
       <div className={styles.yearsContainer}>

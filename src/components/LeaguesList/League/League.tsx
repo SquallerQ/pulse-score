@@ -11,18 +11,18 @@ type LeagueItem = {
 };
 
 type LeagueProps = {
-  competitionType: 'league' | 'cup';
+  mode: 'league' | 'cup';
   league?: LeagueItem | undefined;
   isActive?: boolean;
-  onClick?: () => void;
+  onSelectLeague?: () => void;
   onSelectCup?: () => void;
 };
 
 const PLName = 'Premier League';
 
-export function League({ competitionType, league, isActive, onClick, onSelectCup }: LeagueProps) {
+export function League({ mode, league, isActive, onSelectLeague, onSelectCup }: LeagueProps) {
   {
-    return competitionType === 'cup' ? (
+    return mode === 'cup' ? (
       <div className={styles.container}>
         <button className={styles.button} type="button" onClick={onSelectCup} aria-pressed={isActive}>
           <img className={styles.images} src={championLeagueLogo} alt="Champions League" />
@@ -30,7 +30,7 @@ export function League({ competitionType, league, isActive, onClick, onSelectCup
       </div>
     ) : (
       <div className={styles.container}>
-        <button className={styles.button} type="button" onClick={onClick} aria-pressed={isActive}>
+        <button className={styles.button} type="button" onClick={onSelectLeague} aria-pressed={isActive}>
           <img className={styles.images} src={league?.name === PLName ? plLeague : league?.emblem} alt={league?.name} />
         </button>
       </div>

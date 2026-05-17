@@ -14,30 +14,24 @@ type LeagueItem = {
 type LeaguesListProps = {
   leagues: LeagueItem[];
   selectedLeague: LeagueItem | null;
-  competitionType: 'league' | 'cup';
-  onSelectLeague: (league: LeagueItem) => void;
+  mode: 'league' | 'cup';
+  onSelectLeague: (leagueCode: string) => void;
   onSelectCup: () => void;
 };
 
-export function LeaguesList({
-  leagues,
-  selectedLeague,
-  competitionType,
-  onSelectLeague,
-  onSelectCup,
-}: LeaguesListProps) {
+export function LeaguesList({ leagues, selectedLeague, mode, onSelectLeague, onSelectCup }: LeaguesListProps) {
   return (
     <div className={styles.container}>
-      {leagues.map((league, index) => (
+      {leagues.map((league) => (
         <League
-          competitionType="league"
+          mode="league"
           league={league}
-          isActive={competitionType === 'league' && selectedLeague?.name === league.name}
-          key={index}
-          onClick={() => onSelectLeague(league)}
+          isActive={mode === 'league' && selectedLeague?.name === league.name}
+          key={league.name}
+          onSelectLeague={() => onSelectLeague(league.code)}
         />
       ))}
-      {<League competitionType="cup" isActive={competitionType === 'cup'} onSelectCup={onSelectCup} />}
+      {<League mode="cup" isActive={mode === 'cup'} onSelectCup={onSelectCup} />}
     </div>
   );
 }

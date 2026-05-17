@@ -27,6 +27,7 @@ import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 import { queryKeys } from '../../api/queryKeys';
 import { useQuery } from '@tanstack/react-query';
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
+import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 
 import styles from './MainPage.module.css';
@@ -42,31 +43,20 @@ type SelectedTeamInfo = {
   color: string;
 };
 
-type LeagueItem = {
-  id: number;
-  flag: string;
-  country: string;
-  emblem: string;
-  name: string;
-  code: string;
-};
-
 export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
-  const [competitionType, setCompetitionType] = useState<'league' | 'cup'>('league');
   const [calendarView, setCalendarView] = useState<'fullCalendar' | 'compactCalendar'>('compactCalendar');
 
-  const { leagueCode, season, setLeagueCode } = useLeagueParams();
+  const { season, leagueCode, mode } = useLeagueParams();
   const { leagues, currentLeague } = useLeagues(leagueCode);
+  const { selectLeague, selectCup } = useCompetitionSelection({ onAfterSelect: () => setSelectedTeam(null) });
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
     queryFn: () => fetchChampionsLeagueTeams(),
-    enabled: competitionType === 'cup',
+    enabled: mode === 'cup',
     placeholderData: (previousData) => previousData,
   });
-
-  // console.log(cupTeamsQuery.data);
 
   const championsLeagueQuery = useQuery({
     queryKey: queryKeys.championsLeagueMatches(),
@@ -78,7 +68,7 @@ export function MainPage() {
   const teamsQuery = useQuery({
     queryKey: queryKeys.teams(leagueCode, season),
     queryFn: () => fetchLeagueTeams(leagueCode),
-    enabled: competitionType === 'league',
+    enabled: mode === 'league',
     placeholderData: (previousData) => previousData,
   });
 
@@ -97,7 +87,7 @@ export function MainPage() {
   const championsLeagueTableQuery = useQuery({
     queryKey: queryKeys.championsLeagueTable(),
     queryFn: championsLeagueTable,
-    enabled: competitionType === 'cup',
+    enabled: mode === 'cup',
     placeholderData: (previousData) => previousData,
   });
 
@@ -128,16 +118,6 @@ export function MainPage() {
   const shouldShowChampionsLeagueBracketSkeleton = championsLeagueQuery.isPending && !championsLeagueQuery.data;
   const isChampionsLeagueUpdating = cupTeamsQuery.isFetching || championsLeagueQuery.isFetching;
 
-  function handleSelectLeague(league: LeagueItem) {
-    setLeagueCode(league.code);
-    setCompetitionType('league');
-    setSelectedTeam(null);
-  }
-  function handleSelectCup() {
-    setLeagueCode('CL');
-    setCompetitionType('cup');
-    setSelectedTeam(null);
-  }
   function handleSelectCalendarFormat(switchFormatTo: string): void {
     if (switchFormatTo === 'compactCalendar') {
       setCalendarView('compactCalendar');
@@ -165,14 +145,14 @@ export function MainPage() {
         <LeaguesList
           leagues={leagues}
           selectedLeague={currentLeague}
-          competitionType={competitionType}
-          onSelectLeague={handleSelectLeague}
-          onSelectCup={handleSelectCup}
+          mode={mode}
+          onSelectLeague={selectLeague}
+          onSelectCup={selectCup}
         />
       </aside>
 
       <section className={styles.content}>
-        {competitionType === 'league' ? (
+        {mode === 'league' ? (
           <>
             {shouldShowTeamListSkeleton ? (
               <TeamListSkeleton />
