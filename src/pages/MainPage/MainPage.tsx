@@ -19,7 +19,7 @@ import {
   championsLeagueTable,
 } from '../../api/footballDataApi';
 
-import { fetchLastSeasonChampion, fetchTopScorers } from '../../api/apiFootballApi';
+import { fetchLastSeasonChampion } from '../../api/apiFootballApi';
 
 import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
@@ -29,6 +29,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
+import { useTopScorersQuery } from '../../features/leagues/queries/useTopScorersQuery';
 
 import styles from './MainPage.module.css';
 
@@ -50,6 +51,7 @@ export function MainPage() {
   const { season, leagueCode, mode } = useLeagueParams();
   const { leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection({ onAfterSelect: () => setSelectedTeam(null) });
+  const { leagueInfoTopScorersQuery } = useTopScorersQuery();
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
@@ -97,11 +99,7 @@ export function MainPage() {
     placeholderData: (previousData) => previousData,
   });
 
-  const leagueInfoTopScorersQuery = useQuery({
-    queryKey: queryKeys.leagueInfoTopScorers(leagueCode),
-    queryFn: () => fetchTopScorers(leagueCode),
-    placeholderData: (previousData) => previousData,
-  });
+  console.log(leagueInfoTopScorersQuery.data);
 
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =

@@ -39,3 +39,29 @@
   width: 100px;
   height: 100px;
 }
+
+.seasonsInfoContainer {
+  display: flex;
+}
+
+.topScorersContainer {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+}
+
+.topScorersRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.teamLogo {
+  /* width: 40px; */
+  height: 40px;
+}
+
+.photo {
+  width: 40px;
+  height: 40px;
+}
