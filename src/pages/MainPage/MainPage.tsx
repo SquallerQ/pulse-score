@@ -19,7 +19,7 @@ import {
   championsLeagueTable,
 } from '../../api/footballDataApi';
 
-import { fetchLastSeasonChampion } from '../../api/apiFootballApi';
+import { fetchLastSeasonChampion, getPreviousSeasonYear } from '../../api/apiFootballApi';
 
 import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
@@ -51,7 +51,9 @@ export function MainPage() {
   const { season, leagueCode, mode } = useLeagueParams();
   const { leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection({ onAfterSelect: () => setSelectedTeam(null) });
-  const { leagueInfoTopScorersQuery } = useTopScorersQuery();
+  const { leagueInfoTopScorersQuery } = useTopScorersQuery({
+    seasonOverride: getPreviousSeasonYear().toString(),
+  });
 
   const cupTeamsQuery = useQuery({
     queryKey: queryKeys.championsLeagueTeams(),
@@ -98,9 +100,6 @@ export function MainPage() {
     queryFn: () => fetchLastSeasonChampion(leagueCode),
     placeholderData: (previousData) => previousData,
   });
-
-  console.log(leagueInfoTopScorersQuery.data);
-
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =
     (leagueInfoQuery.isPending && !leagueInfoQuery.data) ||

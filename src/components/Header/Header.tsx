@@ -10,7 +10,10 @@ export function Header() {
         <NavLink to="/" end className={({ isActive }) => (isActive ? styles.active : styles.link)}>
           Main
         </NavLink>
-        <NavLink to="/history" className={({ isActive }) => (isActive ? styles.active : styles.link)}>
+        <NavLink
+          to="/history?league=PL&season=2024&mode=league"
+          className={({ isActive }) => (isActive ? styles.active : styles.link)}
+        >
           History
         </NavLink>
       </div>

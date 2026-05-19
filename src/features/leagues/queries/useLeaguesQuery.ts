@@ -17,6 +17,9 @@ export function useLeagues(leagueCode: string) {
     queryKey: queryKeys.leagues('all'),
     queryFn: fetchAllLeagues,
     staleTime: Infinity,
+    gcTime: 1000 * 60 * 60 * 24,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   const EMPTY_LEAGUES: League[] = [];

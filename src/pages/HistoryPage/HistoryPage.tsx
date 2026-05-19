@@ -19,8 +19,6 @@ export default function HistoryPage() {
   const { selectLeague, selectCup } = useCompetitionSelection();
   const { leagueInfoTopScorersQuery } = useTopScorersQuery();
 
-  console.log(leagueInfoTopScorersQuery.data);
-
   if (!currentLeague) {
     return <div>Loading league...</div>;
   }
@@ -55,16 +53,34 @@ export default function HistoryPage() {
         </div>
 
         <div className={styles.topScorersContainer}>
-          {leagueInfoTopScorersQuery.data.map((item: TopScorer) => {
+          {leagueInfoTopScorersQuery.data.map((item: TopScorer, index: number) => {
             return (
-              <div className={styles.topScorersRow}>
-                <img className={styles.photo} src={item.photo} alt={item.name} />
-                <div>{item.name}</div>
-                <div>Goals {item.goals}</div>
-                <div>Assists {item.assists}</div>
+              <div key={item.id} className={styles.topScorersRow}>
+                <div className={styles.playerRank}>{index + 1}</div>
 
-                <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
-                <div>Team {item.team.name}</div>
+                <div className={styles.playerIdentity}>
+                  <img className={styles.photo} src={item.photo} alt={item.name} />
+                  <div className={styles.playerText}>
+                    <div className={styles.playerName}>{item.name}</div>
+                    <div className={styles.playerNationality}>{item.nationality}</div>
+                  </div>
+                </div>
+
+                <div className={styles.playerStats}>
+                  <div className={styles.statCard}>
+                    <span className={styles.statLabel}>Goals</span>
+                    <span className={styles.statValue}>{item.goals}</span>
+                  </div>
+                  <div className={styles.statCard}>
+                    <span className={styles.statLabel}>Assists</span>
+                    <span className={styles.statValue}>{item.assists ?? 0}</span>
+                  </div>
+                </div>
+
+                <div className={styles.teamInfo}>
+                  <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
+                  <div className={styles.teamName}>{item.team.name}</div>
+                </div>
               </div>
             );
           })}
