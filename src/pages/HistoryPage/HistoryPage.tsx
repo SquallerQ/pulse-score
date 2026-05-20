@@ -8,6 +8,7 @@ import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
 import { useTopScorersQuery } from '../../features/leagues/queries/useTopScorersQuery';
+import { useSeasonChampionQuery } from '../../features/leagues/queries/useSeasonChampionQuery';
 
 import { seasonsArray } from '../../utils/generateSeasons';
 
@@ -18,6 +19,8 @@ export default function HistoryPage() {
   const { leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection();
   const { leagueInfoTopScorersQuery } = useTopScorersQuery();
+  const { seasonChampionQuery } = useSeasonChampionQuery();
+  const seasonTopThree = seasonChampionQuery.data?.standings ?? [];
 
   if (!currentLeague) {
     return <div>Loading league...</div>;
@@ -51,6 +54,37 @@ export default function HistoryPage() {
             return <Season key={item} year={item.toString()} setSeason={setSeason} />;
           })}
         </div>
+
+        {seasonTopThree.length > 0 ? (
+          <div className={styles.seasonSummaryContainer}>
+            <div className={styles.summaryHeader}>
+              <div className={styles.summaryEyebrow}>Final standings snapshot</div>
+              <h2 className={styles.summaryTitle}>{seasonChampionQuery.data?.season} season podium</h2>
+            </div>
+
+            <div className={styles.podiumGrid}>
+              {seasonTopThree.map((item) => (
+                <div
+                  key={item.team.id}
+                  className={`${styles.podiumCard} ${
+                    item.rank === 1
+                      ? styles.podiumCardFirst
+                      : item.rank === 2
+                        ? styles.podiumCardSecond
+                        : styles.podiumCardThird
+                  }`}
+                >
+                  <div className={styles.podiumRank}>{item.rank}</div>
+                  <img className={styles.podiumLogo} src={item.team.logo} alt={item.team.name} />
+                  <div className={styles.podiumText}>
+                    <div className={styles.podiumTeamName}>{item.team.name}</div>
+                    <div className={styles.podiumPoints}>{item.points} pts</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
         <div className={styles.topScorersContainer}>
           {leagueInfoTopScorersQuery.data.map((item: TopScorer, index: number) => {
