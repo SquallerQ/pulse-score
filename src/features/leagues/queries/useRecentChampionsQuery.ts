@@ -11,6 +11,10 @@ export function useRecentChampionsQuery(count = 3) {
     queryFn: () => fetchRecentChampions(leagueCode, count),
     enabled: mode === 'league',
     placeholderData: (previousData) => previousData,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 60 * 24,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 
   return { leagueInfoQuery };
