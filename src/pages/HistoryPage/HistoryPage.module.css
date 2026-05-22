@@ -27,6 +27,30 @@
   position: relative
 }
 
+.leaguesContainer_currentLeague[data-league-code="PL"] {
+  background-image: url('../../assets/bg-leagues/epl-card.png');
+}
+
+.leaguesContainer_currentLeague[data-league-code="PD"] {
+  /* background-image: url('../../assets/bg-leagues/laliga-card.png'); */
+}
+
+.leaguesContainer_currentLeague[data-league-code="SA"] {
+  /* background-image: url('../../assets/bg-leagues/seriea-card.png'); */
+}
+
+.leaguesContainer_currentLeague[data-league-code="BL1"] {
+  /* background-image: url('../../assets/bg-leagues/bundesliga-card.png'); */
+}
+
+.leaguesContainer_currentLeague[data-league-code="FL1"] {
+  /* background-image: url('../../assets/bg-leagues/ligue1-card.png'); */
+}
+
+.leaguesContainer_currentLeague[data-league-code="CL"] {
+  /* background-image: url('../../assets/bg-leagues/championsleague-card.png'); */
+}
+
 .leaguesContainer_leagues {
   display: flex;
 }
@@ -72,16 +96,47 @@
 }
 
 .seasonsInfoContentContainer { 
+  display: flex;
+  gap: 50px;
   flex: 1 1 auto;
-}
 
-.seasonSummaryContainer {
   padding: 20px;
   border-radius: 18px;
   border: 1px solid rgba(115, 149, 174, 0.22);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(240, 247, 251, 0.94));
   box-shadow: 0 16px 34px rgba(24, 33, 40, 0.08);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.seasonsInfoContentContainer[data-league-code="PL"] {
+  background-image: url('../../assets/bg-leagues/epl-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="PD"] {
+  background-image: url('../../assets/bg-leagues/laliga-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="SA"] {
+  background-image: url('../../assets/bg-leagues/seriea-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="BL1"] {
+  background-image: url('../../assets/bg-leagues/bundesliga-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="FL1"] {
+  background-image: url('../../assets/bg-leagues/ligue1-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="CL"] {
+  /* background-image: url('../../assets/bg-leagues/championsleague-bg.png'); */
+}
+
+.seasonSummaryContainer {
+  min-width: 350px;
 }
 
 .summaryHeader {
@@ -92,18 +147,20 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--color-text-muted);
+  /* color: var(--color-text-muted); */
+  color: #fff;
 }
 
 .summaryTitle {
   margin-top: 6px;
   font-size: 28px;
-  color: var(--color-text);
+  /* color: var(--color-text); */
+  color: #fff;
 }
 
 .podiumGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
@@ -135,19 +192,20 @@
 .podiumRank {
   position: absolute;
   top: 12px;
-  right: 12px;
+  left: 12px;
   width: 34px;
   height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: rgba(16, 29, 43, 0.88);
+  background: #23496d;
   color: #fff;
   font-weight: 700;
 }
 
 .podiumLogo {
+  margin-left: 45px;
   width: 64px;
   height: 64px;
   object-fit: contain;
@@ -171,10 +229,16 @@
 }
 
 .topScorersContainer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.topScorersColumn {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 100%;
 }
 
 .topScorersRow {
@@ -284,6 +348,10 @@
 
 @media (max-width: 1100px) {
   .podiumGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .topScorersContainer {
     grid-template-columns: 1fr;
   }
 

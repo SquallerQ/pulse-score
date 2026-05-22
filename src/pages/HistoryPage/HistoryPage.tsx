@@ -21,6 +21,9 @@ export default function HistoryPage() {
   const { leagueInfoTopScorersQuery } = useTopScorersQuery();
   const { seasonChampionQuery } = useSeasonChampionQuery();
   const seasonTopThree = seasonChampionQuery.data?.standings ?? [];
+  const topScorers = leagueInfoTopScorersQuery.data ?? [];
+  const leftColumnScorers = topScorers.slice(0, 10);
+  const rightColumnScorers = topScorers.slice(10);
 
   if (!currentLeague) {
     return <div>Loading league...</div>;
@@ -29,7 +32,7 @@ export default function HistoryPage() {
   return (
     <div className={styles.container}>
       <div className={styles.leaguesContainer}>
-        <div className={styles.leaguesContainer_currentLeague}>
+        <div className={styles.leaguesContainer_currentLeague} data-league-code={leagueCode}>
           {leagueCode === 'CL' ? (
             <img className={styles.currentLeagueEmblem} src={championLeagueLogo} alt="Champions League" />
           ) : (
@@ -60,7 +63,7 @@ export default function HistoryPage() {
           </div>
         </div>
 
-        <div className={styles.seasonsInfoContentContainer}>
+        <div className={styles.seasonsInfoContentContainer} data-league-code={leagueCode}>
           {seasonTopThree.length > 0 ? (
             <div className={styles.seasonSummaryContainer}>
               <div className={styles.summaryHeader}>
@@ -93,37 +96,73 @@ export default function HistoryPage() {
           ) : null}
 
           <div className={styles.topScorersContainer}>
-            {leagueInfoTopScorersQuery.data.map((item: TopScorer, index: number) => {
-              return (
-                <div key={item.id} className={styles.topScorersRow}>
-                  <div className={styles.playerRank}>{index + 1}</div>
+            <div className={styles.topScorersColumn}>
+              {leftColumnScorers.map((item: TopScorer, index: number) => {
+                return (
+                  <div key={item.id} className={styles.topScorersRow}>
+                    <div className={styles.playerRank}>{index + 1}</div>
 
-                  <div className={styles.playerIdentity}>
-                    <img className={styles.photo} src={item.photo} alt={item.name} />
-                    <div className={styles.playerText}>
-                      <div className={styles.playerName}>{item.name}</div>
-                      <div className={styles.playerNationality}>{item.nationality}</div>
+                    <div className={styles.playerIdentity}>
+                      <img className={styles.photo} src={item.photo} alt={item.name} />
+                      <div className={styles.playerText}>
+                        <div className={styles.playerName}>{item.name}</div>
+                        <div className={styles.playerNationality}>{item.nationality}</div>
+                      </div>
+                    </div>
+
+                    <div className={styles.playerStats}>
+                      <div className={styles.statCard}>
+                        <span className={styles.statLabel}>Goals</span>
+                        <span className={styles.statValue}>{item.goals}</span>
+                      </div>
+                      <div className={styles.statCard}>
+                        <span className={styles.statLabel}>Assists</span>
+                        <span className={styles.statValue}>{item.assists ?? 0}</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.teamInfo}>
+                      <div className={styles.teamName}>{item.team.name}</div>
+                      <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
                     </div>
                   </div>
+                );
+              })}
+            </div>
 
-                  <div className={styles.playerStats}>
-                    <div className={styles.statCard}>
-                      <span className={styles.statLabel}>Goals</span>
-                      <span className={styles.statValue}>{item.goals}</span>
+            <div className={styles.topScorersColumn}>
+              {rightColumnScorers.map((item: TopScorer, index: number) => {
+                return (
+                  <div key={item.id} className={styles.topScorersRow}>
+                    <div className={styles.playerRank}>{index + 11}</div>
+
+                    <div className={styles.playerIdentity}>
+                      <img className={styles.photo} src={item.photo} alt={item.name} />
+                      <div className={styles.playerText}>
+                        <div className={styles.playerName}>{item.name}</div>
+                        <div className={styles.playerNationality}>{item.nationality}</div>
+                      </div>
                     </div>
-                    <div className={styles.statCard}>
-                      <span className={styles.statLabel}>Assists</span>
-                      <span className={styles.statValue}>{item.assists ?? 0}</span>
+
+                    <div className={styles.playerStats}>
+                      <div className={styles.statCard}>
+                        <span className={styles.statLabel}>Goals</span>
+                        <span className={styles.statValue}>{item.goals}</span>
+                      </div>
+                      <div className={styles.statCard}>
+                        <span className={styles.statLabel}>Assists</span>
+                        <span className={styles.statValue}>{item.assists ?? 0}</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.teamInfo}>
+                      <div className={styles.teamName}>{item.team.name}</div>
+                      <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
                     </div>
                   </div>
-
-                  <div className={styles.teamInfo}>
-                    <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
-                    <div className={styles.teamName}>{item.team.name}</div>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
