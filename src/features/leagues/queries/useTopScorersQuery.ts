@@ -8,13 +8,12 @@ type UseTopScorersQueryOptions = {
 };
 
 export function useTopScorersQuery(options?: UseTopScorersQueryOptions) {
-  const { leagueCode, mode, season } = useLeagueParams();
+  const { leagueCode, season } = useLeagueParams();
   const querySeason = options?.seasonOverride ?? season;
 
   const leagueInfoTopScorersQuery = useQuery({
     queryKey: queryKeys.leagueInfoTopScorers(leagueCode, querySeason),
     queryFn: () => fetchTopScorers(leagueCode, +querySeason),
-    enabled: mode === 'league',
     placeholderData: (previousData) => previousData,
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 24,

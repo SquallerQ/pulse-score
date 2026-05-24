@@ -93,6 +93,7 @@ export const API_FOOTBALL_LEAGUE_IDS: Record<string, number> = {
   SA: 135, // Serie A
   BL1: 78, // Bundesliga
   FL1: 61, // Ligue 1
+  CL: 2, // CL
 };
 
 export function getPreviousSeasonYear() {
@@ -125,6 +126,7 @@ async function fetchLeagueSeasonStandings(leagueCode: string, season: number) {
     headers: getAuthHeaders(),
   });
   const data = await response.json();
+  console.log(data);
 
   return (data?.response?.[0]?.league ?? null) as ApiFootballLeagueSeason | null;
 }
@@ -169,6 +171,7 @@ export async function fetchSeasonChampion(leagueCode: string, season = getPrevio
 
   const champion = mapChampion(seasonLeague, season);
   if (!champion) return null;
+  console.log(champion);
 
   return {
     id: seasonLeague.id,
@@ -198,6 +201,7 @@ export async function fetchTopScorers(_league: string, season = getPreviousSeaso
     headers: getAuthHeaders(),
   });
   const data = await response.json();
+  console.log(data);
 
   return data.response.map(
     (item: ApiFootballPlayer): TopScorer => ({
@@ -214,3 +218,26 @@ export async function fetchTopScorers(_league: string, season = getPreviousSeaso
     })
   );
 }
+
+export async function championsLeagueWinner(leagueCode: string, season: number) {
+  const league = API_FOOTBALL_LEAGUE_IDS[leagueCode];
+
+  if (!league) return null;
+
+  const response = await fetch(`${API_BASE}/fixtures?league=${league}&season=${season}&round=Final`, {
+    headers: getAuthHeaders(),
+  });
+  const data = await response.json();
+
+  const match = data.response[0];
+  const winner = match.teams.away.winner ? match.teams.away : match.teams.home;
+  const loser = match.teams.away.winner ? match.teams.home : match.teams.away;
+
+  return {
+    winnerLogo: winner.logo,
+    winnerName: winner.name,
+    loserLogo: loser.logo,
+    loserName: loser.name,
+  };
+}
+

@@ -11,6 +11,7 @@ import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
 import { useTopScorersQuery } from '../../features/leagues/queries/useTopScorersQuery';
 import { useSeasonChampionQuery } from '../../features/leagues/queries/useSeasonChampionQuery';
+import { useChampionsLeagueWinnerQuery } from '../../features/champions-league/queries/useChampionsLeagueWinnerQuery';
 
 import { seasonsArray } from '../../utils/generateSeasons';
 
@@ -22,6 +23,8 @@ export default function HistoryPage() {
   const { selectLeague, selectCup } = useCompetitionSelection();
   const { leagueInfoTopScorersQuery } = useTopScorersQuery();
   const { seasonChampionQuery } = useSeasonChampionQuery();
+  const { CLFinalWinner, CLFinalLoser } = useChampionsLeagueWinnerQuery();
+
   const seasonTopThree = seasonChampionQuery.data?.standings ?? [];
   const topScorers = leagueInfoTopScorersQuery.data ?? [];
   const leftColumnScorers = topScorers.slice(0, 10);
@@ -70,34 +73,56 @@ export default function HistoryPage() {
         </div>
 
         <div className={styles.seasonsInfoContentContainer} data-league-code={leagueCode}>
-          {seasonTopThree.length > 0 ? (
+          {seasonTopThree.length > 0 || mode === 'cup' ? (
             <div className={styles.seasonSummaryContainer}>
               <div className={styles.summaryHeader}>
                 <div className={styles.summaryEyebrow}>Final standings snapshot</div>
                 <h2 className={styles.summaryTitle}>{seasonChampionQuery.data?.season} season podium</h2>
               </div>
 
-              <div className={styles.podiumGrid}>
-                {seasonTopThree.map((item) => (
-                  <div
-                    key={item.team.id}
-                    className={`${styles.podiumCard} ${
-                      item.rank === 1
-                        ? styles.podiumCardFirst
-                        : item.rank === 2
-                          ? styles.podiumCardSecond
-                          : styles.podiumCardThird
-                    }`}
-                  >
-                    <div className={styles.podiumRank}>{item.rank}</div>
-                    <img className={styles.podiumLogo} src={item.team.logo} alt={item.team.name} />
-                    <div className={styles.podiumText}>
-                      <div className={styles.podiumTeamName}>{item.team.name}</div>
-                      <div className={styles.podiumPoints}>{item.points} pts</div>
+              {mode === 'league' ? (
+                <div className={styles.podiumGrid}>
+                  {seasonTopThree.map((item) => (
+                    <div
+                      key={item.team.id}
+                      className={`${styles.podiumCard} ${
+                        item.rank === 1
+                          ? styles.podiumCardFirst
+                          : item.rank === 2
+                            ? styles.podiumCardSecond
+                            : styles.podiumCardThird
+                      }`}
+                    >
+                      <div className={styles.podiumRank}>{item.rank}</div>
+                      <img className={styles.podiumLogo} src={item.team.logo} alt={item.team.name} />
+                      <div className={styles.podiumText}>
+                        <div className={styles.podiumTeamName}>{item.team.name}</div>
+                        <div className={styles.podiumPoints}>{item.points} pts</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  <div className={styles.podiumGrid}>
+                    <div className={`${styles.podiumCard} ${styles.podiumCardFirst}`}>
+                      <div className={styles.podiumRank}>{1}</div>
+                      <img className={styles.podiumLogo} src={CLFinalWinner.logo} alt={CLFinalWinner.name} />
+                      <div className={styles.podiumText}>
+                        <div className={styles.podiumTeamName}>{CLFinalWinner.name}</div>
+                      </div>
+                    </div>
+
+                    <div className={`${styles.podiumCard} ${styles.podiumCardSecond}`}>
+                      <div className={styles.podiumRank}>{2}</div>
+                      <img className={styles.podiumLogo} src={CLFinalLoser.logo} alt={CLFinalLoser.name} />
+                      <div className={styles.podiumText}>
+                        <div className={styles.podiumTeamName}>{CLFinalLoser.name}</div>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           ) : null}
 
