@@ -3,11 +3,11 @@ import { fetchTopScorers } from '../../../api/apiFootballApi';
 import { queryKeys } from '../../../api/queryKeys';
 import { useLeagueParams } from '../../filters/useLeagueParams';
 
-type UseTopScorersQueryOptions = {
+type UseSharedTopScorersQueryOptions = {
   seasonOverride?: string;
 };
 
-export function useTopScorersQuery(options?: UseTopScorersQueryOptions) {
+export function useSharedTopScorersQuery(options?: UseSharedTopScorersQueryOptions) {
   const { leagueCode, season } = useLeagueParams();
   const querySeason = options?.seasonOverride ?? season;
 

@@ -1,7 +1,7 @@
 import styles from './HistoryPage.module.css';
 import plLeague from '../../assets/pl-league-logo-league-list--white.svg';
 
-import championLeagueLogo from '../../assets/champ-league-logo.svg';
+import championLeagueLogo from '../../assets/champ-league-white-logo.svg';
 
 import { Season } from '../../components/Season/Season';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
@@ -9,9 +9,9 @@ import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
-import { useTopScorersQuery } from '../../features/leagues/queries/useTopScorersQuery';
 import { useSeasonChampionQuery } from '../../features/leagues/queries/useSeasonChampionQuery';
 import { useChampionsLeagueWinnerQuery } from '../../features/champions-league/queries/useChampionsLeagueWinnerQuery';
+import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
 
 import { seasonsArray } from '../../utils/generateSeasons';
 
@@ -21,7 +21,7 @@ export default function HistoryPage() {
   const { season, setSeason, leagueCode, mode } = useLeagueParams();
   const { leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection();
-  const { leagueInfoTopScorersQuery } = useTopScorersQuery();
+  const { leagueInfoTopScorersQuery } = useSharedTopScorersQuery();
   const { seasonChampionQuery } = useSeasonChampionQuery();
   const { CLFinalWinner, CLFinalLoser } = useChampionsLeagueWinnerQuery();
 
@@ -33,9 +33,6 @@ export default function HistoryPage() {
   if (!currentLeague) {
     return <div>Loading league...</div>;
   }
-
-  console.log(leagueCode);
-
   return (
     <div className={styles.container}>
       <div className={styles.leaguesContainer}>
@@ -77,7 +74,9 @@ export default function HistoryPage() {
             <div className={styles.seasonSummaryContainer}>
               <div className={styles.summaryHeader}>
                 <div className={styles.summaryEyebrow}>Final standings snapshot</div>
-                <h2 className={styles.summaryTitle}>{seasonChampionQuery.data?.season} season podium</h2>
+                <h2 className={styles.summaryTitle}>
+                  {mode === 'cup' ? `${season} Champions League final` : `${season} season podium`}
+                </h2>
               </div>
 
               {mode === 'league' ? (

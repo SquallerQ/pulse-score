@@ -126,7 +126,6 @@ async function fetchLeagueSeasonStandings(leagueCode: string, season: number) {
     headers: getAuthHeaders(),
   });
   const data = await response.json();
-  console.log(data);
 
   return (data?.response?.[0]?.league ?? null) as ApiFootballLeagueSeason | null;
 }
@@ -171,7 +170,6 @@ export async function fetchSeasonChampion(leagueCode: string, season = getPrevio
 
   const champion = mapChampion(seasonLeague, season);
   if (!champion) return null;
-  console.log(champion);
 
   return {
     id: seasonLeague.id,
@@ -201,7 +199,6 @@ export async function fetchTopScorers(_league: string, season = getPreviousSeaso
     headers: getAuthHeaders(),
   });
   const data = await response.json();
-  console.log(data);
 
   return data.response.map(
     (item: ApiFootballPlayer): TopScorer => ({
@@ -240,4 +237,3 @@ export async function championsLeagueWinner(leagueCode: string, season: number) 
     loserName: loser.name,
   };
 }
-

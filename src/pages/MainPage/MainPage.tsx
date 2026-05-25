@@ -29,7 +29,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
-import { useTopScorersQuery } from '../../features/leagues/queries/useTopScorersQuery';
+import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
 import { useRecentChampionsQuery } from '../../features/leagues/queries/useRecentChampionsQuery';
 
 import styles from './MainPage.module.css';
@@ -52,7 +52,7 @@ export function MainPage() {
   const { season, leagueCode, mode } = useLeagueParams();
   const { leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection({ onAfterSelect: () => setSelectedTeam(null) });
-  const { leagueInfoTopScorersQuery } = useTopScorersQuery({
+  const { leagueInfoTopScorersQuery } = useSharedTopScorersQuery({
     seasonOverride: getPreviousSeasonYear().toString(),
   });
   const { leagueInfoQuery } = useRecentChampionsQuery(3);

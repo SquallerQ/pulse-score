@@ -10,6 +10,7 @@ export function useChampionsLeagueWinnerQuery() {
     queryKey: queryKeys.championsLeagueWinner(leagueCode, season),
     queryFn: () => championsLeagueWinner(leagueCode, +season),
     placeholderData: (previousData) => previousData,
+    enabled: leagueCode === 'CL',
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 24,
     refetchOnWindowFocus: false,

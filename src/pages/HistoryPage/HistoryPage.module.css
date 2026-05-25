@@ -58,7 +58,8 @@
 }
 
 .leaguesContainer_currentLeague[data-league-code="CL"] {
-  /* background-image: url('../../assets/bg-leagues/championsleague-card.png'); */
+  background-image: linear-gradient(rgba(24, 34, 45, 0.24), rgba(24, 34, 45, 0.34)),url('../../assets/cards-bg/cl-card-bg.webp');
+  background-position: center center;
 }
 
 .leaguesContainer_leagues {
@@ -84,12 +85,12 @@
   flex-direction: column;
   gap: 20px;
 
-  max-width: max-content;
+  max-height: max-content;
 
   border-radius: 18px;
-  background: radial-gradient(circle at top left, rgba(182, 210, 236, 0.28), transparent 32%), radial-gradient(circle at bottom right, rgba(115, 149, 174, 0.2), transparent 36%), linear-gradient(145deg, rgba(250, 252, 255, 0.94), rgba(230, 239, 247, 0.9));
+  background: rgb(167 213 247 / 10%);
   backdrop-filter: blur(8px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 8px 24px rgba(30, 42, 56, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .yearsContainerInner {
@@ -99,6 +100,8 @@
   border-radius: 18px;
   border: 1px solid var(--color-text);
   gap: 20px;
+
+  
 }
 
 .currentLeagueEmblem {
@@ -149,10 +152,8 @@
 }
 
 .seasonsInfoContentContainer[data-league-code="CL"] {
-  background-image:
-    linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)),
-    url('../../assets/cards-bg/cl-card-bg.jpg');
-    background-position: center right;
+  background-image: linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)), url('../../assets/cards-bg/cl-card-bg.jpg');
+  background-position: center right;
 }
 
 .seasonSummaryContainer {
@@ -267,11 +268,9 @@
   padding: 8px 16px;
   border-radius: 14px;
   border: 1px solid rgba(115, 149, 174, 0.2);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(241, 247, 251, 0.92));
   box-shadow: 0 12px 28px rgba(26, 36, 44, 0.08);
 
-  background: linear-gradient(135deg, rgb(245 245 245 / 94%), rgb(66 82 93 / 92%));
+  background: linear-gradient(135deg, rgb(0 0 0 / 94%), rgb(66 82 93 / 92%));
 }
 
 .playerRank {
@@ -302,11 +301,11 @@
 .playerName {
   font-size: 16px;
   font-weight: 700;
-  color: var(--color-text);
+  color: #fff;
 }
 
 .playerNationality {
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.65);
   font-size: 13px;
 }
 
@@ -329,13 +328,13 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .statValue {
   font-size: 20px;
   font-weight: 700;
-  color: var(--color-text);
+  color: #fff;
 }
 
 .teamInfo {
@@ -348,7 +347,7 @@
 .teamName {
   font-weight: 600;
   font-size: 14px;
-  color: var(--color-text);
+  color: #fff;
 }
 
 .teamLogo {

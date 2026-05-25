@@ -9,6 +9,7 @@ export function useSeasonChampionQuery() {
   const seasonChampionQuery = useQuery({
     queryKey: queryKeys.leagueSeasonChampion(leagueCode, season),
     queryFn: () => fetchSeasonChampion(leagueCode, +season),
+    enabled: leagueCode !== 'CL',
     placeholderData: (previousData) => previousData,
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 24,
