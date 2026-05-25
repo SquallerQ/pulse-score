@@ -10,14 +10,7 @@ import { LeagueInfoSkeleton } from '../../components/LeagueInfo/LeagueInfoSkelet
 import { Table } from '../../components/Table/Table';
 import { TableSkeleton } from '../../components/Table/TableSkeleton';
 
-import {
-  fetchLeagueTeams,
-  fetchTeamMatches,
-  fetchChampionsLeagueTeams,
-  fetchChampionsLeagueStages,
-  fetchLeagueTable,
-  championsLeagueTable,
-} from '../../api/footballDataApi';
+import { fetchTeamMatches } from '../../api/footballDataApi';
 
 import { getPreviousSeasonYear } from '../../api/apiFootballApi';
 
@@ -31,6 +24,11 @@ import { useCompetitionSelection } from '../../features/filters/useCompetitionSe
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
 import { useRecentChampionsQuery } from '../../features/leagues/queries/useRecentChampionsQuery';
+import { useLeagueTeamsQuery } from '../../features/leagues/queries/useLeagueTeamsQuery';
+import { useChampionsLeagueTeamsQuery } from '../../features/champions-league/queries/useChampionsLeagueTeamsQuery';
+import { useChampionsLeagueStagesQuery } from '../../features/champions-league/queries/useChampionsLeagueStagesQuery';
+import { useLeagueTableQuery } from '../../features/leagues/queries/useLeagueTableQuery';
+import { useChampionsLeagueTableQuery } from '../../features/champions-league/queries/useChampionsLeagueTableQuery';
 
 import styles from './MainPage.module.css';
 
@@ -49,7 +47,7 @@ export function MainPage() {
   const [selectedTeam, setSelectedTeam] = useState<SelectedTeam | null>(null);
   const [calendarView, setCalendarView] = useState<'fullCalendar' | 'compactCalendar'>('compactCalendar');
 
-  const { season, leagueCode, mode } = useLeagueParams();
+  const { leagueCode, mode } = useLeagueParams();
   const { leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection({ onAfterSelect: () => setSelectedTeam(null) });
   const { leagueInfoTopScorersQuery } = useSharedTopScorersQuery({
@@ -57,44 +55,16 @@ export function MainPage() {
   });
   const { leagueInfoQuery } = useRecentChampionsQuery(3);
 
-  const cupTeamsQuery = useQuery({
-    queryKey: queryKeys.championsLeagueTeams(),
-    queryFn: () => fetchChampionsLeagueTeams(),
-    enabled: mode === 'cup',
-    placeholderData: (previousData) => previousData,
-  });
-
-  const championsLeagueQuery = useQuery({
-    queryKey: queryKeys.championsLeagueMatches(),
-    queryFn: () => fetchChampionsLeagueStages(),
-    // enabled: competitionType === 'cup',
-    placeholderData: (previousData) => previousData,
-  });
-
-  const teamsQuery = useQuery({
-    queryKey: queryKeys.teams(leagueCode, season),
-    queryFn: () => fetchLeagueTeams(leagueCode),
-    enabled: mode === 'league',
-    placeholderData: (previousData) => previousData,
-  });
+  const { leagueTeamsQuery, teamsList } = useLeagueTeamsQuery();
+  const { championsLeagueTeamsQuery } = useChampionsLeagueTeamsQuery();
+  const { championsLeagueStagesQuery, championsLeagueStages } = useChampionsLeagueStagesQuery();
+  const { leagueTableQuery, leagueTable } = useLeagueTableQuery();
+  const { championsLeagueTableQuery } = useChampionsLeagueTableQuery();
 
   const matchesQuery = useQuery<TeamMatchesResponse>({
     queryKey: queryKeys.teamMatches(selectedTeam?.leagueCode ?? '', selectedTeam?.teamId ?? 0),
     queryFn: () => fetchTeamMatches(selectedTeam!.teamId),
     enabled: selectedTeam !== null,
-  });
-
-  const leagueTableQuery = useQuery({
-    queryKey: queryKeys.leagueTable(leagueCode),
-    queryFn: () => fetchLeagueTable(leagueCode),
-    placeholderData: (previousData) => previousData,
-  });
-
-  const championsLeagueTableQuery = useQuery({
-    queryKey: queryKeys.championsLeagueTable(),
-    queryFn: championsLeagueTable,
-    enabled: mode === 'cup',
-    placeholderData: (previousData) => previousData,
   });
 
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
@@ -104,13 +74,14 @@ export function MainPage() {
   const isLeagueInfoUpdating = leagueInfoQuery.isFetching || leagueInfoTopScorersQuery.isFetching;
   const shouldShowTableSkeleton = leagueTableQuery.isPending && !leagueTableQuery.data;
   const isTableUpdating = leagueTableQuery.isFetching;
-  const shouldShowTeamListSkeleton = teamsQuery.isPending && !teamsQuery.data;
-  const isTeamListUpdating = teamsQuery.isFetching;
+  const shouldShowTeamListSkeleton = leagueTeamsQuery.isPending && !leagueTeamsQuery.data;
+  const isTeamListUpdating = leagueTeamsQuery.isFetching;
   const shouldShowChampionsLeagueTableSkeleton = championsLeagueTableQuery.isPending && !championsLeagueTableQuery.data;
   const isChampionsLeagueTableUpdating = championsLeagueTableQuery.isFetching;
-  const shouldShowChampionsLeagueTeamsSkeleton = cupTeamsQuery.isPending && !cupTeamsQuery.data;
-  const shouldShowChampionsLeagueBracketSkeleton = championsLeagueQuery.isPending && !championsLeagueQuery.data;
-  const isChampionsLeagueUpdating = cupTeamsQuery.isFetching || championsLeagueQuery.isFetching;
+  const shouldShowChampionsLeagueTeamsSkeleton = championsLeagueTeamsQuery.isPending && !championsLeagueTeamsQuery.data;
+  const shouldShowChampionsLeagueBracketSkeleton =
+    championsLeagueStagesQuery.isPending && !championsLeagueStagesQuery.data;
+  const isChampionsLeagueUpdating = championsLeagueTeamsQuery.isFetching || championsLeagueStagesQuery.isFetching;
 
   function handleSelectCalendarFormat(switchFormatTo: string): void {
     if (switchFormatTo === 'compactCalendar') {
@@ -120,7 +91,7 @@ export function MainPage() {
     }
   }
 
-  const selectedTeamData = teamsQuery.data?.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
+  const selectedTeamData = teamsList?.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
 
   const lastFiveLeagueMatches = useMemo(() => {
     if (!matchesQuery.data?.matches || !currentLeague) return [];
@@ -152,7 +123,7 @@ export function MainPage() {
               <TeamListSkeleton />
             ) : (
               <TeamList
-                teams={teamsQuery.data ?? []}
+                teams={teamsList}
                 leagueCode={leagueCode}
                 selectedTeam={selectedTeam}
                 onSelectTeam={setSelectedTeam}
@@ -164,7 +135,7 @@ export function MainPage() {
                 selectedTeam={selectedTeamData}
                 lastMatches={lastFiveLeagueMatches}
                 hasChampionsLeague={hasChampionsLeague}
-                championsLeagueStages={championsLeagueQuery.data}
+                championsLeagueStages={championsLeagueStages}
               />
             ) : shouldShowLeagueInfoSkeleton ? (
               <LeagueInfoSkeleton />
@@ -204,7 +175,7 @@ export function MainPage() {
                   <TableSkeleton />
                 ) : (
                   <Table
-                    leagueTable={leagueTableQuery.data ?? null}
+                    leagueTable={leagueTable ?? null}
                     selectedTeam={selectedTeamData}
                     isUpdating={isTableUpdating}
                   ></Table>
@@ -214,8 +185,8 @@ export function MainPage() {
           </>
         ) : (
           <ChampionsLeagueSection
-            teams={cupTeamsQuery.data?.teamsArray ?? []}
-            championsLeagueStages={championsLeagueQuery.data}
+            teams={championsLeagueTeamsQuery.data?.teamsArray ?? []}
+            championsLeagueStages={championsLeagueStages}
             leagueTable={championsLeagueTableQuery.data ?? null}
             showTableSkeleton={shouldShowChampionsLeagueTableSkeleton}
             isTableUpdating={isChampionsLeagueTableUpdating}
