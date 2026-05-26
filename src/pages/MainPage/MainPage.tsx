@@ -10,21 +10,18 @@ import { LeagueInfoSkeleton } from '../../components/LeagueInfo/LeagueInfoSkelet
 import { Table } from '../../components/Table/Table';
 import { TableSkeleton } from '../../components/Table/TableSkeleton';
 
-import { fetchTeamMatches } from '../../api/footballDataApi';
-
 import { getPreviousSeasonYear } from '../../api/apiFootballApi';
 
-import type { TeamMatches, TeamMatchesResponse } from '../../api/types';
+import type { TeamMatches } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
-import { queryKeys } from '../../api/queryKeys';
-import { useQuery } from '@tanstack/react-query';
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
 import { useRecentChampionsQuery } from '../../features/leagues/queries/useRecentChampionsQuery';
 import { useLeagueTeamsQuery } from '../../features/leagues/queries/useLeagueTeamsQuery';
+import { useTeamMatchesQuery } from '../../features/leagues/queries/useTeamMatchesQuery';
 import { useChampionsLeagueTeamsQuery } from '../../features/champions-league/queries/useChampionsLeagueTeamsQuery';
 import { useChampionsLeagueStagesQuery } from '../../features/champions-league/queries/useChampionsLeagueStagesQuery';
 import { useLeagueTableQuery } from '../../features/leagues/queries/useLeagueTableQuery';
@@ -56,16 +53,11 @@ export function MainPage() {
   const { leagueInfoQuery } = useRecentChampionsQuery(3);
 
   const { leagueTeamsQuery, teamsList } = useLeagueTeamsQuery();
-  const { championsLeagueTeamsQuery } = useChampionsLeagueTeamsQuery();
+  const { championsLeagueTeamsQuery, championsLeagueTeams } = useChampionsLeagueTeamsQuery();
   const { championsLeagueStagesQuery, championsLeagueStages } = useChampionsLeagueStagesQuery();
   const { leagueTableQuery, leagueTable } = useLeagueTableQuery();
-  const { championsLeagueTableQuery } = useChampionsLeagueTableQuery();
-
-  const matchesQuery = useQuery<TeamMatchesResponse>({
-    queryKey: queryKeys.teamMatches(selectedTeam?.leagueCode ?? '', selectedTeam?.teamId ?? 0),
-    queryFn: () => fetchTeamMatches(selectedTeam!.teamId),
-    enabled: selectedTeam !== null,
-  });
+  const { championsLeagueTableQuery, championsLeagueTable } = useChampionsLeagueTableQuery();
+  const { teamMatches } = useTeamMatchesQuery(selectedTeam?.leagueCode, selectedTeam?.teamId);
 
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =
@@ -91,18 +83,18 @@ export function MainPage() {
     }
   }
 
-  const selectedTeamData = teamsList?.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
+  const selectedTeamData = teamsList.find((item: SelectedTeamInfo) => item.id === selectedTeam?.teamId) ?? null;
 
   const lastFiveLeagueMatches = useMemo(() => {
-    if (!matchesQuery.data?.matches || !currentLeague) return [];
+    if (!teamMatches?.matches || !currentLeague) return [];
 
-    return matchesQuery.data.matches
+    return teamMatches.matches
       .filter((match: TeamMatches) => match.competition.name === currentLeague.name)
       .filter((match: TeamMatches) => match.status === 'FINISHED')
       .slice(-5);
-  }, [matchesQuery.data, currentLeague]);
+  }, [teamMatches, currentLeague]);
 
-  const hasChampionsLeague = matchesQuery.data?.competitions?.includes('CL') ?? false;
+  const hasChampionsLeague = teamMatches?.competitions?.includes('CL') ?? false;
 
   return (
     <div className={styles.main__container}>
@@ -149,12 +141,14 @@ export function MainPage() {
 
             <div className={styles.calendarButtonContainer}>
               <button
+                disabled={selectedTeam === null}
                 onClick={() => handleSelectCalendarFormat('compactCalendar')}
                 className={calendarView === 'compactCalendar' ? styles.active : ''}
               >
                 Calendar
               </button>
               <button
+                disabled={selectedTeam === null}
                 onClick={() => handleSelectCalendarFormat('fullCalendar')}
                 className={calendarView === 'fullCalendar' ? styles.active : ''}
               >
@@ -165,9 +159,9 @@ export function MainPage() {
             <div className={styles.calendarTableContainer}>
               <div className={styles.calendarContainer}>
                 {calendarView === 'compactCalendar' ? (
-                  <Calendar matches={matchesQuery.data?.matches ?? []} />
+                  <Calendar matches={teamMatches?.matches ?? []} />
                 ) : (
-                  <FullCalendar matches={matchesQuery.data?.matches ?? []} selectedTeam={selectedTeamData} />
+                  <FullCalendar matches={teamMatches?.matches ?? []} selectedTeam={selectedTeamData} />
                 )}
               </div>
               <div className={styles.TableContainer}>
@@ -185,9 +179,9 @@ export function MainPage() {
           </>
         ) : (
           <ChampionsLeagueSection
-            teams={championsLeagueTeamsQuery.data?.teamsArray ?? []}
+            teams={championsLeagueTeams}
             championsLeagueStages={championsLeagueStages}
-            leagueTable={championsLeagueTableQuery.data ?? null}
+            leagueTable={championsLeagueTable ?? null}
             showTableSkeleton={shouldShowChampionsLeagueTableSkeleton}
             isTableUpdating={isChampionsLeagueTableUpdating}
             showTeamsSkeleton={shouldShowChampionsLeagueTeamsSkeleton}

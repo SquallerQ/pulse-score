@@ -44,6 +44,18 @@
   border-color: #bbb;
 }
 
+.calendarButtonContainer button:disabled {
+  opacity: 0.48;
+  cursor: auto;
+  background-color: #d9d9d9;
+  color: #757575;
+}
+
+.calendarButtonContainer button:disabled:hover {
+  background-color: #d9d9d9;
+  border-color: transparent;
+}
+
 .calendarButtonContainer button:active {
   transform: scale(0.98);
 }

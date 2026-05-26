@@ -12,8 +12,10 @@ export function useChampionsLeagueTeamsQuery() {
     enabled: mode === 'cup',
     placeholderData: (previousData) => previousData,
   });
+  const championsLeagueTeams = championsLeagueTeamsQuery.data?.teamsArray ?? [];
 
   return {
+    championsLeagueTeams,
     championsLeagueTeamsQuery,
   };
 }

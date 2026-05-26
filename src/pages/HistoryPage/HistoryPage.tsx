@@ -12,6 +12,7 @@ import { useCompetitionSelection } from '../../features/filters/useCompetitionSe
 import { useSeasonChampionQuery } from '../../features/leagues/queries/useSeasonChampionQuery';
 import { useChampionsLeagueWinnerQuery } from '../../features/champions-league/queries/useChampionsLeagueWinnerQuery';
 import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
+import { HistoryPageSkeleton } from './HistoryPageSkeleton';
 
 import { seasonsArray } from '../../utils/generateSeasons';
 
@@ -19,20 +20,28 @@ import type { TopScorer } from '../../api/apiFootballApi';
 
 export default function HistoryPage() {
   const { season, setSeason, leagueCode, mode } = useLeagueParams();
-  const { leagues, currentLeague } = useLeagues(leagueCode);
+  const { leaguesQuery, leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection();
   const { leagueInfoTopScorersQuery } = useSharedTopScorersQuery();
   const { seasonChampionQuery } = useSeasonChampionQuery();
-  const { CLFinalWinner, CLFinalLoser } = useChampionsLeagueWinnerQuery();
+  const { CLFinalWinner, CLFinalLoser, CLFinalQuery } = useChampionsLeagueWinnerQuery();
 
   const seasonTopThree = seasonChampionQuery.data?.standings ?? [];
   const topScorers = leagueInfoTopScorersQuery.data ?? [];
   const leftColumnScorers = topScorers.slice(0, 10);
   const rightColumnScorers = topScorers.slice(10);
 
-  if (!currentLeague) {
-    return <div>Loading league...</div>;
+  const shouldShowHistorySkeleton =
+    (leaguesQuery.isPending && !leaguesQuery.data) ||
+    (leagueInfoTopScorersQuery.isPending && !leagueInfoTopScorersQuery.data) ||
+    (mode === 'league'
+      ? seasonChampionQuery.isPending && !seasonChampionQuery.data
+      : CLFinalQuery.isPending && !CLFinalQuery.data);
+
+  if (shouldShowHistorySkeleton || !currentLeague) {
+    return <HistoryPageSkeleton />;
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.leaguesContainer}>

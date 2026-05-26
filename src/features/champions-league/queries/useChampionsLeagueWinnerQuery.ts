@@ -27,5 +27,5 @@ export function useChampionsLeagueWinnerQuery() {
     logo: CLFinalQuery.data?.loserLogo,
   };
 
-  return { CLFinalWinner, CLFinalLoser };
+  return { CLFinalWinner, CLFinalLoser, CLFinalQuery };
 }
