@@ -216,24 +216,24 @@ export async function fetchTopScorers(_league: string, season = getPreviousSeaso
   );
 }
 
-export async function championsLeagueWinner(leagueCode: string, season: number) {
-  const league = API_FOOTBALL_LEAGUE_IDS[leagueCode];
+// export async function championsLeagueWinner(leagueCode: string, season: number) {
+//   const league = API_FOOTBALL_LEAGUE_IDS[leagueCode];
 
-  if (!league) return null;
+//   if (!league) return null;
 
-  const response = await fetch(`${API_BASE}/fixtures?league=${league}&season=${season}&round=Final`, {
-    headers: getAuthHeaders(),
-  });
-  const data = await response.json();
+//   const response = await fetch(`${API_BASE}/fixtures?league=${league}&season=${season}&round=Final`, {
+//     headers: getAuthHeaders(),
+//   });
+//   const data = await response.json();
 
-  const match = data.response[0];
-  const winner = match.teams.away.winner ? match.teams.away : match.teams.home;
-  const loser = match.teams.away.winner ? match.teams.home : match.teams.away;
+//   const match = data.response[0];
+//   const winner = match.teams.away.winner ? match.teams.away : match.teams.home;
+//   const loser = match.teams.away.winner ? match.teams.home : match.teams.away;
 
-  return {
-    winnerLogo: winner.logo,
-    winnerName: winner.name,
-    loserLogo: loser.logo,
-    loserName: loser.name,
-  };
-}
+//   return {
+//     winnerLogo: winner.logo,
+//     winnerName: winner.name,
+//     loserLogo: loser.logo,
+//     loserName: loser.name,
+//   };
+// }
