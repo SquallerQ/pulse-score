@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchTopScorers } from '../../../api/apiFootballApi';
+import { fetchTopScorers } from '../../../api/football-data/client';
 import { queryKeys } from '../../../api/queryKeys';
 import { useLeagueParams } from '../../filters/useLeagueParams';
 

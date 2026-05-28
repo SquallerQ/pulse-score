@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_APISPORTS_KEY: string;
+  readonly VITE_FOOTBALLDATA_KEY_API_FOOTBALL: string;
 }
 
 interface ImportMeta {

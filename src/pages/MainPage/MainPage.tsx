@@ -10,7 +10,7 @@ import { LeagueInfoSkeleton } from '../../components/LeagueInfo/LeagueInfoSkelet
 import { Table } from '../../components/Table/Table';
 import { TableSkeleton } from '../../components/Table/TableSkeleton';
 
-import { getPreviousSeasonYear } from '../../api/apiFootballApi';
+import { getPreviousSeasonYear } from '../../api/football-data/client';
 
 import type { TeamMatches } from '../../api/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
