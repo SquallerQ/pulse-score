@@ -16,7 +16,7 @@ import { HistoryPageSkeleton } from './HistoryPageSkeleton';
 
 import { seasonsArray } from '../../utils/generateSeasons';
 
-import type { TopScorer } from '../../api/apiFootballApi';
+import type { TopScorer } from '../../api/football-data/types';
 
 export default function HistoryPage() {
   const { season, setSeason, leagueCode, mode } = useLeagueParams();

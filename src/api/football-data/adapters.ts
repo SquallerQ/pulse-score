@@ -5,6 +5,8 @@ import type {
   TopScorer,
   LeagueSeasonStandings,
   ChampionHistoryItem,
+  LeagueInfo,
+  TeamStanding,
 } from './types';
 
 export function mapChampion(league: LeagueSeasonStandings | null): ChampionHistoryItem | null {
@@ -20,6 +22,31 @@ export function mapChampion(league: LeagueSeasonStandings | null): ChampionHisto
       name: champion.team.name,
       logo: champion.team.logo,
     },
+  };
+}
+
+export function mapTopThreeStandings(league: LeagueSeasonStandings): TeamStanding[] {
+  return (league.standings[0] ?? []).slice(0, 3).map((item) => ({
+    rank: item.rank,
+    points: item.points,
+    team: {
+      id: item.team.id,
+      name: item.team.name,
+      logo: item.team.logo,
+    },
+  }));
+}
+
+export function mapLeagueInfo(league: LeagueSeasonStandings, championsHistory: ChampionHistoryItem[]): LeagueInfo {
+  return {
+    id: league.id,
+    name: league.name,
+    country: league.country,
+    logo: league.logo,
+    flag: league.flag,
+    season: league.season,
+    standings: mapTopThreeStandings(league),
+    championsHistory,
   };
 }
 

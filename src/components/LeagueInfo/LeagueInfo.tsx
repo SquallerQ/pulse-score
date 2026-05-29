@@ -1,31 +1,9 @@
 import styles from './LeagueInfo.module.css';
 
-import type { TopScorer } from '../../api/apiFootballApi';
-
-type LeagueInfoData = {
-  name?: string;
-  country?: string;
-  logo?: string;
-  season?: number;
-  championsHistory?: {
-    season: number;
-    team: {
-      logo: string;
-      name: string;
-    };
-  }[];
-  standings?: {
-    rank: number;
-    points: number;
-    team: {
-      logo: string;
-      name: string;
-    };
-  }[];
-};
+import type { LeagueInfo, TopScorer } from '../../api/football-data/types';
 
 type LeagueInfoProps = {
-  leagueInfo: LeagueInfoData | null;
+  leagueInfo: LeagueInfo | null;
   topScorers: TopScorer[] | null;
   isUpdating?: boolean;
 };
