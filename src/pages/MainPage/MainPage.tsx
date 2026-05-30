@@ -10,9 +10,9 @@ import { LeagueInfoSkeleton } from '../../components/LeagueInfo/LeagueInfoSkelet
 import { Table } from '../../components/Table/Table';
 import { TableSkeleton } from '../../components/Table/TableSkeleton';
 
-import { getPreviousSeasonYear } from '../../api/football-data/client';
+import { getPreviousSeasonYear } from '../../api/api-football/client';
 
-import type { TeamMatches } from '../../api/types';
+import type { TeamMatch } from '../../api/football-data/types';
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
@@ -89,8 +89,8 @@ export function MainPage() {
     if (!teamMatches?.matches || !currentLeague) return [];
 
     return teamMatches.matches
-      .filter((match: TeamMatches) => match.competition.name === currentLeague.name)
-      .filter((match: TeamMatches) => match.status === 'FINISHED')
+      .filter((match: TeamMatch) => match.competition.name === currentLeague.name)
+      .filter((match: TeamMatch) => match.status === 'FINISHED')
       .slice(-5);
   }, [teamMatches, currentLeague]);
 

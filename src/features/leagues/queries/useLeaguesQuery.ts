@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllLeagues } from '../../../api/footballDataApi';
+import { fetchAllLeagues } from '../../../api/football-data/client';
 import { queryKeys } from '../../../api/queryKeys';
 import { useMemo } from 'react';
 

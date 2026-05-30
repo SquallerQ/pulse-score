@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys } from '../../../api/queryKeys';
-import { fetchLeagueTable } from '../../../api/footballDataApi';
+import { fetchLeagueTable } from '../../../api/football-data/client';
 import { useLeagueParams } from '../../filters/useLeagueParams';
 
 export function useLeagueTableQuery() {

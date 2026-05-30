@@ -1,6 +1,6 @@
 import styles from './LeagueInfo.module.css';
 
-import type { LeagueInfo, TopScorer } from '../../api/football-data/types';
+import type { LeagueInfo, TopScorer } from '../../api/api-football/types';
 
 type LeagueInfoProps = {
   leagueInfo: LeagueInfo | null;

@@ -1,22 +1,32 @@
-import { mapChampion, mapLeagueInfo, mapTopScorers, mapChampionsLeagueWinner } from './adapters';
 import {
-  leagueSeasonStandingsSchema,
-  topScorersApiResponseSchema,
-  championsLeagueWinnerApiResponseSchema,
-  type LeagueSeasonStandings,
-  type TopScorer,
-  type ChampionsLeagueWinner,
-  type ChampionHistoryItem,
-  type LeagueInfo,
+  allLeaguesResponseSchema,
+  championsLeagueTeamsResponseSchema,
+  leagueTeamsResponseSchema,
+  teamMatchesResponseSchema,
+  leagueTableResponseSchema,
+  championsLeagueStageResponseSchema,
+  type ChampionsLeagueTeams,
+  type TeamMatchesResult,
+  type LeagueListItem,
+  type LeagueTeamItem,
+  type LeagueTable,
+  type ChampionsLeagueStage,
 } from './types';
+import {
+  mapLeagueList,
+  mapChampionsLeagueTeams,
+  mapLeagueTeams,
+  mapTeamMatches,
+  mapLeagueTable,
+  mapChampionsLeagueStage,
+} from './adapters';
 
-const apiKey = import.meta.env.VITE_FOOTBALLDATA_KEY_API_FOOTBALL;
+const apiKey = import.meta.env.VITE_FOOTBALLDATA_KEY;
 
-const API_BASE = 'https://v3.football.api-sports.io';
+const API_BASE = '/api/v4';
 
 const getAuthHeaders = () => ({
-  'x-rapidapi-key': apiKey,
-  'x-rapidapi-host': 'v3.football.api-sports.io',
+  'X-Auth-Token': apiKey,
 });
 
 function ensureOkResponse(response: Response, resourceName: string): void {
@@ -25,93 +35,103 @@ function ensureOkResponse(response: Response, resourceName: string): void {
   }
 }
 
-export const API_FOOTBALL_LEAGUE_IDS: Record<string, number> = {
-  PL: 39, // Premier League
-  PD: 140, // La Liga
-  SA: 135, // Serie A
-  BL1: 78, // Bundesliga
-  FL1: 61, // Ligue 1
-  CL: 2, // CL
-};
+export async function fetchAllLeagues(): Promise<LeagueListItem[]> {
+  const leagueList = [2072, 2224, 2081, 2088, 2114];
+  const areas = leagueList.join(',');
 
-export function getPreviousSeasonYear() {
-  return new Date().getFullYear() - 2;
-}
-
-async function fetchLeagueSeasonStandings(leagueCode: string, season: number): Promise<LeagueSeasonStandings | null> {
-  const league = API_FOOTBALL_LEAGUE_IDS[leagueCode];
-
-  if (!league) return null;
-
-  const response = await fetch(`${API_BASE}/standings?league=${league}&season=${season}`, {
+  const response = await fetch(`${API_BASE}/competitions/?areas=${areas}`, {
     headers: getAuthHeaders(),
   });
-  ensureOkResponse(response, 'league season standings');
+
+  ensureOkResponse(response, 'league list');
 
   const json: unknown = await response.json();
-  const data = leagueSeasonStandingsSchema.parse(json);
+  const data = allLeaguesResponseSchema.parse(json);
 
-  return data?.response?.[0]?.league ?? null;
+  return mapLeagueList(data);
 }
 
-export async function fetchRecentChampions(leagueCode: string, count = 3): Promise<LeagueInfo | null> {
-  const current = getPreviousSeasonYear();
-
-  const seasons = Array.from({ length: count }, (_, index) => current - index);
-
-  const leagues = await Promise.all(seasons.map((season) => fetchLeagueSeasonStandings(leagueCode, season)));
-
-  const latestLeague = leagues[0];
-  if (!latestLeague) return null;
-
-  const championsHistory = leagues
-    .map((league) => mapChampion(league))
-    .filter((item): item is ChampionHistoryItem => item !== null);
-
-  return mapLeagueInfo(latestLeague, championsHistory);
-}
-
-export async function fetchSeasonChampion(leagueCode: string, season: number): Promise<LeagueInfo | null> {
-  const league = await fetchLeagueSeasonStandings(leagueCode, season);
-  if (!league) return null;
-
-  const champion = mapChampion(league);
-  const championsHistory = champion ? [champion] : [];
-
-  return mapLeagueInfo(league, championsHistory);
-}
-
-export async function fetchTopScorers(
-  leagueCode: string,
-  season = getPreviousSeasonYear()
-): Promise<TopScorer[] | null> {
-  const league = API_FOOTBALL_LEAGUE_IDS[leagueCode];
-
-  if (!league) return null;
-
-  const response = await fetch(`${API_BASE}/players/topscorers?league=${league}&season=${season}`, {
+export async function fetchChampionsLeagueTeams(): Promise<ChampionsLeagueTeams> {
+  const response = await fetch(`${API_BASE}/competitions/CL/teams`, {
     headers: getAuthHeaders(),
   });
-  ensureOkResponse(response, 'top scorers');
+
+  ensureOkResponse(response, 'Champions League teams');
 
   const json: unknown = await response.json();
-  const data = topScorersApiResponseSchema.parse(json);
+  const data = championsLeagueTeamsResponseSchema.parse(json);
 
-  return mapTopScorers(data);
+  return mapChampionsLeagueTeams(data);
 }
 
-export async function championsLeagueWinner(leagueCode: string, season: number): Promise<ChampionsLeagueWinner | null> {
-  const league = API_FOOTBALL_LEAGUE_IDS[leagueCode];
-
-  if (!league) return null;
-
-  const response = await fetch(`${API_BASE}/fixtures?league=${league}&season=${season}&round=Final`, {
+export async function fetchLeagueTeams(leagueCode: string): Promise<LeagueTeamItem[]> {
+  const response = await fetch(`${API_BASE}/competitions/${leagueCode}/teams`, {
     headers: getAuthHeaders(),
   });
-  ensureOkResponse(response, 'Champions League final');
+  ensureOkResponse(response, 'league teams');
 
   const json: unknown = await response.json();
-  const data = championsLeagueWinnerApiResponseSchema.parse(json);
+  const data = leagueTeamsResponseSchema.parse(json);
 
-  return mapChampionsLeagueWinner(data);
+  return mapLeagueTeams(data);
+}
+
+export async function fetchTeamMatches(teamId: number): Promise<TeamMatchesResult> {
+  const response = await fetch(`${API_BASE}/teams/${teamId}/matches`, {
+    headers: getAuthHeaders(),
+  });
+  ensureOkResponse(response, 'teams matches');
+
+  const json: unknown = await response.json();
+  const data = teamMatchesResponseSchema.parse(json);
+
+  return mapTeamMatches(data);
+}
+
+export async function fetchLeagueTable(leagueCode: string): Promise<LeagueTable> {
+  const response = await fetch(`${API_BASE}/competitions/${leagueCode}/standings`, {
+    headers: getAuthHeaders(),
+  });
+  ensureOkResponse(response, 'league table');
+
+  const json: unknown = await response.json();
+  const data = leagueTableResponseSchema.parse(json);
+  return mapLeagueTable(data);
+}
+
+export async function fetchChampionsLeagueTable(): Promise<LeagueTable> {
+  const response = await fetch(`${API_BASE}/competitions/CL/standings`, {
+    headers: getAuthHeaders(),
+  });
+  ensureOkResponse(response, 'Champions League table');
+
+  const json: unknown = await response.json();
+  const data = leagueTableResponseSchema.parse(json);
+
+  return mapLeagueTable(data);
+}
+
+export async function fetchChampionsLeagueStages(): Promise<ChampionsLeagueStage[]> {
+  const stages: ChampionsLeagueStage['stage'][] = ['PLAYOFFS', 'LAST_16', 'QUARTER_FINALS', 'SEMI_FINALS', 'FINAL'];
+
+  const responses = await Promise.all(
+    stages.map((stage) =>
+      fetch(`${API_BASE}/competitions/CL/matches?stage=${stage}`, {
+        headers: getAuthHeaders(),
+      })
+    )
+  );
+
+  responses.forEach((response, index) => {
+    ensureOkResponse(response, `Champions League ${stages[index]} matches`);
+  });
+
+  const jsonResponses = await Promise.all(responses.map((response) => response.json() as Promise<unknown>));
+
+  return jsonResponses.map((json, index) => {
+    const stage = stages[index];
+    const data = championsLeagueStageResponseSchema.parse(json);
+
+    return mapChampionsLeagueStage(data, stage);
+  });
 }

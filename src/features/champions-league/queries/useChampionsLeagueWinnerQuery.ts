@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys } from '../../../api/queryKeys';
-import { championsLeagueWinner } from '../../../api/football-data/client';
+import { championsLeagueWinner } from '../../../api/api-football/client';
 import { useLeagueParams } from '../../filters/useLeagueParams';
 
 export function useChampionsLeagueWinnerQuery() {
