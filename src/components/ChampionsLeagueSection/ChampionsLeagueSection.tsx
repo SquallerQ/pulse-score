@@ -9,7 +9,7 @@ import { TableCLSkeleton } from '../TableCL/TableCLSkeleton';
 import { CLInfo } from '../TableCL/CLInfo';
 import { CLInfoSkeleton } from '../TableCL/CLInfoSkeleton';
 
-import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/types';
+import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/football-data/types';
 
 type PropsType = {
   teams: ChampionsLeagueTeamItem[];

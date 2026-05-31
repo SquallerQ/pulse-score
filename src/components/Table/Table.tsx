@@ -1,20 +1,11 @@
 import { leagueConfig } from '../../utils/leagueConfig';
-import type { TableRow } from '../../api/types';
+import type { TableRow, LeagueTeamItem } from '../../api/football-data/types';
 
 import styles from './Table.module.css';
 
-type SelectedTeam = {
-  id: number;
-  name: string;
-  logo: string;
-  color: string;
-  leagueEmblem: string;
-  leagueName: string;
-};
-
 type TableProps = {
   leagueTable: LeagueTable | null;
-  selectedTeam: SelectedTeam;
+  selectedTeam: LeagueTeamItem | null;
   isUpdating?: boolean;
 };
 

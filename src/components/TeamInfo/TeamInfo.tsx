@@ -1,26 +1,22 @@
 import styles from './TeamInfo.module.css';
 import plLogo from '../../assets/pl-league-logo.svg';
 import clLogo from '../../assets/champ-league-white-logo.svg';
-import type { TeamMatches, ChampionsLeagueStage } from '../../api/types';
-
-type SelectedTeam = {
-  id: number;
-  name: string;
-  logo: string;
-  color: string;
-  leagueEmblem: string;
-  leagueName: string;
-};
+import type {
+  TeamMatch,
+  ChampionsLeagueStage,
+  ChampionsLeagueStageMatch,
+  LeagueTeamItem,
+} from '../../api/football-data/types';
 
 type TeamInfoProps = {
-  selectedTeam: SelectedTeam | null;
-  lastMatches: TeamMatches[];
+  selectedTeam: LeagueTeamItem | null;
+  lastMatches: TeamMatch[];
   hasChampionsLeague: boolean;
   championsLeagueStages?: ChampionsLeagueStage[];
 };
 
 export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, championsLeagueStages }: TeamInfoProps) {
-  function getResultBadge(match: TeamMatches) {
+  function getResultBadge(match: TeamMatch) {
     if (selectedTeam?.name === match.awayTeam.name) {
       if (match.score.winner === 'HOME_TEAM') {
         return <span className={styles.matchResult_lose}>L</span>;
@@ -41,7 +37,7 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     return <span className={styles.matchResult_draw}>D</span>;
   }
 
-  function getVenueBadge(match: TeamMatches) {
+  function getVenueBadge(match: TeamMatch) {
     if (selectedTeam?.name === match.awayTeam.name) {
       return <span className={styles.stadium}>A</span>;
     } else if (selectedTeam?.name === match.homeTeam.name) {
@@ -51,7 +47,7 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
     }
   }
 
-  function getOpponentBadge(match: TeamMatches) {
+  function getOpponentBadge(match: TeamMatch) {
     if (selectedTeam?.name === match.homeTeam.name) {
       return (
         <div>
@@ -72,8 +68,6 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
   function leagueEmblem(): string {
     return selectedTeam?.leagueName !== 'Premier League' ? (selectedTeam?.leagueEmblem ?? plLogo) : plLogo;
   }
-
-  type CLMatch = ChampionsLeagueStage['matches'][number];
 
   function getChampionsLeagueStage() {
     if (!hasChampionsLeague || !selectedTeam || !championsLeagueStages?.length) {
@@ -135,8 +129,8 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
   }
 
   function championsLeagueStatus(
-    _teamMatchAway: CLMatch | undefined,
-    _teamMatchHome: CLMatch | undefined,
+    _teamMatchAway: ChampionsLeagueStageMatch | undefined,
+    _teamMatchHome: ChampionsLeagueStageMatch | undefined,
     _stage: string,
     _actualStage: string | undefined
   ) {
@@ -163,6 +157,50 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
         stage = _stage;
     }
 
+    const singleMatch = _teamMatchAway ?? _teamMatchHome;
+
+    if (_stage === 'FINAL' && singleMatch) {
+      const winnerName =
+        singleMatch.score.winner === 'HOME_TEAM'
+          ? singleMatch.homeTeam.name
+          : singleMatch.score.winner === 'AWAY_TEAM'
+            ? singleMatch.awayTeam.name
+            : null;
+
+      return (
+        <div className={styles.CLcontainer}>
+          {isActive ? <div className={styles.CLactive}>Active</div> : <div className={styles.CLinactive}>Inactive</div>}
+          {isActive ? <span>Stage: {stage}</span> : <span>Lost in {stage}</span>}
+          <div className={styles.CLmatchesContainer}>
+            <div className={styles.CLmatchContainer}>
+              <div className={styles.matchRow}>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={singleMatch.homeTeam.crest}
+                    alt={singleMatch.homeTeam.name}
+                  />
+                </div>
+                <div className={styles.teamName}>{singleMatch.homeTeam.name}</div>
+                <div className={styles.scoreBox}>{singleMatch.score.home ?? ''}</div>
+                <div className={styles.scoreBox}>-</div>
+                <div className={styles.scoreBox}>{singleMatch.score.away ?? ''}</div>
+                <div className={styles.teamName}>{singleMatch.awayTeam.name}</div>
+                <div>
+                  <img
+                    className={styles.CLlogoSmall}
+                    src={singleMatch.awayTeam.crest}
+                    alt={singleMatch.awayTeam.name}
+                  />
+                </div>
+              </div>
+              {winnerName ? <div className={styles.stage}>Winner: {winnerName}</div> : null}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     if (!_teamMatchAway || !_teamMatchHome) {
       return (
         <div className={styles.CLcontainer}>
@@ -175,7 +213,7 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
       );
     }
 
-    const matchArray: CLMatch[] =
+    const matchArray: ChampionsLeagueStageMatch[] =
       _teamMatchAway.utcDate < _teamMatchHome.utcDate
         ? [_teamMatchAway, _teamMatchHome]
         : [_teamMatchHome, _teamMatchAway];

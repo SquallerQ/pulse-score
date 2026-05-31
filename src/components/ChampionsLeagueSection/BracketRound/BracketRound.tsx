@@ -1,6 +1,6 @@
 import { leagueConfig } from '../../../utils/leagueConfig';
 import styles from './BracketRound.module.css';
-import type { ChampionsLeagueStageMatch } from '../../../api/types';
+import type { ChampionsLeagueStageMatch } from '../../../api/football-data/types';
 
 type MatchPair = [ChampionsLeagueStageMatch | undefined, ChampionsLeagueStageMatch | undefined];
 
@@ -37,6 +37,18 @@ export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, 
         const winner = isWinner();
 
         function isWinner() {
+          if (stage === 'final' && m1?.status === 'FINISHED') {
+            if (m1.score.winner === 'HOME_TEAM') {
+              return homeName;
+            }
+
+            if (m1.score.winner === 'AWAY_TEAM') {
+              return awayName;
+            }
+
+            return null;
+          }
+
           if (!m2) {
             return null;
           }
@@ -74,7 +86,7 @@ export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, 
               </div>
             </div>
             <div className={styles.teamsContainer}>
-              <div className={styles.teamContainer}>
+              <div className={`${styles.teamContainer} ${!includeSecondLeg ? styles.singleLegTeamContainer : ''}`}>
                 {m1?.homeTeam?.crest ? (
                   <img className={styles.teamLogo} src={m1.homeTeam.crest} alt={homeName} />
                 ) : null}
@@ -82,7 +94,7 @@ export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, 
                 <div className={styles.score}>{homeLeg1}</div>
                 {includeSecondLeg && <div className={styles.score}>{awayLeg2}</div>}
               </div>
-              <div className={styles.teamContainer}>
+              <div className={`${styles.teamContainer} ${!includeSecondLeg ? styles.singleLegTeamContainer : ''}`}>
                 {m1?.awayTeam?.crest ? (
                   <img className={styles.teamLogo} src={m1.awayTeam.crest} alt={awayName} />
                 ) : null}

@@ -59,6 +59,9 @@ export function MainPage() {
   const { championsLeagueTableQuery, championsLeagueTable } = useChampionsLeagueTableQuery();
   const { teamMatches } = useTeamMatchesQuery(selectedTeam?.leagueCode, selectedTeam?.teamId);
 
+  console.log(championsLeagueStages);
+  
+
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =
     (leagueInfoQuery.isPending && !leagueInfoQuery.data) ||

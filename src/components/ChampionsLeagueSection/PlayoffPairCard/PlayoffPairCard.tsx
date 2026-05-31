@@ -63,13 +63,14 @@ export function PlayoffPairCard({ match }: PlayoffPairCardProps) {
       <div className={styles.tourneyAndDateContainer}>
         <img className={styles.tourneyLogo} src={tournamentLogo} alt="UEFA Champions League" />
         <div className={styles.winnerContainer}>
-          {winner && (
-            winner === homeName ? (
-              homeTeamLogo ? <img className={styles.winnerTeamLogo} src={homeTeamLogo} alt="Winner logo" /> : null
+          {winner &&
+            (winner === homeName ? (
+              homeTeamLogo ? (
+                <img className={styles.winnerTeamLogo} src={homeTeamLogo} alt="Winner logo" />
+              ) : null
             ) : awayTeamLogo ? (
               <img className={styles.winnerTeamLogo} src={awayTeamLogo} alt="Winner logo" />
-            ) : null
-          )}
+            ) : null)}
           <div className={styles.winnerBadge}>{winner ?? ''}</div>
         </div>
         <div className={styles.date}>
@@ -79,14 +80,18 @@ export function PlayoffPairCard({ match }: PlayoffPairCardProps) {
 
       <div className={styles.teamsContainer}>
         <div className={styles.teamContainer}>
-          {firstLeg.homeTeam.crest ? <img className={styles.teamLogo} src={firstLeg.homeTeam.crest} alt={homeName} /> : null}
+          {firstLeg.homeTeam.crest ? (
+            <img className={styles.teamLogo} src={firstLeg.homeTeam.crest} alt={homeName} />
+          ) : null}
           <div className={`${styles.teamName} ${winner === homeName ? styles.winnerTeamName : ''} `}>{homeName}</div>
           <div className={styles.score}>{firstLeg.score.home ?? '-'}</div>
           <div className={styles.score}>{secondLeg?.score.away ?? '-'}</div>
         </div>
 
         <div className={styles.teamContainer}>
-          {firstLeg.awayTeam.crest ? <img className={styles.teamLogo} src={firstLeg.awayTeam.crest} alt={awayName} /> : null}
+          {firstLeg.awayTeam.crest ? (
+            <img className={styles.teamLogo} src={firstLeg.awayTeam.crest} alt={awayName} />
+          ) : null}
           <div className={`${styles.teamName} ${winner === awayName ? styles.winnerTeamName : ''}`}>{awayName}</div>
           <div className={styles.score}>{firstLeg.score.away ?? '-'}</div>
           <div className={styles.score}>{secondLeg?.score.home ?? '-'}</div>

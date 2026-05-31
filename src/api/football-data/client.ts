@@ -122,16 +122,25 @@ export async function fetchChampionsLeagueStages(): Promise<ChampionsLeagueStage
     )
   );
 
-  responses.forEach((response, index) => {
-    ensureOkResponse(response, `Champions League ${stages[index]} matches`);
-  });
+  const results: ChampionsLeagueStage[] = [];
 
-  const jsonResponses = await Promise.all(responses.map((response) => response.json() as Promise<unknown>));
+  for (let i = 0; i < responses.length; i++) {
+    if (!responses[i].ok) {
+      if (responses[i].status === 429) {
+        throw new Error(
+          `Failed to fetch Champions League ${stages[i]} matches: ${responses[i].status} ${responses[i].statusText}`
+        );
+      }
+      continue;
+    }
 
-  return jsonResponses.map((json, index) => {
-    const stage = stages[index];
-    const data = championsLeagueStageResponseSchema.parse(json);
+    const json: unknown = await responses[i].json();
+    const parsed = championsLeagueStageResponseSchema.safeParse(json);
 
-    return mapChampionsLeagueStage(data, stage);
-  });
+    if (!parsed.success) continue;
+
+    results.push(mapChampionsLeagueStage(parsed.data, stages[i]));
+  }
+
+  return results;
 }

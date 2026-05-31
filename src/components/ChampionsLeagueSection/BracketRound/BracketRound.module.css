@@ -101,6 +101,10 @@
   min-height: 20px;
 }
 
+.singleLegTeamContainer {
+  grid-template-columns: 30px minmax(0, 1fr) 26px;
+}
+
 .teamLogo {
   width: 25px;
   height: 25px;
@@ -140,6 +144,10 @@
   .teamContainer {
     grid-template-columns: 26px minmax(0, 1fr) 24px 24px;
     gap: 5px;
+  }
+
+  .singleLegTeamContainer {
+    grid-template-columns: 26px minmax(0, 1fr) 24px;
   }
 
   .teamLogo {
@@ -215,6 +223,10 @@
     gap: 4px;
   }
 
+  .singleLegTeamContainer {
+    grid-template-columns: 22px minmax(0, 1fr) 22px;
+  }
+
   .teamLogo {
     width: 18px;
     height: 18px;
@@ -282,6 +294,10 @@
 
   .teamContainer {
     grid-template-columns: 18px minmax(0, 1fr) 20px 20px;
+  }
+
+  .singleLegTeamContainer {
+    grid-template-columns: 18px minmax(0, 1fr) 20px;
   }
 
   .teamLogo {

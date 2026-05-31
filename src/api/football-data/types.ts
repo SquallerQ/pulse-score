@@ -244,7 +244,7 @@ export const championsLeagueStageResponseSchema = z.object({
       id: z.number(),
       utcDate: z.string(),
       status: z.string(),
-      matchday: z.number(),
+      matchday: z.number().nullable(),
       homeTeam: z.object({
         id: z.number(),
         name: z.string(),
@@ -274,7 +274,7 @@ export type ChampionsLeagueStageMatch = {
   id: number;
   utcDate: string;
   status: string;
-  matchday: number;
+  matchday: number | null;
   homeTeam: {
     id: number;
     name: string;
