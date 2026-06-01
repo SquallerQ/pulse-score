@@ -1,13 +1,13 @@
 import { leagueConfig } from '../../../utils/leagueConfig';
-import type { TeamMatches, SelectedTeam } from '../../../api/types';
+import type { LeagueTeamItem, TeamMatch } from '../../../api/football-data/types';
 import styles from './Match.module.css';
 
-type matchProp = {
-  match: TeamMatches;
-  selectedTeam: SelectedTeam | null;
+type MatchProps = {
+  match: TeamMatch;
+  selectedTeam: LeagueTeamItem | null;
 };
 
-export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
+export function Match({ match, selectedTeam }: MatchProps) {
   const matchDate = new Date(match.utcDate);
   const day = !isNaN(matchDate.getTime()) ? matchDate.toLocaleDateString('en-GB', { day: '2-digit' }) : '';
   const month = !isNaN(matchDate.getTime()) ? matchDate.toLocaleDateString('en-GB', { month: 'short' }) : '';
@@ -38,8 +38,22 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
   }
   const isChampionsLeague = match.competition.name === 'UEFA Champions League';
 
+  function getPenaltyWinnerLabel() {
+    if (!isChampionsLeague || !match.score.wonOnPenalties) return null;
+
+    if (match.score.winner === 'HOME_TEAM') {
+      return `${match.homeTeam.name} won on pens`;
+    }
+
+    if (match.score.winner === 'AWAY_TEAM') {
+      return `${match.awayTeam.name} won on pens`;
+    }
+
+    return null;
+  }
+
   function getLeagueLogo(code: string) {
-    return leagueConfig[code].logo ?? match.competition.emblem;
+    return leagueConfig[code]?.logo ?? match.competition.emblem;
   }
 
   if (match.status === 'FINISHED') {
@@ -70,6 +84,7 @@ export function Match({ match, selectedTeam: selectedTeam }: matchProp) {
             <div className={styles.score}>{match.score.away}</div>
           </div>
         </div>
+        {getPenaltyWinnerLabel() ? <div className={styles.penaltyInfo}>{getPenaltyWinnerLabel()}</div> : null}
       </div>
     );
   } else if (match.status === 'POSTPONED') {

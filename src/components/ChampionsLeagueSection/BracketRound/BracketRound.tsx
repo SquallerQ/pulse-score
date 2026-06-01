@@ -33,6 +33,7 @@ export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, 
 
         const homeTeamLogo = m1?.homeTeam.crest ?? '';
         const awayTeamLogo = m1?.awayTeam.crest ?? '';
+        const wonOnPenalties = m1?.score.wonOnPenalties ?? false;
 
         const winner = isWinner();
 
@@ -79,7 +80,7 @@ export function BracketRound({ matches, expectedPairs, includeSecondLeg = true, 
                     <img className={styles.winnerTeamLogo} src={awayTeamLogo} alt="Winner logo" />
                   ) : null)}
 
-                <div className={styles.winnerBadge}>{winner ?? ''}</div>
+                <div className={styles.winnerBadge}>{winner ? `${winner}${wonOnPenalties ? ' (pens)' : ''}` : ''}</div>
               </div>
               <div className={styles.date}>
                 <span className={styles.day}>{day}</span> <span className={styles.month}>{month}</span>

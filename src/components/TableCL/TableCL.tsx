@@ -1,20 +1,11 @@
 import { leagueConfig } from '../../utils/leagueConfig';
-import type { TableRow } from '../../api/types';
+import type { LeagueTable, TableRow } from '../../api/football-data/types';
 
 import styles from './TableCL.module.css';
 
 type TableCLProps = {
   leagueTable: LeagueTable | null;
   isUpdating?: boolean;
-};
-
-export type LeagueTable = {
-  table: TableRow[];
-  competition: {
-    emblem: string;
-    name: string;
-    code: string;
-  };
 };
 
 export function TableCL({ leagueTable, isUpdating = false }: TableCLProps) {

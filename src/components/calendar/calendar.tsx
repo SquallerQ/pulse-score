@@ -1,14 +1,14 @@
 import { generateDates } from '../../utils/generateDates.ts';
 import { Day } from './Day/Day.tsx';
-import type { TeamMatches } from '../../api/types.ts';
+import type { TeamMatch } from '../../api/football-data/types';
 
 import styles from './Calendar.module.css';
 
-type CalendarProp = {
-  matches: TeamMatches[];
+type CalendarProps = {
+  matches: TeamMatch[];
 };
 
-export function Calendar({ matches }: CalendarProp) {
+export function Calendar({ matches }: CalendarProps) {
   const daysArray = generateDates();
 
   return (

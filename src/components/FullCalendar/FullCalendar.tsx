@@ -1,14 +1,14 @@
-import type { TeamMatches, SelectedTeam } from '../../api/types';
+import type { LeagueTeamItem, TeamMatch } from '../../api/football-data/types';
 
 import { Match } from './Match/Match';
 import styles from './FullCalendar.module.css';
 
-type CalendarProp = {
-  matches: TeamMatches[];
-  selectedTeam: SelectedTeam | null;
+type FullCalendarProps = {
+  matches: TeamMatch[];
+  selectedTeam: LeagueTeamItem | null;
 };
 
-export function FullCalendar({ matches, selectedTeam }: CalendarProp) {
+export function FullCalendar({ matches, selectedTeam }: FullCalendarProps) {
   return (
     <div className={styles.container}>
       {matches.map((m) => (

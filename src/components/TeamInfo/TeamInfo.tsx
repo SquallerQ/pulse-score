@@ -166,6 +166,7 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
           : singleMatch.score.winner === 'AWAY_TEAM'
             ? singleMatch.awayTeam.name
             : null;
+      const winnerLabel = winnerName ? `${winnerName}${singleMatch.score.wonOnPenalties ? ' (pens)' : ''}` : null;
 
       return (
         <div className={styles.CLcontainer}>
@@ -194,7 +195,7 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
                   />
                 </div>
               </div>
-              {winnerName ? <div className={styles.stage}>Winner: {winnerName}</div> : null}
+              {winnerLabel ? <div className={styles.stage}>Winner: {winnerLabel}</div> : null}
             </div>
           </div>
         </div>

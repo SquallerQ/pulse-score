@@ -4,12 +4,12 @@ import { ChampionsLeagueTeamCard } from './ChampionsLeagueTeamCard/ChampionsLeag
 import { PlayoffPairCard } from './PlayoffPairCard/PlayoffPairCard';
 
 import { BracketRound } from './BracketRound/BracketRound';
-import { TableCL, type LeagueTable } from '../TableCL/TableCL';
+import { TableCL } from '../TableCL/TableCL';
 import { TableCLSkeleton } from '../TableCL/TableCLSkeleton';
 import { CLInfo } from '../TableCL/CLInfo';
 import { CLInfoSkeleton } from '../TableCL/CLInfoSkeleton';
 
-import type { ChampionsLeagueStage, ChampionsLeagueStageMatch } from '../../api/football-data/types';
+import type { ChampionsLeagueStage, ChampionsLeagueStageMatch, LeagueTable } from '../../api/football-data/types';
 
 type PropsType = {
   teams: ChampionsLeagueTeamItem[];

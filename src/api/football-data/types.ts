@@ -108,6 +108,27 @@ export const teamMatchesResponseSchema = z.object({
           home: z.number().nullable(),
           away: z.number().nullable(),
         }),
+        regularTime: z
+          .object({
+            home: z.number().nullable(),
+            away: z.number().nullable(),
+          })
+          .nullable()
+          .optional(),
+        extraTime: z
+          .object({
+            home: z.number().nullable(),
+            away: z.number().nullable(),
+          })
+          .nullable()
+          .optional(),
+        penalties: z
+          .object({
+            home: z.number().nullable(),
+            away: z.number().nullable(),
+          })
+          .nullable()
+          .optional(),
         winner: z.string().nullable(),
         duration: z.string(),
       }),
@@ -153,6 +174,19 @@ export type TeamMatch = {
     away: number | null;
     winner: string | null;
     duration: string;
+    regularTime: {
+      home: number | null;
+      away: number | null;
+    } | null;
+    extraTime: {
+      home: number | null;
+      away: number | null;
+    } | null;
+    penalties: {
+      home: number | null;
+      away: number | null;
+    } | null;
+    wonOnPenalties: boolean;
   };
   season: {
     id: number;
@@ -258,10 +292,32 @@ export const championsLeagueStageResponseSchema = z.object({
         crest: z.string(),
       }),
       score: z.object({
+        duration: z.string().nullable(),
         fullTime: z.object({
           home: z.number().nullable(),
           away: z.number().nullable(),
         }),
+        regularTime: z
+          .object({
+            home: z.number().nullable(),
+            away: z.number().nullable(),
+          })
+          .nullable()
+          .optional(),
+        extraTime: z
+          .object({
+            home: z.number().nullable(),
+            away: z.number().nullable(),
+          })
+          .nullable()
+          .optional(),
+        penalties: z
+          .object({
+            home: z.number().nullable(),
+            away: z.number().nullable(),
+          })
+          .nullable()
+          .optional(),
         winner: z.string().nullable(),
       }),
     })
@@ -289,6 +345,12 @@ export type ChampionsLeagueStageMatch = {
     home: number | null;
     away: number | null;
     winner: string | null;
+    duration: string | null;
+    penalties: {
+      home: number | null;
+      away: number | null;
+    } | null;
+    wonOnPenalties: boolean;
   };
 };
 

@@ -74,10 +74,20 @@ export function mapTeamMatches(data: TeamMatchesApiResponse): TeamMatchesResult 
       tla: match.awayTeam.tla,
     },
     score: {
-      home: match.score.fullTime.home,
-      away: match.score.fullTime.away,
+      home:
+        match.score.duration === 'PENALTY_SHOOTOUT'
+          ? (match.score.regularTime?.home ?? match.score.fullTime.home ?? 0) + (match.score.extraTime?.home ?? 0)
+          : match.score.fullTime.home,
+      away:
+        match.score.duration === 'PENALTY_SHOOTOUT'
+          ? (match.score.regularTime?.away ?? match.score.fullTime.away ?? 0) + (match.score.extraTime?.away ?? 0)
+          : match.score.fullTime.away,
       winner: match.score.winner,
       duration: match.score.duration,
+      regularTime: match.score.regularTime ?? null,
+      extraTime: match.score.extraTime ?? null,
+      penalties: match.score.penalties ?? null,
+      wonOnPenalties: match.score.duration === 'PENALTY_SHOOTOUT',
     },
     season: {
       id: match.season.id,
@@ -133,26 +143,43 @@ export function mapChampionsLeagueStage(
 ): ChampionsLeagueStage {
   return {
     stage,
-    matches: data.matches.map((match) => ({
-      id: match.id,
-      utcDate: match.utcDate,
-      status: match.status,
-      matchday: match.matchday,
-      homeTeam: {
-        id: match.homeTeam.id,
-        name: match.homeTeam.shortName ?? match.homeTeam.name,
-        crest: match.homeTeam.crest,
-      },
-      awayTeam: {
-        id: match.awayTeam.id,
-        name: match.awayTeam.shortName ?? match.awayTeam.name,
-        crest: match.awayTeam.crest,
-      },
-      score: {
-        home: match.score.fullTime.home,
-        away: match.score.fullTime.away,
-        winner: match.score.winner,
-      },
-    })),
+    matches: data.matches.map((match) => {
+      const duration = match.score.duration;
+      const wonOnPenalties = duration === 'PENALTY_SHOOTOUT';
+      const penalties = match.score.penalties ?? null;
+
+      const homeScore = wonOnPenalties
+        ? (match.score.regularTime?.home ?? match.score.fullTime.home ?? 0) + (match.score.extraTime?.home ?? 0)
+        : match.score.fullTime.home;
+
+      const awayScore = wonOnPenalties
+        ? (match.score.regularTime?.away ?? match.score.fullTime.away ?? 0) + (match.score.extraTime?.away ?? 0)
+        : match.score.fullTime.away;
+
+      return {
+        id: match.id,
+        utcDate: match.utcDate,
+        status: match.status,
+        matchday: match.matchday,
+        homeTeam: {
+          id: match.homeTeam.id,
+          name: match.homeTeam.shortName ?? match.homeTeam.name,
+          crest: match.homeTeam.crest,
+        },
+        awayTeam: {
+          id: match.awayTeam.id,
+          name: match.awayTeam.shortName ?? match.awayTeam.name,
+          crest: match.awayTeam.crest,
+        },
+        score: {
+          home: homeScore,
+          away: awayScore,
+          winner: match.score.winner,
+          duration,
+          penalties,
+          wonOnPenalties,
+        },
+      };
+    }),
   };
 }

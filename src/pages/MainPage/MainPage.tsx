@@ -54,13 +54,13 @@ export function MainPage() {
 
   const { leagueTeamsQuery, teamsList } = useLeagueTeamsQuery();
   const { championsLeagueTeamsQuery, championsLeagueTeams } = useChampionsLeagueTeamsQuery();
-  const { championsLeagueStagesQuery, championsLeagueStages } = useChampionsLeagueStagesQuery();
   const { leagueTableQuery, leagueTable } = useLeagueTableQuery();
   const { championsLeagueTableQuery, championsLeagueTable } = useChampionsLeagueTableQuery();
   const { teamMatches } = useTeamMatchesQuery(selectedTeam?.leagueCode, selectedTeam?.teamId);
-
-  console.log(championsLeagueStages);
-  
+  const hasChampionsLeague = teamMatches?.competitions?.includes('CL') ?? false;
+  const { championsLeagueStagesQuery, championsLeagueStages } = useChampionsLeagueStagesQuery(
+    mode === 'cup' || hasChampionsLeague
+  );
 
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =
@@ -96,8 +96,6 @@ export function MainPage() {
       .filter((match: TeamMatch) => match.status === 'FINISHED')
       .slice(-5);
   }, [teamMatches, currentLeague]);
-
-  const hasChampionsLeague = teamMatches?.competitions?.includes('CL') ?? false;
 
   return (
     <div className={styles.main__container}>

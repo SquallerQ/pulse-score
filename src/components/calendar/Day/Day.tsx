@@ -1,5 +1,5 @@
 import styles from './Day.module.css';
-import type { TeamMatches } from '../../../api/types';
+import type { TeamMatch } from '../../../api/football-data/types';
 
 import { leagueConfig } from '../../../utils/leagueConfig';
 
@@ -12,18 +12,15 @@ type Day = {
 
 type DayProps = {
   day: Day;
-  matches: TeamMatches[];
+  matches: TeamMatch[];
 };
 
 export function Day({ day, matches }: DayProps) {
-  let dayTypeClass = '';
-  if (day.isPast) {
-    dayTypeClass = styles.dayContainerPast;
-  } else if (day.isToday) {
-    dayTypeClass = styles.dayContainerToday;
-  } else if (day.isFuture) {
-    dayTypeClass = styles.dayContainerFuture;
-  }
+  const dayTypeClass = day.isPast
+    ? styles.dayContainerPast
+    : day.isToday
+      ? styles.dayContainerToday
+      : styles.dayContainerFuture;
   const monthShort = day.date.toLocaleDateString('en-US', { month: 'short' });
   const isEmpty = matches.length === 0;
 
@@ -31,21 +28,35 @@ export function Day({ day, matches }: DayProps) {
     return leagueConfig[code]?.logo ?? fallbackEmblem;
   }
 
-  function getDayLeagueClass() {
+  function getDayLeagueClass(): string {
     if (matches.some((m) => m.competition.code === 'CL')) {
-      return styles[leagueConfig['CL'].className];
+      return styles.dayContainerCL;
     }
+
     for (const match of matches) {
       const config = leagueConfig[match.competition.code];
-      if (config) return styles[config.className];
+      if (config?.className && config.className in styles) {
+        return styles[config.className as keyof typeof styles];
+      }
     }
+
     return '';
   }
 
-  function dayMatch(match: TeamMatches) {
+  function dayMatch(match: TeamMatch) {
+    const penaltyWinnerLabel =
+      match.competition.code === 'CL' && match.score.wonOnPenalties
+        ? match.score.winner === 'HOME_TEAM'
+          ? `${match.homeTeam.name} won on pens`
+          : match.score.winner === 'AWAY_TEAM'
+            ? `${match.awayTeam.name} won on pens`
+            : null
+        : null;
+
     {
       return match.status === 'FINISHED' ? (
         <div className={`${styles.finished} ${styles.teamsContainer}`}>
+          {penaltyWinnerLabel ? <div className={styles.penaltyInfo}>{penaltyWinnerLabel}</div> : null}
           <div className={styles.teamContainer}>
             <img className={styles.teamContainerImage} src={match.awayTeam.crest} alt={match.awayTeam.name} />
             <div className={styles.teamContainerName}>{match.awayTeam.name}</div>

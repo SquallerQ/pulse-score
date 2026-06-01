@@ -9,6 +9,8 @@
 
   background: #0b2d55;
   background-image: url('../../../assets/cards-bg/cl-card-bg.webp');
+  background-position: center top;
+  background-size: cover;
 }
 
 .tourneyAndDateContainer {

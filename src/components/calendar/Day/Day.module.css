@@ -14,6 +14,18 @@
   padding: 6px;
 }
 
+.dayContainerPast {
+  opacity: 0.72;
+}
+
+.dayContainerToday {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.dayContainerFuture {
+  opacity: 1;
+}
+
 .dayContainerEmpty {
   width: 250px;
   height: 130px;
@@ -47,22 +59,25 @@
 }
 
 .dayContainerCL {
-  background: #0b2d55;
+  background: url('../../../assets/cards-bg/cl-card-bg.webp');
   color: #fff;
 
   box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/cards-bg/cl-card-bg.webp');
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .dayContainerPL {
-  background: #0b2d55;
+  background:
+    linear-gradient(rgba(12, 20, 55, 0.65), rgba(12, 20, 55, 0.78)),
+    url('../../../assets/cards-bg/epl-card-bg.jpg');
   color: #fff;
 
   box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 12px rgba(30, 90, 165, 0.4);
-  background: url('../../../assets/cards-bg/epl-card-bg.jpg');
   background-repeat: no-repeat;
-  background-position: left;
+  background-position: left center;
+  background-size: cover;
 }
 
 .dayContainerFL1 {
@@ -160,6 +175,15 @@
 .score {
   font-size: 20px;
   text-align: center;
+}
+
+.penaltyInfo {
+  display: inline-flex;
+  justify-content: end;
+  margin-top: -21px;
+  font-size: 10px;
+  line-height: 1.15;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .teamsContainer {
