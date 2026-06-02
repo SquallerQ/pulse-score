@@ -71,6 +71,8 @@ export function Match({ match, selectedTeam }: MatchProps) {
             <span className={styles.month}>{month}</span>
           </div>
         </div>
+        {getPenaltyWinnerLabel() ? <div className={styles.penaltyInfo}>{getPenaltyWinnerLabel()}</div> : null}
+
         <div className={styles.teamsContainer}>
           <div className={styles.teamContainer}>
             <img className={styles.teamLogo} src={match.homeTeam.crest} alt={match.homeTeam.name}></img>
@@ -84,7 +86,6 @@ export function Match({ match, selectedTeam }: MatchProps) {
             <div className={styles.score}>{match.score.away}</div>
           </div>
         </div>
-        {getPenaltyWinnerLabel() ? <div className={styles.penaltyInfo}>{getPenaltyWinnerLabel()}</div> : null}
       </div>
     );
   } else if (match.status === 'POSTPONED') {
