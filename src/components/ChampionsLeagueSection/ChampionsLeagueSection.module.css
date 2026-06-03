@@ -131,6 +131,11 @@
   gap: 30px;
 }
 
+.final {
+  display: flex;
+  justify-content: center;
+}
+
 .playoffsContainer {
   display: flex;
   justify-content: space-between;
@@ -174,6 +179,51 @@
   background: rgba(115, 149, 174, 0.1);
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.compactBracketSection {
+  display: grid;
+  gap: 14px;
+}
+
+.stageTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stageTabButton {
+  padding: 8px 14px;
+  border: 1px solid rgba(173, 201, 248, 0.22);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #dce8fb;
+  background: rgba(14, 28, 53, 0.72);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.stageTabButton:hover {
+  border-color: rgba(173, 201, 248, 0.42);
+  background: rgba(22, 40, 71, 0.86);
+}
+
+.stageTabButtonActive {
+  color: #081226;
+  background: linear-gradient(135deg, #dce8fb, #8ec0ff);
+  border-color: rgba(173, 201, 248, 0.62);
+  box-shadow: 0 6px 16px rgba(73, 129, 214, 0.24);
+}
+
+.stageTabButtonActive:hover {
+  background: linear-gradient(135deg, #dce8fb, #8ec0ff);
+}
+
+.compactBracketContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .skeletonContentContainer {
@@ -315,6 +365,36 @@
   }
 }
 
+@media (max-width: 2300px) {
+  .bracket > .side:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .bracket > .side:last-child {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+    direction: rtl;
+  }
+
+  .bracket > .side:last-child > * {
+    direction: ltr;
+  }
+
+  .final {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-self: start;
+    width: max-content;
+    max-width: 100%;
+    margin-left: 8px;
+    justify-content: flex-start;
+  }
+}
+
 @media (max-width: 1200px) {
   .container {
     padding: 16px;
@@ -355,6 +435,15 @@
   .toggleButtonContainer button {
     padding: 7px 12px;
     font-size: 14px;
+  }
+
+  .stageTabs {
+    gap: 6px;
+  }
+
+  .stageTabButton {
+    padding: 7px 12px;
+    font-size: 12px;
   }
 }
 
@@ -397,6 +486,23 @@
   .toggleButtonContainer button {
     padding: 6px 10px;
     font-size: 13px;
+  }
+
+  .compactBracketSection {
+    gap: 12px;
+  }
+
+  .stageTabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .stageTabButton {
+    width: 100%;
+    padding: 7px 6px;
+    font-size: 11px;
+    text-align: center;
   }
 }
 

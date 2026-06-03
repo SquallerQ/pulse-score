@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ChampionsLeagueSection.module.css';
 import { ChampionsLeagueTeamCard } from './ChampionsLeagueTeamCard/ChampionsLeagueTeamCard';
 import { PlayoffPairCard } from './PlayoffPairCard/PlayoffPairCard';
@@ -28,6 +28,10 @@ type ChampionsLeagueTeamItem = {
   logo: string;
 };
 
+type CompactStageKey = 'LAST_16' | 'QUARTER_FINALS' | 'SEMI_FINALS' | 'FINAL';
+
+const COMPACT_BRACKET_BREAKPOINT = 1450;
+
 export function ChampionsLeagueSection({
   teams,
   championsLeagueStages,
@@ -39,10 +43,29 @@ export function ChampionsLeagueSection({
   isUpdating = false,
 }: PropsType) {
   const [contentView, setContentView] = useState<'bracket' | 'table'>('bracket');
+  const [activeCompactStage, setActiveCompactStage] = useState<CompactStageKey>('LAST_16');
+  const [isCompactBracket, setIsCompactBracket] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth <= COMPACT_BRACKET_BREAKPOINT : false
+  );
   const totalTeams = leagueTable?.table.length ?? 36;
   const directSpots = Math.min(8, totalTeams);
   const playoffSpots = Math.max(Math.min(24, totalTeams) - 8, 0);
   const eliminatedSpots = Math.max(totalTeams - 24, 0);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const mediaQuery = window.matchMedia(`(max-width: ${COMPACT_BRACKET_BREAKPOINT}px)`);
+
+    const handleChange = (event?: MediaQueryListEvent) => {
+      setIsCompactBracket(event ? event.matches : mediaQuery.matches);
+    };
+
+    handleChange();
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   const playoffsMatches =
     championsLeagueStages?.filter((item) => item.stage === 'PLAYOFFS').flatMap((item) => item.matches) ?? [];
@@ -180,6 +203,29 @@ export function ChampionsLeagueSection({
     finalPairs.every((pair) => pair[0].homeTeam.id != null && pair[0].awayTeam.id != null);
   const finalPairsSorted = canSortFinal ? sortPairsByTeamIds(finalPairs, finalOrderByWinners) : finalPairs;
 
+  const compactStages: {
+    key: CompactStageKey;
+    label: string;
+    matches: [ChampionsLeagueStageMatch, ChampionsLeagueStageMatch | undefined][];
+    expectedPairs: number;
+    includeSecondLeg?: boolean;
+    stage?: string;
+  }[] = [
+    { key: 'LAST_16', label: '1/8', matches: last16Pairs, expectedPairs: 8 },
+    { key: 'QUARTER_FINALS', label: '1/4', matches: quarterPairsSorted, expectedPairs: 4 },
+    { key: 'SEMI_FINALS', label: '1/2', matches: semiPairsSorted, expectedPairs: 2 },
+    {
+      key: 'FINAL',
+      label: 'Final',
+      matches: finalPairsSorted,
+      expectedPairs: 1,
+      includeSecondLeg: false,
+      stage: 'final',
+    },
+  ];
+
+  const activeCompactStageConfig = compactStages.find((item) => item.key === activeCompactStage) ?? compactStages[0];
+
   return (
     <div className={styles.wrapper}>
       {isUpdating ? (
@@ -264,23 +310,50 @@ export function ChampionsLeagueSection({
                 return <PlayoffPairCard match={item} key={item[0].id} />;
               })}
             </div>
-            <div className={styles.bracket}>
-              <div className={styles.side}>
-                <BracketRound matches={last16Left} expectedPairs={4} />
-                <BracketRound matches={quarterLeft} expectedPairs={2} />
-                <BracketRound matches={semiLeft} expectedPairs={1} />
+            {isCompactBracket ? (
+              <div className={styles.compactBracketSection}>
+                <div className={styles.stageTabs}>
+                  {compactStages.map((stageItem) => (
+                    <button
+                      key={stageItem.key}
+                      type="button"
+                      onClick={() => setActiveCompactStage(stageItem.key)}
+                      className={`${styles.stageTabButton} ${
+                        activeCompactStage === stageItem.key ? styles.stageTabButtonActive : ''
+                      }`}
+                    >
+                      {stageItem.label}
+                    </button>
+                  ))}
+                </div>
+                <div className={styles.compactBracketContainer}>
+                  <BracketRound
+                    matches={activeCompactStageConfig.matches}
+                    expectedPairs={activeCompactStageConfig.expectedPairs}
+                    includeSecondLeg={activeCompactStageConfig.includeSecondLeg}
+                    stage={activeCompactStageConfig.stage}
+                  />
+                </div>
               </div>
+            ) : (
+              <div className={styles.bracket}>
+                <div className={styles.side}>
+                  <BracketRound matches={last16Left} expectedPairs={4} />
+                  <BracketRound matches={quarterLeft} expectedPairs={2} />
+                  <BracketRound matches={semiLeft} expectedPairs={1} />
+                </div>
 
-              <div className={styles.final}>
-                <BracketRound matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
-              </div>
+                <div className={styles.final}>
+                  <BracketRound matches={finalPairsSorted} expectedPairs={1} includeSecondLeg={false} stage={'final'} />
+                </div>
 
-              <div className={styles.side}>
-                <BracketRound matches={semiRight} expectedPairs={1} />
-                <BracketRound matches={quarterRight} expectedPairs={2} />
-                <BracketRound matches={last16Right} expectedPairs={4} />
+                <div className={styles.side}>
+                  <BracketRound matches={semiRight} expectedPairs={1} />
+                  <BracketRound matches={quarterRight} expectedPairs={2} />
+                  <BracketRound matches={last16Right} expectedPairs={4} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )
       ) : (
