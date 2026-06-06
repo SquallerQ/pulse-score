@@ -290,56 +290,58 @@ export function ChampionsLeagueSection({
                     </button>
                   ))}
                 </div>
-                <div className={styles.bracketViewport} ref={compactViewportRef}>
-                  <div className={styles.compactBracketScroller}>
-                    <div
-                      className={`${styles.compactStagePanel} ${
-                        activeCompactStage === 'LAST_16' ? styles.compactStagePanelActive : ''
-                      }`}
-                      ref={getCompactStageRef('LAST_16')}
-                    >
-                      <div className={styles.compactStageRounds}>
-                        <BracketRound matches={last16Left} expectedPairs={4} />
-                        <BracketRound matches={last16Right} expectedPairs={4} />
+                <div className={styles.bracketViewportShell}>
+                  <div className={styles.bracketViewport} ref={compactViewportRef}>
+                    <div className={styles.compactBracketScroller}>
+                      <div
+                        className={`${styles.compactStagePanel} ${
+                          activeCompactStage === 'LAST_16' ? styles.compactStagePanelActive : ''
+                        }`}
+                        ref={getCompactStageRef('LAST_16')}
+                      >
+                        <div className={styles.compactStageRounds}>
+                          <BracketRound matches={last16Left} expectedPairs={4} />
+                          <BracketRound matches={last16Right} expectedPairs={4} />
+                        </div>
                       </div>
-                    </div>
 
-                    <div
-                      className={`${styles.compactStagePanel} ${
-                        activeCompactStage === 'QUARTER_FINALS' ? styles.compactStagePanelActive : ''
-                      }`}
-                      ref={getCompactStageRef('QUARTER_FINALS')}
-                    >
-                      <div className={styles.compactStageRounds}>
-                        <BracketRound matches={quarterLeft} expectedPairs={2} />
-                        <BracketRound matches={quarterRight} expectedPairs={2} />
+                      <div
+                        className={`${styles.compactStagePanel} ${
+                          activeCompactStage === 'QUARTER_FINALS' ? styles.compactStagePanelActive : ''
+                        }`}
+                        ref={getCompactStageRef('QUARTER_FINALS')}
+                      >
+                        <div className={styles.compactStageRounds}>
+                          <BracketRound matches={quarterLeft} expectedPairs={2} />
+                          <BracketRound matches={quarterRight} expectedPairs={2} />
+                        </div>
                       </div>
-                    </div>
 
-                    <div
-                      className={`${styles.compactStagePanel} ${
-                        activeCompactStage === 'SEMI_FINALS' ? styles.compactStagePanelActive : ''
-                      }`}
-                      ref={getCompactStageRef('SEMI_FINALS')}
-                    >
-                      <div className={styles.compactStageRounds}>
-                        <BracketRound matches={semiLeft} expectedPairs={1} />
-                        <BracketRound matches={semiRight} expectedPairs={1} />
+                      <div
+                        className={`${styles.compactStagePanel} ${
+                          activeCompactStage === 'SEMI_FINALS' ? styles.compactStagePanelActive : ''
+                        }`}
+                        ref={getCompactStageRef('SEMI_FINALS')}
+                      >
+                        <div className={styles.compactStageRounds}>
+                          <BracketRound matches={semiLeft} expectedPairs={1} />
+                          <BracketRound matches={semiRight} expectedPairs={1} />
+                        </div>
                       </div>
-                    </div>
 
-                    <div
-                      className={`${styles.compactStagePanel} ${styles.compactFinalStagePanel} ${
-                        activeCompactStage === 'FINAL' ? styles.compactStagePanelActive : ''
-                      }`}
-                      ref={getCompactStageRef('FINAL')}
-                    >
-                      <BracketRound
-                        matches={finalPairsSorted}
-                        expectedPairs={1}
-                        includeSecondLeg={false}
-                        stage={'final'}
-                      />
+                      <div
+                        className={`${styles.compactStagePanel} ${styles.compactFinalStagePanel} ${
+                          activeCompactStage === 'FINAL' ? styles.compactStagePanelActive : ''
+                        }`}
+                        ref={getCompactStageRef('FINAL')}
+                      >
+                        <BracketRound
+                          matches={finalPairsSorted}
+                          expectedPairs={1}
+                          includeSecondLeg={false}
+                          stage={'final'}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
