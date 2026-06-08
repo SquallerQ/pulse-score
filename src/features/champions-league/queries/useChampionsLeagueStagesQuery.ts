@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { queryKeys } from '../../../api/queryKeys';
+import { queryKeys } from '../../../lib/react-query/queryKeys';
 import { fetchChampionsLeagueStages } from '../../../api/football-data/client';
 import { useLeagueParams } from '../../filters/useLeagueParams';
 

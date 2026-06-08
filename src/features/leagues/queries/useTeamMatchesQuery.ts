@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchTeamMatches } from '../../../api/football-data/client';
-import { queryKeys } from '../../../api/queryKeys';
+import { queryKeys } from '../../../lib/react-query/queryKeys';
 
 export function useTeamMatchesQuery(leagueCode?: string, teamId?: number) {
   const teamMatchesQuery = useQuery({

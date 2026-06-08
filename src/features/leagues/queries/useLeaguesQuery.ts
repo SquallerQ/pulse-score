@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchAllLeagues } from '../../../api/football-data/client';
-import { queryKeys } from '../../../api/queryKeys';
+import { queryKeys } from '../../../lib/react-query/queryKeys';
 import { useMemo } from 'react';
 
 type League = {
