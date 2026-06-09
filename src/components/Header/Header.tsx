@@ -16,6 +16,9 @@ export function Header() {
         >
           History
         </NavLink>
+        <NavLink to="/about" className={({ isActive }) => (isActive ? styles.active : styles.link)}>
+          About
+        </NavLink>
       </div>
       <ThemeToggler />
     </div>
