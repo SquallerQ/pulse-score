@@ -365,7 +365,212 @@
   background: rgba(115, 149, 174, 0.08);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 2380px) {
+  .topScorersContainer{
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1600px) {
+  .seasonsInfoContentContainer{
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1200px) {
+  .seasonsInfoContainer {
+    flex-direction: column;
+  }
+  .yearsContainerInner {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 1050px) {
+  .container {
+    padding: 10px 22px 24px;
+  }
+
+  .leaguesContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .leaguesContainer_currentLeague {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+
+  .currentLeagueEmblem {
+    width: 82px;
+    height: 82px;
+  }
+
+  .leaguesContainer_leagues {
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+  }
+
+  .yearsContainer {
+    width: 100%;
+  }
+
+  .yearsContainerInner {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .seasonsInfoContentContainer {
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px;
+  }
+
+  .seasonSummaryContainer {
+    min-width: 0;
+  }
+
+  .summaryTitle {
+    font-size: 24px;
+  }
+
+  .podiumCard {
+    min-height: 104px;
+    padding: 16px;
+  }
+
+  .podiumLogo {
+    width: 56px;
+    height: 56px;
+  }
+
+  .podiumTeamName {
+    font-size: 16px;
+  }
+
+  .podiumPoints {
+    font-size: 14px;
+  }
+
+  .topScorersRow {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px 14px;
+  }
+
+  .playerIdentity {
+    min-width: 0;
+  }
+
+  .playerText {
+    min-width: 0;
+  }
+
+  .playerName {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .playerStats {
+    grid-column: 2;
+    flex-wrap: wrap;
+  }
+
+  .teamInfo {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding: 10px 12px 20px;
+  }
+
+  .leaguesContainer,
+  .yearsContainerInner,
+  .seasonsInfoContentContainer {
+    padding: 14px;
+  }
+
+  .leaguesContainer_currentLeague {
+    width: 128px;
+    height: 128px;
+  }
+
+  .currentLeagueEmblem {
+    width: 72px;
+    height: 72px;
+  }
+
+  .currentLeagueSeason {
+    right: 8px;
+    bottom: 8px;
+    font-size: 13px;
+  }
+
+  .summaryTitle {
+    font-size: 22px;
+  }
+
+  .podiumCard {
+    gap: 12px;
+    min-height: 96px;
+    padding: 14px;
+  }
+
+  .podiumRank {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+  }
+
+  .podiumLogo {
+    margin-left: 38px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .topScorersRow {
+    padding: 10px 12px;
+  }
+
+  .photo {
+    width: 46px;
+    height: 46px;
+  }
+
+  .playerStats {
+    gap: 8px;
+  }
+
+  .statCard {
+    min-width: 82px;
+    padding: 7px 10px;
+  }
+
+  .statValue {
+    font-size: 18px;
+  }
+
+  .teamInfo {
+    gap: 10px;
+  }
+
+  .teamName {
+    font-size: 13px;
+  }
+}
+
+
+/* @media (max-width: 1100px) {
   .podiumGrid {
     grid-template-columns: 1fr;
   }
@@ -405,4 +610,4 @@
   .statCard {
     min-width: 94px;
   }
-}
+} */

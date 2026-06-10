@@ -37,4 +37,9 @@
     gap: 8px;
     padding: 8px 10px;
   }
+  [data-layout="row"] .container {
+    max-height: none;
+  }
 }
+
+
