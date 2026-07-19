@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { createTeamSchema } from '../schemas/index.js';
 
 export const createTeamHandler = (req: Request, res: Response) => {
@@ -18,4 +18,8 @@ export const createTeamHandler = (req: Request, res: Response) => {
     message: 'Team received successfully',
     team: result.data,
   });
+};
+
+export const crashTestHandler = (_req: Request, _res: Response, next: NextFunction) => {
+  next(new Error('Crash test'));
 };
