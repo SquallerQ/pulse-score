@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { createTeamSchema } from '../schemas/index.js';
+import { AppError } from '../errors/AppError.js';
 
 export const createTeamHandler = (req: Request, res: Response) => {
   const result = createTeamSchema.safeParse(req.body);
@@ -22,4 +23,8 @@ export const createTeamHandler = (req: Request, res: Response) => {
 
 export const crashTestHandler = (_req: Request, _res: Response, next: NextFunction) => {
   next(new Error('Crash test'));
+};
+
+export const teamNotFoundDemoHandler = (_req: Request, _res: Response, next: NextFunction) => {
+  next(new AppError('Team not found', 404));
 };
