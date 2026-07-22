@@ -18,6 +18,8 @@ import { seasonsArray } from '../../utils/generateSeasons';
 
 import type { TopScorer } from '../../api/api-football/types';
 
+import { useTop3epl2019Query } from '../../api/my-backend/api';
+
 export default function HistoryPage() {
   const { season, setSeason, leagueCode, mode } = useLeagueParams();
   const { leaguesQuery, leagues, currentLeague } = useLeagues(leagueCode);
@@ -25,6 +27,11 @@ export default function HistoryPage() {
   const { leagueInfoTopScorersQuery } = useSharedTopScorersQuery();
   const { seasonChampionQuery } = useSeasonChampionQuery();
   const { CLFinalWinner, CLFinalLoser, CLFinalQuery } = useChampionsLeagueWinnerQuery();
+
+  //Test
+  const { data } = useTop3epl2019Query();
+  console.log(data);
+  //Test
 
   const seasonTopThree = seasonChampionQuery.data?.standings ?? [];
   const topScorers = leagueInfoTopScorersQuery.data ?? [];
