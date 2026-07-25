@@ -11,5 +11,6 @@ export const queryKeys = {
   leagueSeasonChampion: (leagueCode: string, season: string) => ['leagueSeasonChampion', leagueCode, season] as const,
   leagueInfoTopScorers: (leagueCode: string, season: string) => ['leagueInfoTopScorers', leagueCode, season] as const,
 
-  epl2019: () => [] as const,
+  pulseScoreHistorySeason: (leagueCode: string, season: string) =>
+    ['pulseScoreHistorySeason', leagueCode, season] as const,
 };
