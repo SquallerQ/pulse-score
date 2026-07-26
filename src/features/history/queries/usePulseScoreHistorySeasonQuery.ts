@@ -8,7 +8,7 @@ import { fetchPulseScoreHistorySeason } from '../../../api/pulse-score/client';
 export function usePulseScoreHistorySeasonQuery() {
   const { leagueCode, season } = useLeagueParams();
 
-  const seasonChampionQuery = useQuery({
+  const pulseScoreHistorySeasonQuery = useQuery({
     queryKey: queryKeys.pulseScoreHistorySeason(leagueCode, season),
     queryFn: () => fetchPulseScoreHistorySeason(leagueCode, +season),
     enabled: leagueCode !== 'CL',
@@ -19,6 +19,5 @@ export function usePulseScoreHistorySeasonQuery() {
     refetchOnReconnect: false,
   });
 
-  const seasonChampionQueryPS = seasonChampionQuery.data;
-  return { seasonChampionQueryPS };
+  return { pulseScoreHistorySeasonQuery };
 }

@@ -20,6 +20,8 @@ import type { TopScorer } from '../../api/api-football/types';
 
 import { usePulseScoreHistorySeasonQuery } from '../../features/history/queries/usePulseScoreHistorySeasonQuery';
 
+import { useHistoryPageTabsParams } from '../../features/filters/useHistoryPageParams';
+
 export default function HistoryPage() {
   const { season, setSeason, leagueCode, mode } = useLeagueParams();
   const { leaguesQuery, leagues, currentLeague } = useLeagues(leagueCode);
@@ -29,8 +31,14 @@ export default function HistoryPage() {
   const { CLFinalWinner, CLFinalLoser, CLFinalQuery } = useChampionsLeagueWinnerQuery();
 
   //Test
-  const { seasonChampionQueryPS } = usePulseScoreHistorySeasonQuery();
-  console.log(seasonChampionQueryPS);
+  // const { pulseScoreHistorySeasonQuery } = usePulseScoreHistorySeasonQuery();
+  // console.log('status', pulseScoreHistorySeasonQuery.status);
+  // console.log('error', pulseScoreHistorySeasonQuery.error);
+  // console.log('data', pulseScoreHistorySeasonQuery.data);
+
+  // const { searchParams } = useHistoryPageTabsParams();
+  // console.log(searchParams);
+  
   //Test
 
   const seasonTopThree = seasonChampionQuery.data?.standings ?? [];
