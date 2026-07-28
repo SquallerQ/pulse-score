@@ -1,0 +1,177 @@
+.container,
+.yearsContainer,
+.yearPill,
+.mainContent,
+.summaryEyebrow,
+.summaryTitle,
+.podiumCard,
+.scorerRow {
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+}
+
+.yearsContainer {
+  width: 104px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 18px;
+  background: rgb(167 213 247 / 10%);
+  backdrop-filter: blur(8px);
+}
+
+.yearsContainerInner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(34, 52, 72, 0.54);
+}
+
+.yearPill {
+  width: 100%;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mainContent {
+  display: flex;
+  gap: 50px;
+  flex: 1 1 auto;
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(115, 149, 174, 0.22);
+  background: linear-gradient(145deg, rgba(220, 230, 238, 0.34), rgba(198, 213, 224, 0.28));
+}
+
+.summaryColumn {
+  min-width: 350px;
+}
+
+.summaryEyebrow {
+  width: 160px;
+  height: 12px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.summaryTitle {
+  width: 240px;
+  height: 34px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.podiumCard {
+  height: 120px;
+  margin-bottom: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.scorersGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.scorersColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scorerRow {
+  height: 84px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(18, 26, 35, 0.72);
+}
+
+.yearPill::before,
+.summaryEyebrow::before,
+.summaryTitle::before,
+.podiumCard::before,
+.scorerRow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.24), transparent);
+  animation: historyRecentSkeletonLoading 1.4s ease-in-out infinite;
+}
+
+@keyframes historyRecentSkeletonLoading {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 1600px) {
+  .mainContent {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .summaryColumn {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .yearsContainer {
+    width: 100%;
+  }
+
+  .yearsContainerInner {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 1050px) {
+  .mainContent {
+    padding: 16px;
+  }
+
+  .yearsContainerInner {
+    padding: 16px;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 720px) {
+  .mainContent,
+  .yearsContainerInner {
+    padding: 14px;
+  }
+
+  .scorersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryTitle {
+    width: 200px;
+    height: 30px;
+  }
+
+  .scorerRow {
+    height: 72px;
+  }
+}
