@@ -19,5 +19,7 @@ export function usePulseScoreHistorySeasonQuery() {
     refetchOnReconnect: false,
   });
 
-  return { pulseScoreHistorySeasonQuery };
+  const pulseScoreHistoryData = pulseScoreHistorySeasonQuery.data;
+
+  return { pulseScoreHistoryData };
 }

@@ -2,11 +2,11 @@ import { Router } from 'express';
 import { teamRouter } from './teamRoutes';
 import { healthRouter } from './healthRoutes';
 
-import { plChampion2019Route } from './championRoute';
+import { historyRoute } from './competitionHistoryRoutes';
 
 export const apiRouter = Router();
 apiRouter.use(teamRouter);
-apiRouter.use(plChampion2019Route);
+apiRouter.use(historyRoute);
 
 export const rootRouter = Router();
 

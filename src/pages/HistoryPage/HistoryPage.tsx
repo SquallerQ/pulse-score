@@ -2,19 +2,15 @@ import styles from './HistoryPage.module.css';
 import plLeague from '../../assets/pl-league-logo-league-list--white.svg';
 import championLeagueLogo from '../../assets/champ-league-white-logo.svg';
 
-// import { Season } from '../../components/Season/Season';
+import { Season } from './components/Season/Season';
+
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
-// import { useSeasonChampionQuery } from '../../features/leagues/queries/useSeasonChampionQuery';
-// import { useChampionsLeagueWinnerQuery } from '../../features/champions-league/queries/useChampionsLeagueWinnerQuery';
-// import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
 
 // import { seasonsArray } from '../../utils/generateSeasons';
-
-// import type { TopScorer } from '../../api/api-football/types';
 
 import { HistoryTabs } from './components/HistoryTabs/HistoryTabs';
 
@@ -24,13 +20,14 @@ import type { HistoryTab } from '../../features/filters/useHistoryPageParams';
 import { Archive } from './components/Archive/Archive';
 import { RecentSeasons } from './components/RecentSeasons/RecentSeasons';
 
+import { usePulseScoreHistorySeasonQuery } from '../../features/history/queries/usePulseScoreHistorySeasonQuery';
+import { HistoryPageSkeleton } from './HistoryPageSkeleton';
+
 export default function HistoryPage() {
   const { season, setSeason, leagueCode, mode } = useLeagueParams();
+
   const { leaguesQuery, leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection();
-  // const { leagueInfoTopScorersQuery } = useSharedTopScorersQuery();
-  // const { seasonChampionQuery } = useSeasonChampionQuery();
-  // const { CLFinalWinner, CLFinalLoser, CLFinalQuery } = useChampionsLeagueWinnerQuery();
 
   const { tab, selectArchiveTab, selectRecentSeasonsTab } = useHistoryTabSelection();
 
@@ -48,15 +45,17 @@ export default function HistoryPage() {
   }
 
   //Test
-  // const { pulseScoreHistorySeasonQuery } = usePulseScoreHistorySeasonQuery();
-  // console.log('status', pulseScoreHistorySeasonQuery.status);
-  // console.log('error', pulseScoreHistorySeasonQuery.error);
-  // console.log('data', pulseScoreHistorySeasonQuery.data);
+  const { pulseScoreHistoryData } = usePulseScoreHistorySeasonQuery();
+  console.log(pulseScoreHistoryData?.season);
 
   // const { searchParams } = useHistoryPageTabsParams();
   // console.log(searchParams);
 
   //Test
+
+  if ((leaguesQuery.isPending && !leaguesQuery.data) || !currentLeague) {
+    return <HistoryPageSkeleton />;
+  }
 
   return (
     <div className={styles.container}>
@@ -82,9 +81,15 @@ export default function HistoryPage() {
           />
         </div>
       </div>
-
       <HistoryTabs activeTab={tab} onSelectArchive={selectArchiveTab} onSelectRecentSeasons={selectRecentSeasonsTab} />
       {selectTab(tab)}
+      {pulseScoreHistoryData ? (
+        <Season
+          year={pulseScoreHistoryData.season.toString()}
+          setSeason={setSeason}
+          isActive={season == pulseScoreHistoryData.season.toString()}
+        />
+      ) : null}
     </div>
   );
 }

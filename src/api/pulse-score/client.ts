@@ -12,10 +12,10 @@ function ensureOkResponse(response: Response, resourceName: string): void {
 }
 
 export async function fetchPulseScoreHistorySeason(
-  _leagueCode: string,
-  _season: number
+  leagueCode: string,
+  season: number
 ): Promise<PulseScoreHistorySeasonResponseSchema> {
-  const response = await fetch(`${API_BASE}/top3`);
+  const response = await fetch(`${API_BASE}/competitions/${leagueCode}/seasons/${season}`);
 
   ensureOkResponse(response, 'pulse score history season');
 
