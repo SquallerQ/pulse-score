@@ -4,7 +4,7 @@ export function mapPulseScoreHistorySeason(data: PulseScoreHistorySeasonResponse
   return {
     competition: data.competition,
     season: data.season,
-    places: data.places.map((item) => ({
+    standings: data.standings.map((item) => ({
       id: item.id,
       place: item.place,
       name: item.name,

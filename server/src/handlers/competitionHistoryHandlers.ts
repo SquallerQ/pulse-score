@@ -66,7 +66,7 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
   return res.status(200).json({
     competition: seasonHistory.competitionCode,
     season: seasonHistory.season,
-    places: seasonHistory.standingsTop.map((item, index) => ({
+    standings: seasonHistory.standingsTop.map((item, index) => ({
       id: index + 1,
       place: item.place,
       name: item.teamName,

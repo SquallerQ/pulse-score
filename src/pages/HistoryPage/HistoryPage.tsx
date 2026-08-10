@@ -2,15 +2,11 @@ import styles from './HistoryPage.module.css';
 import plLeague from '../../assets/pl-league-logo-league-list--white.svg';
 import championLeagueLogo from '../../assets/champ-league-white-logo.svg';
 
-import { Season } from './components/Season/Season';
-
 import { LeaguesList } from '../../components/LeaguesList/LeaguesList';
 
 import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
-
-// import { seasonsArray } from '../../utils/generateSeasons';
 
 import { HistoryTabs } from './components/HistoryTabs/HistoryTabs';
 
@@ -20,11 +16,10 @@ import type { HistoryTab } from '../../features/filters/useHistoryPageParams';
 import { Archive } from './components/Archive/Archive';
 import { RecentSeasons } from './components/RecentSeasons/RecentSeasons';
 
-import { usePulseScoreHistorySeasonQuery } from '../../features/history/queries/usePulseScoreHistorySeasonQuery';
 import { HistoryPageSkeleton } from './HistoryPageSkeleton';
 
 export default function HistoryPage() {
-  const { season, setSeason, leagueCode, mode } = useLeagueParams();
+  const { season, leagueCode, mode } = useLeagueParams();
 
   const { leaguesQuery, leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection();
@@ -43,15 +38,6 @@ export default function HistoryPage() {
         return null;
     }
   }
-
-  //Test
-  const { pulseScoreHistoryData } = usePulseScoreHistorySeasonQuery();
-  console.log(pulseScoreHistoryData?.season);
-
-  // const { searchParams } = useHistoryPageTabsParams();
-  // console.log(searchParams);
-
-  //Test
 
   if ((leaguesQuery.isPending && !leaguesQuery.data) || !currentLeague) {
     return <HistoryPageSkeleton />;
@@ -83,13 +69,6 @@ export default function HistoryPage() {
       </div>
       <HistoryTabs activeTab={tab} onSelectArchive={selectArchiveTab} onSelectRecentSeasons={selectRecentSeasonsTab} />
       {selectTab(tab)}
-      {pulseScoreHistoryData ? (
-        <Season
-          year={pulseScoreHistoryData.season.toString()}
-          setSeason={setSeason}
-          isActive={season == pulseScoreHistoryData.season.toString()}
-        />
-      ) : null}
     </div>
   );
 }

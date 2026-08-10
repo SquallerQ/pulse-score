@@ -13,4 +13,5 @@ export const queryKeys = {
 
   pulseScoreHistorySeason: (leagueCode: string, season: string) =>
     ['pulseScoreHistorySeason', leagueCode, season] as const,
+  competitionSeasons: (competitionCode: string) => ['competitionSeasons', competitionCode] as const,
 };

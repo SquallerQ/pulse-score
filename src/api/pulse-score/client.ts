@@ -1,5 +1,5 @@
-import type { PulseScoreHistorySeasonResponseSchema } from './types';
-import { pulseScoreHistorySeasonSchema } from './types';
+import type { CompetitionSeasonsResponseSchema, PulseScoreHistorySeasonResponseSchema } from './types';
+import { competitionSeasonsSchema, pulseScoreHistorySeasonSchema } from './types';
 
 import { mapPulseScoreHistorySeason } from './adapters';
 
@@ -21,5 +21,15 @@ export async function fetchPulseScoreHistorySeason(
 
   const json: unknown = await response.json();
   const data = pulseScoreHistorySeasonSchema.parse(json);
+
   return mapPulseScoreHistorySeason(data);
+}
+
+export async function fetchCompetitionSeasons(competitionCode: string): Promise<CompetitionSeasonsResponseSchema> {
+  const response = await fetch(`${API_BASE}/competitions/${competitionCode}/seasons`);
+
+  ensureOkResponse(response, 'competition seasons');
+
+  const json: unknown = await response.json();
+  return competitionSeasonsSchema.parse(json);
 }
