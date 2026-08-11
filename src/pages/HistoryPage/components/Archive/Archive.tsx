@@ -14,7 +14,7 @@ export function Archive() {
   const { pulseScoreHistoryData } = usePulseScoreHistorySeasonQuery();
   console.log(pulseScoreHistoryData);
 
-  const { season, setSeason, leagueCode, mode } = useLeagueParams();
+  const { season, setSeason } = useLeagueParams();
 
   if (!pulseScoreHistoryData) {
     return;
@@ -39,9 +39,15 @@ export function Archive() {
         </div>
       </div>
 
-      <div>
+      <div className={styles.seasonsInfoContentContainer}>
         {pulseScoreHistoryData.standings.map((item) => {
-          return <div key={item.id}>{item.name}</div>;
+          return (
+            <div key={item.id} className={styles.tableContainer}>
+              <div className={styles.tablePlace}>{item.place}</div>
+              <div className={styles.tableName}>{item.name}</div>
+              <div className={styles.tablePoints}>{item.points}</div>
+            </div>
+          );
         })}
       </div>
     </div>

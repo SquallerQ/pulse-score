@@ -30,3 +30,43 @@
   justify-content: space-between;
   gap: 18px;
 }
+
+
+.seasonsInfoContentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* gap: 50px; */
+  /* flex: 1 1 auto; */
+
+  padding: 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(115, 149, 174, 0.22);
+  background:
+    linear-gradient(145deg, rgba(220, 230, 238, 0.9), rgba(198, 213, 224, 0.88));
+  box-shadow: 0 16px 34px rgba(24, 33, 40, 0.08);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.tableContainer {
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(115, 149, 174, 0.2);
+  box-shadow: 0 12px 28px rgba(26, 36, 44, 0.08);
+
+  background: linear-gradient(135deg, rgb(0 0 0 / 94%), rgb(66 82 93 / 92%));
+}
+
+.tablePlace, .tableName, .tablePoints {
+  color: #fff;
+}
+
+.tablePoints {
+  
+}
