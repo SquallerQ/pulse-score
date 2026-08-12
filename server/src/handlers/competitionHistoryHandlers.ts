@@ -2,9 +2,17 @@ import type { Request, Response } from 'express';
 
 import { competitions } from '../data/competitions';
 import { premierLeagueHistory } from '../data/history/premierLeague';
+import { laLigaHistory } from '../data/history/laLiga';
+import { bundesligaHistory } from '../data/history/bundesLiga';
+import { ligue1History } from '../data/history/league1';
+import { serieAHistory } from '../data/history/serieA';
 
 const historyByCompetitionCode = {
   PL: premierLeagueHistory,
+  PD: laLigaHistory,
+  BL1: bundesligaHistory,
+  FL1: ligue1History,
+  SA: serieAHistory,
 } as const;
 
 type SupportedCompetitionCode = keyof typeof historyByCompetitionCode;

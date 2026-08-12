@@ -50,6 +50,31 @@
   background-repeat: no-repeat;
 }
 
+.seasonsInfoContentContainer[data-league-code="PL"] {
+  background-image: linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)), url('../../../../assets/bg-leagues/epl-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="PD"] {
+  background-image: linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)), url('../../../../assets/bg-leagues/laliga-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="SA"] {
+  background-image: linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)), url('../../../../assets/bg-leagues/seriea-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="BL1"] {
+  background-image: linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)), url('../../../../assets/bg-leagues/bundesliga-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="FL1"] {
+  background-image: linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)), url('../../../../assets/bg-leagues/ligue1-bg.png');
+}
+
+.seasonsInfoContentContainer[data-league-code="CL"] {
+  background-image: linear-gradient(rgba(24, 34, 45, 0.34), rgba(24, 34, 45, 0.34)), url('../../../../assets/cards-bg/cl-card-bg.jpg');
+  background-position: center right;
+}
+
 .tableContainer {
 
   display: flex;

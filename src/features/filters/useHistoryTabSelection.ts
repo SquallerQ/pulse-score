@@ -7,7 +7,7 @@ import { useLeagueParams } from './useLeagueParams';
 import { useCompetitionSeasonsQuery } from '../history/queries/useCompetitionSeasonsQuery';
 
 const RECENT_SEASONS = seasonsArray.map(String);
-const ARCHIVE_FALLBACK_SEASON = '2008';
+const ARCHIVE_FALLBACK_SEASON = '2017';
 
 function getAllowedSeasons(tab: HistoryTab, archiveSeasons: string[]): string[] {
   if (tab === 'archive') {
