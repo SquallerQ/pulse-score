@@ -24,6 +24,18 @@ export const premierLeagueHistory = [
       { place: 19, teamName: 'Middlesbrough', points: 28 },
       { place: 20, teamName: 'Sunderland', points: 24 },
     ],
+    topScorers: [
+      { place: 1, playerName: 'Harry Kane', teamName: 'Tottenham Hotspur', goals: 29 },
+      { place: 2, playerName: 'Romelu Lukaku', teamName: 'Everton', goals: 25 },
+      { place: 3, playerName: 'Alexis Sánchez', teamName: 'Arsenal', goals: 24 },
+      { place: 4, playerName: 'Diego Costa', teamName: 'Chelsea', goals: 20 },
+      { place: 5, playerName: 'Dele Alli', teamName: 'Tottenham Hotspur', goals: 18 },
+      { place: 6, playerName: 'Zlatan Ibrahimović', teamName: 'Manchester United', goals: 17 },
+      { place: 7, playerName: 'Eden Hazard', teamName: 'Chelsea', goals: 16 },
+      { place: 8, playerName: 'Joshua King', teamName: 'Bournemouth', goals: 16 },
+      { place: 9, playerName: 'Sergio Agüero', teamName: 'Manchester City', goals: 16 },
+      { place: 10, playerName: 'Christian Eriksen', teamName: 'Tottenham Hotspur', goals: 12 },
+    ],
   },
   {
     competitionCode: 'PL',

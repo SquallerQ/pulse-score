@@ -13,6 +13,15 @@ export const pulseScoreHistorySeasonSchema = z.object({
       points: z.number(),
     })
   ),
+  topScorers: z.array(
+    z.object({
+      id: z.number(),
+      place: z.number(),
+      playerName: z.string(),
+      teamName: z.string(),
+      goals: z.number(),
+    })
+  ),
 });
 
 export const competitionSeasonsSchema = z.object({

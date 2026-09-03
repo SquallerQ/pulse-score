@@ -76,11 +76,11 @@
 }
 
 .tableContainer {
-
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 8px 16px;
+  margin-bottom: 5px;
   border-radius: 14px;
   border: 1px solid rgba(115, 149, 174, 0.2);
   box-shadow: 0 12px 28px rgba(26, 36, 44, 0.08);
@@ -92,6 +92,3 @@
   color: #fff;
 }
 
-.tablePoints {
-  
-}

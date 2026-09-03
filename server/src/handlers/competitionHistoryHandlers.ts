@@ -71,6 +71,8 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
     });
   }
 
+  const topScorers = 'topScorers' in seasonHistory ? seasonHistory.topScorers : [];
+
   return res.status(200).json({
     competition: seasonHistory.competitionCode,
     season: seasonHistory.season,
@@ -79,6 +81,13 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
       place: item.place,
       name: item.teamName,
       points: item.points,
+    })),
+    topScorers: topScorers.map((item, index) => ({
+      id: index + 1,
+      place: item.place,
+      playerName: item.playerName,
+      teamName: item.teamName,
+      goals: item.goals,
     })),
   });
 };
