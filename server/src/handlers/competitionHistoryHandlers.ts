@@ -6,6 +6,7 @@ import { laLigaHistory } from '../data/history/laLiga';
 import { bundesligaHistory } from '../data/history/bundesLiga';
 import { ligue1History } from '../data/history/league1';
 import { serieAHistory } from '../data/history/serieA';
+import { championsLeagueHistory } from '../data/history/championsLeague';
 
 const historyByCompetitionCode = {
   PL: premierLeagueHistory,
@@ -13,7 +14,10 @@ const historyByCompetitionCode = {
   BL1: bundesligaHistory,
   FL1: ligue1History,
   SA: serieAHistory,
+  // CL: championsLeagueHistory,
 } as const;
+
+const CL = championsLeagueHistory;
 
 type SupportedCompetitionCode = keyof typeof historyByCompetitionCode;
 
@@ -90,4 +94,10 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
       goals: item.goals,
     })),
   });
+};
+
+export const getChampionsLeagueSeasonHistoryHandler = (req, res) => {
+  const { competitionCode, season } = req.params;
+
+  return res.status(200).json(CL);
 };

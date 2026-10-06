@@ -34,9 +34,10 @@
 
 .seasonsInfoContentContainer {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  justify-content: space-between;
   width: 100%;
-  /* gap: 50px; */
+  gap: 20px;
   /* flex: 1 1 auto; */
 
   padding: 20px;
@@ -75,20 +76,127 @@
   background-position: center right;
 }
 
-.tableContainer {
+.seasonInfoTopScorers {
   display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seasonInfoTeamPlace {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topScorersRow,
+.tableContainer {
+  display: grid;
   align-items: center;
-  gap: 14px;
-  padding: 8px 16px;
-  margin-bottom: 5px;
+  grid-template-columns: 38px minmax(0, 1fr) minmax(0, 0.8fr) auto;
+  gap: 12px;
+  min-height: 54px;
+  padding: 8px 14px;
   border-radius: 14px;
   border: 1px solid rgba(115, 149, 174, 0.2);
   box-shadow: 0 12px 28px rgba(26, 36, 44, 0.08);
-
   background: linear-gradient(135deg, rgb(0 0 0 / 94%), rgb(66 82 93 / 92%));
 }
 
-.tablePlace, .tableName, .tablePoints {
+.playerPlace,
+.tablePlace {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6f95ae, #97b5cb);
   color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.playerName,
+.tableName {
+  color: #fff;
+  font-weight: 700;
+}
+
+.teamName {
+  color: rgb(255 255 255 / 68%);
+  font-size: 14px;
+}
+
+.goals,
+.tablePoints {
+  justify-self: end;
+  padding: 6px 9px;
+  border-radius: 9px;
+  background: rgb(115 149 174 / 18%);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.topScorersRow:nth-child(1) .playerPlace,
+.tableContainer:nth-child(1) .tablePlace {
+  background: linear-gradient(135deg, #d9a83e, #f7df82);
+  color: #30250a;
+}
+
+.topScorersRow:nth-child(2) .playerPlace,
+.tableContainer:nth-child(2) .tablePlace {
+  background: linear-gradient(135deg, #9daab6, #e1e7ea);
+  color: #27313a;
+}
+
+.topScorersRow:nth-child(3) .playerPlace,
+.tableContainer:nth-child(3) .tablePlace {
+  background: linear-gradient(135deg, #a86643, #e2ae88);
+  color: #331b10;
+}
+
+@media (max-width: 1050px) {
+  .seasonsInfoContentContainer {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 620px) {
+  .topScorersRow,
+  .tableContainer {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 10px;
+    min-height: 50px;
+    padding: 8px 10px;
+  }
+
+  .teamName {
+    display: none;
+  }
+
+  .playerPlace,
+  .tablePlace {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    font-size: 13px;
+  }
+
+  .playerName,
+  .tableName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .goals,
+  .tablePoints {
+    padding: 5px 7px;
+    font-size: 12px;
+  }
 }
 
