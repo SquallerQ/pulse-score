@@ -1,7 +1,18 @@
-import type { CompetitionSeasonsResponseSchema, PulseScoreHistorySeasonResponseSchema } from './types';
-import { competitionSeasonsSchema, pulseScoreHistorySeasonSchema } from './types';
+import type {
+  CompetitionSeasonsResponseSchema,
+  PulseScoreHistorySeasonResponseSchema,
+  PulseScoreChampionsLeagueSeasonsResponseSchema,
+  PulseScoreChampionsLeagueSeasonResponseSchema,
+} from './types';
 
-import { mapPulseScoreHistorySeason } from './adapters';
+import {
+  competitionSeasonsSchema,
+  pulseScoreHistorySeasonSchema,
+  pulseScoreChampionsLeagueSeasonsSchema,
+  pulseScoreChampionsLeagueSeasonSchema,
+} from './types';
+
+import { mapPulseScoreHistorySeason, mapPulseScoreChampionsLeagueSeason } from './adapters';
 
 const API_BASE = 'http://localhost:4000/api';
 
@@ -32,4 +43,25 @@ export async function fetchCompetitionSeasons(competitionCode: string): Promise<
 
   const json: unknown = await response.json();
   return competitionSeasonsSchema.parse(json);
+}
+
+export async function fetchPulseScoreChampionsLeagueSeasons(): Promise<PulseScoreChampionsLeagueSeasonsResponseSchema> {
+  const response = await fetch(`${API_BASE}/championsLeague/seasons`);
+
+  ensureOkResponse(response, 'pulse score Champions League seasons');
+
+  const json: unknown = await response.json();
+  return pulseScoreChampionsLeagueSeasonsSchema.parse(json);
+}
+
+export async function fetchPulseScoreChampionsLeagueSeason(
+  season: number
+): Promise<PulseScoreChampionsLeagueSeasonResponseSchema> {
+  const response = await fetch(`${API_BASE}/championsLeague/seasons/${season}`);
+
+  ensureOkResponse(response, 'pulse score Champions League season');
+
+  const json: unknown = await response.json();
+  const data = pulseScoreChampionsLeagueSeasonSchema.parse(json);
+  return mapPulseScoreChampionsLeagueSeason(data);
 }

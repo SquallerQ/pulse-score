@@ -7,18 +7,10 @@ import { useLeagueParams } from '../../../../features/filters/useLeagueParams';
 
 import { Season } from '../../components/Season/Season';
 
-
-
 export function Archive() {
   const { competitionSeasons } = useCompetitionSeasonsQuery();
-
   const { pulseScoreHistoryData } = usePulseScoreHistorySeasonQuery();
-  console.log(pulseScoreHistoryData);
-
   const { season, setSeason, leagueCode } = useLeagueParams();
-  console.log(leagueCode);
-
-  
 
   if (!pulseScoreHistoryData) {
     return;

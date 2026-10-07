@@ -14,10 +14,7 @@ const historyByCompetitionCode = {
   BL1: bundesligaHistory,
   FL1: ligue1History,
   SA: serieAHistory,
-  // CL: championsLeagueHistory,
 } as const;
-
-const CL = championsLeagueHistory;
 
 type SupportedCompetitionCode = keyof typeof historyByCompetitionCode;
 
@@ -27,6 +24,10 @@ type CompetitionParams = {
 
 type CompetitionSeasonParams = {
   competitionCode: string;
+  season: string;
+};
+
+type ChampionsLeagueSeasonParams = {
   season: string;
 };
 
@@ -96,8 +97,57 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
   });
 };
 
-export const getChampionsLeagueSeasonHistoryHandler = (req, res) => {
-  const { competitionCode, season } = req.params;
+export const getChampionsLeagueSeasonsHandler = (_req: Request, res: Response) => {
+  return res.status(200).json({
+    competitionCode: 'CL',
+    seasons: championsLeagueHistory.map((item) => item.season),
+  });
+};
 
-  return res.status(200).json(CL);
+export const getChampionsLeagueSeasonHistoryHandler = (req: Request<ChampionsLeagueSeasonParams>, res: Response) => {
+  const { season } = req.params;
+  const numericSeason = Number(season);
+
+  if (!Number.isInteger(numericSeason)) {
+    return res.status(400).json({
+      message: 'Season must be a whole number',
+    });
+  }
+
+  const seasonHistory = championsLeagueHistory.find((item) => item.season === numericSeason);
+
+  if (!seasonHistory) {
+    return res.status(404).json({
+      message: 'Season history not found',
+    });
+  }
+
+  return res.status(200).json({
+    competition: seasonHistory.competitionCode,
+    season: seasonHistory.season,
+    groupStageEliminated: seasonHistory.groupStageEliminated,
+    roundOf16: seasonHistory.roundOf16.map((item, index) => ({
+      ...item,
+      id: `round-of-16-${index + 1}`,
+    })),
+    quarterFinals: seasonHistory.quarterFinals.map((item, index) => ({
+      ...item,
+      id: `quarter-final-${index + 1}`,
+    })),
+    semiFinals: seasonHistory.semiFinals.map((item, index) => ({
+      ...item,
+      id: `semi-final-${index + 1}`,
+    })),
+    final: {
+      ...seasonHistory.final,
+      id: 'final',
+    },
+    topScorers: seasonHistory.topScorers.map((item, index) => ({
+      id: index + 1,
+      place: item.place,
+      playerName: item.playerName,
+      teamName: item.teamName,
+      goals: item.goals,
+    })),
+  });
 };
