@@ -6,8 +6,19 @@ import { useCompetitionSeasonsQuery } from '../../../../features/history/queries
 import { useLeagueParams } from '../../../../features/filters/useLeagueParams';
 
 import { Season } from '../../components/Season/Season';
+import { ChampionsLeagueArchive } from './ChampionsLeagueArchive';
 
 export function Archive() {
+  const { leagueCode, mode } = useLeagueParams();
+
+  if (leagueCode === 'CL' && mode === 'cup') {
+    return <ChampionsLeagueArchive />;
+  }
+
+  return <LeagueArchive />;
+}
+
+function LeagueArchive() {
   const { competitionSeasons } = useCompetitionSeasonsQuery();
   const { pulseScoreHistoryData } = usePulseScoreHistorySeasonQuery();
   const { season, setSeason, leagueCode } = useLeagueParams();

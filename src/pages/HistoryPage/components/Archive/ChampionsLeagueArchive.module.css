@@ -1,0 +1,260 @@
+.container {
+  display: flex;
+  gap: 30px;
+}
+
+.yearsContainer {
+  align-self: flex-start;
+  border-radius: 18px;
+  background: rgb(20 27 37 / 9%);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
+}
+
+.yearsContainerInner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid var(--color-text);
+  border-radius: 18px;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid rgb(154 180 205 / 24%);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgb(10 26 46 / 93%), rgb(22 43 70 / 91%)),
+    url('../../../../assets/cards-bg/cl-card-bg.jpg') center / cover;
+  box-shadow: 0 18px 40px rgb(15 32 50 / 14%);
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.eyebrow,
+.finalLabel,
+.legScore span,
+.aggregateScore span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: rgb(210 227 243 / 72%);
+}
+
+.title {
+  margin: 7px 0 0;
+  color: #fff;
+  font-size: clamp(26px, 3vw, 38px);
+}
+
+.finalSection {
+  margin-bottom: 30px;
+  padding: 18px;
+  border: 1px solid rgb(242 212 122 / 48%);
+  border-radius: 16px;
+  background: linear-gradient(130deg, rgb(231 189 76 / 24%), rgb(255 255 255 / 8%));
+}
+
+.finalLabel {
+  color: #f8d875;
+}
+
+.finalTeams {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.finalTeams > :last-child {
+  text-align: right;
+}
+
+.finalScore {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgb(0 0 0 / 28%);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.roundSection,
+.groupStageSection {
+  margin-top: 28px;
+}
+
+.roundTitle {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 18px;
+}
+
+.tiesList {
+  display: grid;
+  gap: 10px;
+}
+
+.tieCard {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(280px, 1.2fr);
+  gap: 18px;
+  padding: 14px;
+  border: 1px solid rgb(178 203 225 / 17%);
+  border-radius: 14px;
+  background: rgb(3 12 25 / 56%);
+}
+
+.tieTeams {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.team {
+  color: rgb(255 255 255 / 76%);
+  font-weight: 600;
+}
+
+.winner {
+  color: #a8e5bd;
+  font-weight: 800;
+}
+
+.winner::after {
+  content: 'Winner';
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgb(50 182 100 / 22%);
+  color: #b9f1ca;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.scores {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.legScore,
+.aggregateScore,
+.singleMatchScore {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 7%);
+}
+
+.legScore span,
+.aggregateScore span,
+.singleMatchScore span {
+  color: rgb(216 231 244 / 64%);
+}
+
+.legScore strong,
+.aggregateScore strong,
+.singleMatchScore strong {
+  color: #fff;
+}
+
+.aggregateScore {
+  background: rgb(84 142 188 / 22%);
+}
+
+.singleMatchScore {
+  align-self: center;
+  min-width: 150px;
+  background: rgb(84 142 188 / 22%);
+}
+
+.tieNote {
+  grid-column: 1 / -1;
+  margin: -4px 0 0;
+  color: rgb(244 218 151 / 88%);
+  font-size: 13px;
+}
+
+.eliminatedTeams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.eliminatedTeam {
+  padding: 7px 10px;
+  border: 1px solid rgb(208 166 174 / 26%);
+  border-radius: 999px;
+  background: rgb(114 47 62 / 24%);
+  color: rgb(255 224 228 / 90%);
+  font-size: 13px;
+}
+
+@media (max-width: 1000px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .yearsContainer {
+    width: 100%;
+  }
+
+  .yearsContainerInner {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 700px) {
+  .content {
+    padding: 18px 14px;
+  }
+
+  .tieCard {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .scores {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .finalTeams {
+    gap: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scores {
+    grid-template-columns: 1fr;
+  }
+
+  .finalTeams {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .finalTeams > :last-child {
+    text-align: center;
+  }
+}

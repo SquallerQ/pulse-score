@@ -64,50 +64,76 @@ export const pulseScoreChampionsLeagueSeasonSchema = z.object({
     })
   ),
   quarterFinals: z.array(
-    z.object({
-      id: z.string(),
-      homeTeam: z.string(),
-      awayTeam: z.string(),
-      firstLeg: z.object({
-        home: z.number(),
-        away: z.number(),
-        playedAt: z.enum(['home', 'away']),
+    z.union([
+      z.object({
+        id: z.string(),
+        homeTeam: z.string(),
+        awayTeam: z.string(),
+        firstLeg: z.object({
+          home: z.number(),
+          away: z.number(),
+          playedAt: z.enum(['home', 'away']),
+        }),
+        secondLeg: z.object({
+          home: z.number(),
+          away: z.number(),
+          playedAt: z.enum(['home', 'away']),
+        }),
+        aggregate: z.object({
+          home: z.number(),
+          away: z.number(),
+        }),
+        winner: z.string(),
+        note: z.string().optional(),
       }),
-      secondLeg: z.object({
-        home: z.number(),
-        away: z.number(),
-        playedAt: z.enum(['home', 'away']),
+      z.object({
+        id: z.string(),
+        homeTeam: z.string(),
+        awayTeam: z.string(),
+        score: z.object({
+          home: z.number(),
+          away: z.number(),
+        }),
+        winner: z.string(),
+        note: z.string().optional(),
       }),
-      aggregate: z.object({
-        home: z.number(),
-        away: z.number(),
-      }),
-      winner: z.string(),
-      note: z.string().optional(),
-    })
+    ])
   ),
   semiFinals: z.array(
-    z.object({
-      id: z.string(),
-      homeTeam: z.string(),
-      awayTeam: z.string(),
-      firstLeg: z.object({
-        home: z.number(),
-        away: z.number(),
-        playedAt: z.enum(['home', 'away']),
+    z.union([
+      z.object({
+        id: z.string(),
+        homeTeam: z.string(),
+        awayTeam: z.string(),
+        firstLeg: z.object({
+          home: z.number(),
+          away: z.number(),
+          playedAt: z.enum(['home', 'away']),
+        }),
+        secondLeg: z.object({
+          home: z.number(),
+          away: z.number(),
+          playedAt: z.enum(['home', 'away']),
+        }),
+        aggregate: z.object({
+          home: z.number(),
+          away: z.number(),
+        }),
+        winner: z.string(),
+        note: z.string().optional(),
       }),
-      secondLeg: z.object({
-        home: z.number(),
-        away: z.number(),
-        playedAt: z.enum(['home', 'away']),
+      z.object({
+        id: z.string(),
+        homeTeam: z.string(),
+        awayTeam: z.string(),
+        score: z.object({
+          home: z.number(),
+          away: z.number(),
+        }),
+        winner: z.string(),
+        note: z.string().optional(),
       }),
-      aggregate: z.object({
-        home: z.number(),
-        away: z.number(),
-      }),
-      winner: z.string(),
-      note: z.string().optional(),
-    })
+    ])
   ),
   final: z.object({
     id: z.string(),
