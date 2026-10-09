@@ -7,6 +7,7 @@ import { usePulseScoreChampionsLeagueSeasonQuery } from '../../../../features/hi
 import { useLeagueParams } from '../../../../features/filters/useLeagueParams';
 
 import { Season } from '../../components/Season/Season';
+import { HistoryQueryState } from '../HistoryQueryState/HistoryQueryState';
 
 type ChampionsLeagueTie =
   | PulseScoreChampionsLeagueSeasonResponseSchema['roundOf16'][number]
@@ -70,12 +71,29 @@ function KnockoutRound({ title, ties }: KnockoutRoundProps) {
 }
 
 export function ChampionsLeagueArchive() {
-  const { competitionSeasons } = useCompetitionSeasonsQuery();
-  const { pulseScoreChampionsLeagueData } = usePulseScoreChampionsLeagueSeasonQuery();
+  const { competitionSeasons, competitionSeasonsQuery } = useCompetitionSeasonsQuery();
+  const { pulseScoreChampionsLeagueData, pulseScoreChampionsLeagueSeasonQuery } =
+    usePulseScoreChampionsLeagueSeasonQuery();
   const { season, setSeason } = useLeagueParams();
 
+  const isLoading =
+    (competitionSeasonsQuery.isPending && !competitionSeasonsQuery.data) ||
+    (pulseScoreChampionsLeagueSeasonQuery.isPending && !pulseScoreChampionsLeagueSeasonQuery.data);
+
+  if (isLoading) {
+    return <HistoryQueryState state="loading" />;
+  }
+
+  if (competitionSeasonsQuery.isError) {
+    return <HistoryQueryState state="error" error={competitionSeasonsQuery.error} />;
+  }
+
+  if (pulseScoreChampionsLeagueSeasonQuery.isError) {
+    return <HistoryQueryState state="error" error={pulseScoreChampionsLeagueSeasonQuery.error} />;
+  }
+
   if (!pulseScoreChampionsLeagueData) {
-    return null;
+    return <HistoryQueryState state="empty" />;
   }
 
   return (

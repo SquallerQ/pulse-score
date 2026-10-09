@@ -55,9 +55,11 @@ export function MainPage() {
   const { leagueTeamsQuery, teamsList } = useLeagueTeamsQuery();
   const { championsLeagueTeamsQuery, championsLeagueTeams } = useChampionsLeagueTeamsQuery();
   const { leagueTableQuery, leagueTable } = useLeagueTableQuery();
-  const { championsLeagueTableQuery, championsLeagueTable } = useChampionsLeagueTableQuery();
   const { teamMatches } = useTeamMatchesQuery(selectedTeam?.leagueCode, selectedTeam?.teamId);
   const hasChampionsLeague = teamMatches?.competitions?.includes('CL') ?? false;
+  const { championsLeagueTableQuery, championsLeagueTable } = useChampionsLeagueTableQuery(
+    mode === 'cup' || hasChampionsLeague
+  );
   const { championsLeagueStagesQuery, championsLeagueStages } = useChampionsLeagueStagesQuery(
     mode === 'cup' || hasChampionsLeague
   );
@@ -129,6 +131,7 @@ export function MainPage() {
                 lastMatches={lastFiveLeagueMatches}
                 hasChampionsLeague={hasChampionsLeague}
                 championsLeagueStages={championsLeagueStages}
+                championsLeagueTable={championsLeagueTable}
               />
             ) : shouldShowLeagueInfoSkeleton ? (
               <LeagueInfoSkeleton />

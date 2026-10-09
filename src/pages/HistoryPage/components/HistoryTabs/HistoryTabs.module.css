@@ -33,6 +33,11 @@
   color: #fff;
 }
 
+.tabButtonActive:hover {
+  background: linear-gradient(135deg, #23496d, #4d748f);
+  cursor: auto;
+}
+
 @media (max-width: 720px) {
   .tabs {
     width: 100%;

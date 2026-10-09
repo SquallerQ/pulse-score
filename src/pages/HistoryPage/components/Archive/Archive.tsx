@@ -7,6 +7,7 @@ import { useLeagueParams } from '../../../../features/filters/useLeagueParams';
 
 import { Season } from '../../components/Season/Season';
 import { ChampionsLeagueArchive } from './ChampionsLeagueArchive';
+import { HistoryQueryState } from '../HistoryQueryState/HistoryQueryState';
 
 export function Archive() {
   const { leagueCode, mode } = useLeagueParams();
@@ -19,12 +20,28 @@ export function Archive() {
 }
 
 function LeagueArchive() {
-  const { competitionSeasons } = useCompetitionSeasonsQuery();
-  const { pulseScoreHistoryData } = usePulseScoreHistorySeasonQuery();
+  const { competitionSeasons, competitionSeasonsQuery } = useCompetitionSeasonsQuery();
+  const { pulseScoreHistoryData, pulseScoreHistorySeasonQuery } = usePulseScoreHistorySeasonQuery();
   const { season, setSeason, leagueCode } = useLeagueParams();
 
+  const isLoading =
+    (competitionSeasonsQuery.isPending && !competitionSeasonsQuery.data) ||
+    (pulseScoreHistorySeasonQuery.isPending && !pulseScoreHistorySeasonQuery.data);
+
+  if (isLoading) {
+    return <HistoryQueryState state="loading" />;
+  }
+
+  if (competitionSeasonsQuery.isError) {
+    return <HistoryQueryState state="error" error={competitionSeasonsQuery.error} />;
+  }
+
+  if (pulseScoreHistorySeasonQuery.isError) {
+    return <HistoryQueryState state="error" error={pulseScoreHistorySeasonQuery.error} />;
+  }
+
   if (!pulseScoreHistoryData) {
-    return;
+    return <HistoryQueryState state="empty" />;
   }
 
   return (

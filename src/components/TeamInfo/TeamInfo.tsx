@@ -5,6 +5,7 @@ import type {
   TeamMatch,
   ChampionsLeagueStage,
   ChampionsLeagueStageMatch,
+  LeagueTable,
   LeagueTeamItem,
 } from '../../api/football-data/types';
 
@@ -13,9 +14,16 @@ type TeamInfoProps = {
   lastMatches: TeamMatch[];
   hasChampionsLeague: boolean;
   championsLeagueStages?: ChampionsLeagueStage[];
+  championsLeagueTable?: LeagueTable | null;
 };
 
-export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, championsLeagueStages }: TeamInfoProps) {
+export function TeamInfo({
+  selectedTeam,
+  lastMatches,
+  hasChampionsLeague,
+  championsLeagueStages,
+  championsLeagueTable,
+}: TeamInfoProps) {
   function getResultBadge(match: TeamMatch) {
     if (selectedTeam?.name === match.awayTeam.name) {
       if (match.score.winner === 'HOME_TEAM') {
@@ -70,8 +78,12 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
   }
 
   function getChampionsLeagueStage() {
-    if (!hasChampionsLeague || !selectedTeam || !championsLeagueStages?.length) {
+    if (!hasChampionsLeague || !selectedTeam) {
       return null;
+    }
+
+    if (!championsLeagueStages?.length) {
+      return getChampionsLeagueLeaguePhase();
     }
 
     const reversedStages = [...championsLeagueStages].reverse();
@@ -125,7 +137,38 @@ export function TeamInfo({ selectedTeam, lastMatches, hasChampionsLeague, champi
         }
       }
     }
-    return 'lost in group stage';
+    return getChampionsLeagueLeaguePhase();
+  }
+
+  function getChampionsLeagueLeaguePhase() {
+    const tableRow = championsLeagueTable?.table.find((item) => item.team.id === selectedTeam?.id);
+
+    if (!tableRow) {
+      return (
+        <div className={styles.CLcontainer}>
+          <div className={styles.CLactive}>League phase</div>
+          <div className={styles.stage}>In progress</div>
+        </div>
+      );
+    }
+
+    let qualificationStatus = 'Outside qualification places';
+    if (tableRow.position <= 8) {
+      qualificationStatus = 'Direct qualification for the Round of 16';
+    } else if (tableRow.position <= 24) {
+      qualificationStatus = 'Knockout play-off zone';
+    }
+
+    return (
+      <div className={styles.CLcontainer}>
+        <div className={styles.CLactive}>League phase</div>
+        <div className={styles.stage}>Position: {tableRow.position}</div>
+        <div className={styles.CLmatchContainer}>
+          <span>{qualificationStatus}</span>
+          <span>{tableRow.points} pts</span>
+        </div>
+      </div>
+    );
   }
 
   function championsLeagueStatus(

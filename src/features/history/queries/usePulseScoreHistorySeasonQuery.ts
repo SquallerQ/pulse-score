@@ -21,5 +21,5 @@ export function usePulseScoreHistorySeasonQuery() {
 
   const pulseScoreHistoryData = pulseScoreHistorySeasonQuery.data;
 
-  return { pulseScoreHistoryData };
+  return { pulseScoreHistoryData, pulseScoreHistorySeasonQuery };
 }

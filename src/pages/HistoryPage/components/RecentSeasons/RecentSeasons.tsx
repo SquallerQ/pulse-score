@@ -10,6 +10,7 @@ import { useSeasonChampionQuery } from '../../../../features/leagues/queries/use
 import { useSharedTopScorersQuery } from '../../../../features/shared/queries/useSharedTopScorersQuery';
 import { useChampionsLeagueWinnerQuery } from '../../../../features/champions-league/queries/useChampionsLeagueWinnerQuery';
 import { RecentSeasonsSkeleton } from './RecentSeasonsSkeleton';
+import { HistoryQueryState } from '../HistoryQueryState/HistoryQueryState';
 
 export function RecentSeasons() {
   const { season, setSeason, leagueCode, mode } = useLeagueParams();
@@ -28,9 +29,26 @@ export function RecentSeasons() {
     (mode === 'league'
       ? seasonChampionQuery.isPending && !seasonChampionQuery.data
       : CLFinalQuery.isPending && !CLFinalQuery.data);
+  const hasSeasonData = mode === 'league' ? seasonTopThree.length > 0 : Boolean(CLFinalWinner && CLFinalLoser);
 
   if (shouldShowRecentSeasonsSkeleton) {
     return <RecentSeasonsSkeleton />;
+  }
+
+  if (leagueInfoTopScorersQuery.isError) {
+    return <HistoryQueryState state="error" error={leagueInfoTopScorersQuery.error} />;
+  }
+
+  if (mode === 'league' && seasonChampionQuery.isError) {
+    return <HistoryQueryState state="error" error={seasonChampionQuery.error} />;
+  }
+
+  if (mode === 'cup' && CLFinalQuery.isError) {
+    return <HistoryQueryState state="error" error={CLFinalQuery.error} />;
+  }
+
+  if (!hasSeasonData) {
+    return <HistoryQueryState state="empty" />;
   }
 
   return (
