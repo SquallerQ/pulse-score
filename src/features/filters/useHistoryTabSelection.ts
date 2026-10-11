@@ -9,6 +9,10 @@ import { useCompetitionSeasonsQuery } from '../history/queries/useCompetitionSea
 const RECENT_SEASONS = seasonsArray.map(String);
 const ARCHIVE_FALLBACK_SEASON = '2017';
 
+function tabUsesSeason(tab: HistoryTab): boolean {
+  return tab !== 'clubs-titles';
+}
+
 function getAllowedSeasons(tab: HistoryTab, archiveSeasons: string[]): string[] {
   if (tab === 'archive') {
     return archiveSeasons.length > 0 ? archiveSeasons : [ARCHIVE_FALLBACK_SEASON];
@@ -41,6 +45,10 @@ export function useHistoryTabSelection() {
   const archiveSeasons = [...competitionSeasons].sort((left, right) => right - left).map(String);
 
   useEffect(() => {
+    if (!tabUsesSeason(tab)) {
+      return;
+    }
+
     if (isSeasonAllowedForTab(tab, season, archiveSeasons)) {
       return;
     }
@@ -53,10 +61,13 @@ export function useHistoryTabSelection() {
   const setHistoryTab = useCallback(
     (nextTab: HistoryTab) => {
       const nextParams = new URLSearchParams(searchParams);
-      const nextSeason = getFallbackSeason(nextTab, season, archiveSeasons);
 
       nextParams.set('tab', nextTab);
-      nextParams.set('season', nextSeason);
+
+      if (tabUsesSeason(nextTab)) {
+        nextParams.set('season', getFallbackSeason(nextTab, season, archiveSeasons));
+      }
+
       setSearchParams(nextParams);
     },
     [archiveSeasons, searchParams, season, setSearchParams]
@@ -70,12 +81,18 @@ export function useHistoryTabSelection() {
     setHistoryTab('archive');
   }, [setHistoryTab]);
 
+  const selectTitlesTab = useCallback(() => {
+    setHistoryTab('clubs-titles');
+  }, [setHistoryTab]);
+
   return {
     tab,
     isArchiveTab: tab === 'archive',
     isRecentSeasonsTab: tab === 'recent-seasons',
+    isRecentTitlesTab: tab === 'clubs-titles',
     selectRecentSeasonsTab,
     selectArchiveTab,
+    selectTitlesTab,
     setHistoryTab,
   };
 }

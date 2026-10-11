@@ -3,6 +3,7 @@ export type PulseScoreHistorySeasonResponseSchema = z.infer<typeof pulseScoreHis
 export type CompetitionSeasonsResponseSchema = z.infer<typeof competitionSeasonsSchema>;
 export type PulseScoreChampionsLeagueSeasonsResponseSchema = z.infer<typeof pulseScoreChampionsLeagueSeasonsSchema>;
 export type PulseScoreChampionsLeagueSeasonResponseSchema = z.infer<typeof pulseScoreChampionsLeagueSeasonSchema>;
+export type PulseScoreCompetitionHonoursResponseSchema = z.infer<typeof pulseScoreCompetitionHonoursSchema>;
 
 export const pulseScoreHistorySeasonSchema = z.object({
   competition: z.string(),
@@ -153,6 +154,22 @@ export const pulseScoreChampionsLeagueSeasonSchema = z.object({
       playerName: z.string(),
       teamName: z.string(),
       goals: z.number(),
+    })
+  ),
+});
+
+export const pulseScoreCompetitionHonoursSchema = z.object({
+  competitionCode: z.string(),
+  recentChampions: z.array(
+    z.object({
+      season: z.number(),
+      clubName: z.string(),
+    })
+  ),
+  allTimeTitles: z.array(
+    z.object({
+      clubName: z.string(),
+      titles: z.number(),
     })
   ),
 });

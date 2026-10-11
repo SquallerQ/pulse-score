@@ -1,12 +1,13 @@
 import styles from './HistoryTabs.module.css';
 
 type HistoryTabsProps = {
-  activeTab: 'recent-seasons' | 'archive';
+  activeTab: 'recent-seasons' | 'archive' | 'clubs-titles';
   onSelectRecentSeasons: () => void;
   onSelectArchive: () => void;
+  onSelectTitles: () => void;
 };
 
-export function HistoryTabs({ activeTab, onSelectRecentSeasons, onSelectArchive }: HistoryTabsProps) {
+export function HistoryTabs({ activeTab, onSelectRecentSeasons, onSelectArchive, onSelectTitles }: HistoryTabsProps) {
   return (
     <div className={styles.tabs} role="tablist" aria-label="History sections">
       <button
@@ -27,6 +28,16 @@ export function HistoryTabs({ activeTab, onSelectRecentSeasons, onSelectArchive 
         onClick={onSelectArchive}
       >
         Archive
+      </button>
+
+      <button
+        type="button"
+        role="tab"
+        aria-selected={activeTab === 'clubs-titles'}
+        className={`${styles.tabButton} ${activeTab === 'clubs-titles' ? styles.tabButtonActive : ''}`}
+        onClick={onSelectTitles}
+      >
+        Clubs Titles
       </button>
     </div>
   );

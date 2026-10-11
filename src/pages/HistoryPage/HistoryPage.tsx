@@ -15,6 +15,7 @@ import type { HistoryTab } from '../../features/filters/useHistoryPageParams';
 
 import { Archive } from './components/Archive/Archive';
 import { RecentSeasons } from './components/RecentSeasons/RecentSeasons';
+import { ClubsTitles } from './components/ClubsTitles/ClubsTitles';
 
 import { HistoryPageSkeleton } from './HistoryPageSkeleton';
 
@@ -24,7 +25,7 @@ export default function HistoryPage() {
   const { leaguesQuery, leagues, currentLeague } = useLeagues(leagueCode);
   const { selectLeague, selectCup } = useCompetitionSelection();
 
-  const { tab, selectArchiveTab, selectRecentSeasonsTab } = useHistoryTabSelection();
+  const { tab, selectArchiveTab, selectRecentSeasonsTab, selectTitlesTab } = useHistoryTabSelection();
 
   function selectTab(tab: HistoryTab) {
     switch (tab) {
@@ -33,6 +34,9 @@ export default function HistoryPage() {
 
       case 'recent-seasons':
         return <RecentSeasons />;
+
+      case 'clubs-titles':
+        return <ClubsTitles />;
 
       default:
         return null;
@@ -67,7 +71,12 @@ export default function HistoryPage() {
           />
         </div>
       </div>
-      <HistoryTabs activeTab={tab} onSelectArchive={selectArchiveTab} onSelectRecentSeasons={selectRecentSeasonsTab} />
+      <HistoryTabs
+        activeTab={tab}
+        onSelectArchive={selectArchiveTab}
+        onSelectRecentSeasons={selectRecentSeasonsTab}
+        onSelectTitles={selectTitlesTab}
+      />
       {selectTab(tab)}
     </div>
   );

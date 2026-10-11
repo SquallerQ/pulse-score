@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { useCallback, useEffect, useMemo } from 'react';
 
-export type HistoryTab = 'recent-seasons' | 'archive';
-const TABS = ['recent-seasons', 'archive'] as const;
+export type HistoryTab = 'recent-seasons' | 'archive' | 'clubs-titles';
+const TABS = ['recent-seasons', 'archive', 'clubs-titles'] as const;
 
 const DEFAULT_TAB: HistoryTab = 'recent-seasons';
 

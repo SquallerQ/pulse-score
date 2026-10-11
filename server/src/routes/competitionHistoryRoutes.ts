@@ -8,6 +8,8 @@ import {
   getChampionsLeagueSeasonHistoryHandler,
 } from '../handlers/competitionHistoryHandlers';
 
+import { getHonoursHandler } from '../handlers/honoursHistoryHandlers';
+
 export const historyRoute = Router();
 
 historyRoute.get('/competitions', getCompetitionsHandler);
@@ -15,3 +17,5 @@ historyRoute.get('/competitions/:competitionCode/seasons', getCompetitionSeasons
 historyRoute.get('/competitions/:competitionCode/seasons/:season', getCompetitionSeasonHistoryHandler);
 historyRoute.get('/championsLeague/seasons', getChampionsLeagueSeasonsHandler);
 historyRoute.get('/championsLeague/seasons/:season', getChampionsLeagueSeasonHistoryHandler);
+
+historyRoute.get('/honours/:competitionCode', getHonoursHandler);
