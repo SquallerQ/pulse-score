@@ -1,0 +1,190 @@
+.clubsTitles {
+  padding: 30px;
+  border: 1px solid rgb(115 149 174 / 22%);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 88% 8%, rgb(110 157 195 / 28%), transparent 30%),
+    linear-gradient(145deg, rgb(17 36 58 / 96%), rgb(32 62 91 / 93%));
+  box-shadow: 0 18px 40px rgb(15 32 50 / 14%);
+}
+
+.clubsTitlesHeader {
+  margin-bottom: 26px;
+}
+
+.clubsTitlesEyebrow,
+.clubsTitlesPanelEyebrow {
+  color: rgb(199 221 240 / 72%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.clubsTitlesTitle,
+.clubsTitlesPanel h2 {
+  margin: 7px 0 0;
+  color: #fff;
+}
+
+.clubsTitlesTitle {
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.clubsTitlesDescription {
+  max-width: 520px;
+  margin: 9px 0 0;
+  color: rgb(218 233 246 / 74%);
+}
+
+.clubsTitlesGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  gap: 18px;
+}
+
+.clubsTitlesPanel {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgb(185 211 232 / 16%);
+  border-radius: 16px;
+  background: rgb(2 12 24 / 42%);
+}
+
+.clubsTitlesPanelHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgb(197 222 241 / 14%);
+}
+
+.clubsTitlesPanel h2 {
+  font-size: 21px;
+}
+
+.clubsTitlesCount {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgb(117 173 213 / 17%);
+  color: rgb(224 240 252 / 88%);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.championsList,
+.titlesList {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.championRow,
+.titleRow {
+  display: grid;
+  align-items: center;
+  min-height: 52px;
+  padding: 9px 12px;
+  border-radius: 11px;
+  background: rgb(255 255 255 / 6%);
+}
+
+.championRow {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+.championSeason {
+  color: rgb(172 207 235 / 76%);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.championClub,
+.titleClub {
+  overflow: hidden;
+  color: #fff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.titleRow {
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 10px;
+}
+
+.titleRank {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #d5a947, #f5df87);
+  color: #34250a;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.titleTotal {
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: rgb(104 173 133 / 18%);
+  color: #b8e7c8;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.titlesEmptyState {
+  display: grid;
+  min-height: 210px;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  color: rgb(211 229 243 / 68%);
+  text-align: center;
+}
+
+.titlesEmptyState p {
+  max-width: 210px;
+  margin: 0;
+}
+
+.titlesEmptyMark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgb(185 211 232 / 21%);
+  border-radius: 14px;
+  color: rgb(218 233 246 / 82%);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+@media (max-width: 850px) {
+  .clubsTitles {
+    padding: 20px 14px;
+  }
+
+  .clubsTitlesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .clubsTitlesPanel {
+    padding: 14px;
+  }
+
+  .clubsTitlesPanelHeader {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .championRow {
+    grid-template-columns: 65px minmax(0, 1fr);
+  }
+}

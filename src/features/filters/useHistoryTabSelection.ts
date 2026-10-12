@@ -10,7 +10,7 @@ const RECENT_SEASONS = seasonsArray.map(String);
 const ARCHIVE_FALLBACK_SEASON = '2017';
 
 function tabUsesSeason(tab: HistoryTab): boolean {
-  return tab !== 'clubs-titles';
+  return tab !== 'clubs-titles' && tab !== 'all-time-scorers';
 }
 
 function getAllowedSeasons(tab: HistoryTab, archiveSeasons: string[]): string[] {
@@ -85,6 +85,10 @@ export function useHistoryTabSelection() {
     setHistoryTab('clubs-titles');
   }, [setHistoryTab]);
 
+  const selectAllTimeScorersTab = useCallback(() => {
+    setHistoryTab('all-time-scorers');
+  }, [setHistoryTab]);
+
   return {
     tab,
     isArchiveTab: tab === 'archive',
@@ -93,6 +97,7 @@ export function useHistoryTabSelection() {
     selectRecentSeasonsTab,
     selectArchiveTab,
     selectTitlesTab,
+    selectAllTimeScorersTab,
     setHistoryTab,
   };
 }

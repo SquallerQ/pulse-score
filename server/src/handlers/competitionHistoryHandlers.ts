@@ -1,12 +1,12 @@
 import type { Request, Response } from 'express';
 
 import { competitions } from '../data/competitions';
-import { premierLeagueHistory } from '../data/history/premierLeague';
-import { laLigaHistory } from '../data/history/laLiga';
-import { bundesligaHistory } from '../data/history/bundesLiga';
-import { ligue1History } from '../data/history/league1';
-import { serieAHistory } from '../data/history/serieA';
-import { championsLeagueHistory } from '../data/history/championsLeague';
+import { premierLeagueHistory } from '../data/history/seasons/premierLeague';
+import { laLigaHistory } from '../data/history/seasons/laLiga';
+import { bundesligaHistory } from '../data/history/seasons/bundesLiga';
+import { ligue1History } from '../data/history/seasons/league1';
+import { serieAHistory } from '../data/history/seasons/serieA';
+import { championsLeagueHistory } from '../data/history/seasons/championsLeague';
 
 const historyByCompetitionCode = {
   PL: premierLeagueHistory,

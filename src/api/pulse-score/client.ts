@@ -4,6 +4,7 @@ import type {
   PulseScoreChampionsLeagueSeasonsResponseSchema,
   PulseScoreChampionsLeagueSeasonResponseSchema,
   PulseScoreCompetitionHonoursResponseSchema,
+  PulseScoreAllTimeScorersResponseSchema,
 } from './types';
 
 import {
@@ -12,6 +13,7 @@ import {
   pulseScoreChampionsLeagueSeasonsSchema,
   pulseScoreChampionsLeagueSeasonSchema,
   pulseScoreCompetitionHonoursSchema,
+  pulseScoreAllTimeScorersSchema,
 } from './types';
 
 import { mapPulseScoreHistorySeason, mapPulseScoreChampionsLeagueSeason } from './adapters';
@@ -77,4 +79,15 @@ export async function fetchPulseScoreCompetitionHonours(
 
   const json: unknown = await response.json();
   return pulseScoreCompetitionHonoursSchema.parse(json);
+}
+
+export async function fetchPulseScoreAllTimeScorers(
+  competitionCode: string
+): Promise<PulseScoreAllTimeScorersResponseSchema> {
+  const response = await fetch(`${API_BASE}/records/${competitionCode}/all-time-scorers`);
+
+  ensureOkResponse(response, 'all-time scorers');
+
+  const json: unknown = await response.json();
+  return pulseScoreAllTimeScorersSchema.parse(json);
 }

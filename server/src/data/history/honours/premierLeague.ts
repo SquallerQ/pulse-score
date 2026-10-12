@@ -1,4 +1,4 @@
-import type { CompetitionHonours } from './types.js';
+import type { CompetitionHonours } from './types';
 
 export const premierLeagueHonours: CompetitionHonours = {
   competitionCode: 'PL',
@@ -39,6 +39,29 @@ export const premierLeagueHonours: CompetitionHonours = {
     { season: 1993, clubName: 'Manchester United' },
   ],
   allTimeTitles: [
-    // { clubName: 'Manchester United', titles: 20 },
+    { clubName: 'Manchester United', titles: 20 },
+    { clubName: 'Liverpool', titles: 20 },
+    { clubName: 'Arsenal', titles: 14 },
+    { clubName: 'Manchester City', titles: 10 },
+    { clubName: 'Everton', titles: 9 },
+    { clubName: 'Aston Villa', titles: 7 },
+    { clubName: 'Chelsea', titles: 6 },
+    { clubName: 'Sunderland', titles: 6 },
+    { clubName: 'Sheffield Wednesday', titles: 4 },
+    { clubName: 'Newcastle United', titles: 4 },
+    { clubName: 'Blackburn Rovers', titles: 3 },
+    { clubName: 'Huddersfield Town', titles: 3 },
+    { clubName: 'Wolverhampton Wanderers', titles: 3 },
+    { clubName: 'Leeds United', titles: 3 },
+    { clubName: 'Preston North End', titles: 2 },
+    { clubName: 'Burnley', titles: 2 },
+    { clubName: 'Portsmouth', titles: 2 },
+    { clubName: 'Tottenham Hotspur', titles: 2 },
+    { clubName: 'Derby County', titles: 2 },
+    { clubName: 'Sheffield United', titles: 1 },
+    { clubName: 'West Bromwich Albion', titles: 1 },
+    { clubName: 'Ipswich Town', titles: 1 },
+    { clubName: 'Nottingham Forest', titles: 1 },
+    { clubName: 'Leicester City', titles: 1 },
   ],
 };

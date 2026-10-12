@@ -17,4 +17,5 @@ export const queryKeys = {
   pulseScoreChampionsLeagueSeasons: () => ['pulseScoreChampionsLeagueSeasons'] as const,
   pulseScoreChampionsLeagueSeason: (season: string) => ['pulseScoreChampionsLeagueSeason', season] as const,
   pulseScoreCompetitionHonours: (competitionCode: string) => ['pulseScoreCompetitionHonours', competitionCode] as const,
+  pulseScoreAllTimeScorers: (competitionCode: string) => ['pulseScoreAllTimeScorers', competitionCode] as const,
 };
