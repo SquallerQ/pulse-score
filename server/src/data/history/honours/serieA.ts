@@ -2,7 +2,7 @@ import type { CompetitionHonours } from './types';
 
 export const serieAHonours: CompetitionHonours = {
   competitionCode: 'SA',
-  recentChampions: [
+  championsBySeason: [
     { season: 2026, clubName: 'Inter Milan' },
     { season: 2025, clubName: 'Napoli' },
     { season: 2024, clubName: 'Inter Milan' },

@@ -2,7 +2,7 @@ import type { CompetitionHonours } from './types';
 
 export const premierLeagueHonours: CompetitionHonours = {
   competitionCode: 'PL',
-  recentChampions: [
+  championsBySeason: [
     { season: 2026, clubName: 'Arsenal' },
     { season: 2025, clubName: 'Liverpool' },
     { season: 2024, clubName: 'Manchester City' },

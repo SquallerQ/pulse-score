@@ -161,16 +161,18 @@ export const pulseScoreChampionsLeagueSeasonSchema = z.object({
 
 export const pulseScoreCompetitionHonoursSchema = z.object({
   competitionCode: z.string(),
-  recentChampions: z.array(
+  championsBySeason: z.array(
     z.object({
       season: z.number(),
       clubName: z.string(),
+      clubKey: z.string().optional(),
     })
   ),
   allTimeTitles: z.array(
     z.object({
       clubName: z.string(),
       titles: z.number(),
+      clubKey: z.string().optional(),
     })
   ),
 });

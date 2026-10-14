@@ -1,31 +1,26 @@
 import type { Request, Response } from 'express';
-import {
-  championsByCompetitionCode,
-  type SupportedChampionsCompetitionCode,
-} from '../data/history/honours/championsByCompetitionCode';
+import { championsByCompetitionCode } from '../data/history/honours/championsByCompetitionCode';
+import type { CompetitionHonours } from '../data/history/honours/types';
 
 type HonoursParams = {
   competitionCode: string;
 };
 
-function isSupportedChampionsCompetitionCode(value: string): value is SupportedChampionsCompetitionCode {
-  return Object.hasOwn(championsByCompetitionCode, value);
-}
-
 export const getHonoursHandler = (req: Request<HonoursParams>, res: Response) => {
   const { competitionCode } = req.params;
+  const honours: CompetitionHonours | undefined = Object.values(championsByCompetitionCode).find(
+    (competition) => competition.competitionCode === competitionCode
+  );
 
-  if (!isSupportedChampionsCompetitionCode(competitionCode)) {
+  if (!honours) {
     return res.status(404).json({
       message: 'Competition honours not found',
     });
   }
 
-  const honours = championsByCompetitionCode[competitionCode];
-
   return res.status(200).json({
     competitionCode: honours.competitionCode,
-    recentChampions: honours.recentChampions,
+    championsBySeason: honours.championsBySeason,
     allTimeTitles: honours.allTimeTitles,
   });
 };

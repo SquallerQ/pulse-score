@@ -2,7 +2,7 @@ import type { CompetitionHonours } from './types';
 
 export const laLigaHonours: CompetitionHonours = {
   competitionCode: 'PD',
-  recentChampions: [
+  championsBySeason: [
     { season: 2026, clubName: 'Barcelona' },
     { season: 2025, clubName: 'Barcelona' },
     { season: 2024, clubName: 'Real Madrid' },

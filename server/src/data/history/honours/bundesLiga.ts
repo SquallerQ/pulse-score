@@ -2,7 +2,7 @@ import type { CompetitionHonours } from './types';
 
 export const bundesligaHonours: CompetitionHonours = {
   competitionCode: 'BL1',
-  recentChampions: [
+  championsBySeason: [
     { season: 2026, clubName: 'Bayern München' },
     { season: 2025, clubName: 'Bayern München' },
     { season: 2024, clubName: 'Bayer Leverkusen' },

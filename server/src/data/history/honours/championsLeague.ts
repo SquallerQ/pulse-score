@@ -2,7 +2,7 @@ import type { CompetitionHonours } from './types';
 
 export const championsLeagueHonours: CompetitionHonours = {
   competitionCode: 'CL',
-  recentChampions: [
+  championsBySeason: [
     { season: 2026, clubName: 'Paris Saint-Germain' },
     { season: 2025, clubName: 'Paris Saint-Germain' },
     { season: 2024, clubName: 'Real Madrid' },

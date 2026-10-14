@@ -17,7 +17,7 @@ export function ClubsTitles() {
     return <HistoryQueryState state="empty" />;
   }
 
-  const { competitionCode, recentChampions, allTimeTitles } = competitionHonoursQuery.data;
+  const { competitionCode, championsBySeason, allTimeTitles } = competitionHonoursQuery.data;
 
   return (
     <section className="clubsTitles">
@@ -34,11 +34,11 @@ export function ClubsTitles() {
               <span className="clubsTitlesPanelEyebrow">Season by season</span>
               <h2>Past Champions</h2>
             </div>
-            <span className="clubsTitlesCount">{recentChampions.length} seasons</span>
+            <span className="clubsTitlesCount">{championsBySeason.length} seasons</span>
           </div>
 
           <div className="championsList">
-            {recentChampions.map((champion) => (
+            {championsBySeason.map((champion) => (
               <article key={champion.season} className="championRow">
                 <span className="championSeason">{champion.season}</span>
                 <strong className="championClub">{champion.clubName}</strong>
