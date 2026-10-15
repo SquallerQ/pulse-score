@@ -109,6 +109,20 @@
   white-space: nowrap;
 }
 
+.clubIdentity {
+  display: flex;
+  min-width: 0;
+  gap: 10px;
+  align-items: center;
+}
+
+.clubCrest {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 .titleRow {
   grid-template-columns: 34px minmax(0, 1fr) auto;
   gap: 10px;

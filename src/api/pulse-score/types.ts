@@ -166,6 +166,7 @@ export const pulseScoreCompetitionHonoursSchema = z.object({
       season: z.number(),
       clubName: z.string(),
       clubKey: z.string().optional(),
+      crestUrl: z.string().url().optional(),
     })
   ),
   allTimeTitles: z.array(
@@ -173,6 +174,7 @@ export const pulseScoreCompetitionHonoursSchema = z.object({
       clubName: z.string(),
       titles: z.number(),
       clubKey: z.string().optional(),
+      crestUrl: z.string().url().optional(),
     })
   ),
 });

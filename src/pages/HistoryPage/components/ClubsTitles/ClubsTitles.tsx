@@ -41,7 +41,10 @@ export function ClubsTitles() {
             {championsBySeason.map((champion) => (
               <article key={champion.season} className="championRow">
                 <span className="championSeason">{champion.season}</span>
-                <strong className="championClub">{champion.clubName}</strong>
+                <div className="clubIdentity">
+                  {champion.crestUrl && <img className="clubCrest" src={champion.crestUrl} alt="" />}
+                  <strong className="championClub">{champion.clubName}</strong>
+                </div>
               </article>
             ))}
           </div>
@@ -61,7 +64,10 @@ export function ClubsTitles() {
               {allTimeTitles.map((club, index) => (
                 <article key={club.clubName} className="titleRow">
                   <span className="titleRank">{index + 1}</span>
-                  <strong className="titleClub">{club.clubName}</strong>
+                  <div className="clubIdentity">
+                    {club.crestUrl && <img className="clubCrest" src={club.crestUrl} alt="" />}
+                    <strong className="titleClub">{club.clubName}</strong>
+                  </div>
                   <span className="titleTotal">
                     {club.titles} {club.titles === 1 ? 'title' : 'titles'}
                   </span>
