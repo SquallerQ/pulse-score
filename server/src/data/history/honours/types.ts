@@ -1,13 +1,19 @@
-export type ChampionBySeason = {
+type ClubReference =
+  | {
+      clubKey: string;
+      clubName?: string;
+    }
+  | {
+      clubKey?: never;
+      clubName: string;
+    };
+
+export type ChampionBySeason = ClubReference & {
   season: number;
-  clubName: string;
-  clubKey?: string;
 };
 
-export type ClubTitle = {
-  clubName: string;
+export type ClubTitle = ClubReference & {
   titles: number;
-  clubKey?: string;
 };
 
 export type CompetitionHonours = {

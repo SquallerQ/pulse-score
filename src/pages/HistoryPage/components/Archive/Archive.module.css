@@ -123,6 +123,21 @@
   font-weight: 700;
 }
 
+.clubIdentity,
+.teamIdentity {
+  display: flex;
+  min-width: 0;
+  gap: 10px;
+  align-items: center;
+}
+
+.clubCrest {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
 .teamName {
   color: rgb(255 255 255 / 68%);
   font-size: 14px;
@@ -174,7 +189,7 @@
     padding: 8px 10px;
   }
 
-  .teamName {
+  .teamIdentity {
     display: none;
   }
 

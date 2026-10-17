@@ -8,6 +8,8 @@ export function mapPulseScoreHistorySeason(data: PulseScoreHistorySeasonResponse
       id: item.id,
       place: item.place,
       name: item.name,
+      clubKey: item.clubKey,
+      crestUrl: item.crestUrl,
       points: item.points,
     })),
     topScorers: data.topScorers.map((item) => ({
@@ -15,6 +17,8 @@ export function mapPulseScoreHistorySeason(data: PulseScoreHistorySeasonResponse
       place: item.place,
       playerName: item.playerName,
       teamName: item.teamName,
+      clubKey: item.clubKey,
+      crestUrl: item.crestUrl,
       goals: item.goals,
     })),
   };

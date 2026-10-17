@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { championsByCompetitionCode } from '../data/history/honours/championsByCompetitionCode';
 import type { CompetitionHonours } from '../data/history/honours/types';
+import { getClubDetails } from '../services/clubService';
 
 type HonoursParams = {
   competitionCode: string;
@@ -9,6 +10,7 @@ type HonoursParams = {
 export const getHonoursHandler = (req: Request<HonoursParams>, res: Response) => {
   const { competitionCode } = req.params;
   const host = req.get('host');
+  const assetOrigin = host ? `${req.protocol}://${host}` : undefined;
   const honours: CompetitionHonours | undefined = Object.values(championsByCompetitionCode).find(
     (competition) => competition.competitionCode === competitionCode
   );
@@ -19,23 +21,15 @@ export const getHonoursHandler = (req: Request<HonoursParams>, res: Response) =>
     });
   }
 
-  const getCrestUrl = (clubKey?: string): string | undefined => {
-    if (!clubKey || !host) {
-      return undefined;
-    }
-
-    return `${req.protocol}://${host}/assets/club-crests/${encodeURIComponent(clubKey)}.png`;
-  };
-
   return res.status(200).json({
     competitionCode: honours.competitionCode,
     championsBySeason: honours.championsBySeason.map((champion) => ({
-      ...champion,
-      crestUrl: getCrestUrl(champion.clubKey),
+      season: champion.season,
+      ...getClubDetails(champion, assetOrigin),
     })),
     allTimeTitles: honours.allTimeTitles.map((club) => ({
-      ...club,
-      crestUrl: getCrestUrl(club.clubKey),
+      titles: club.titles,
+      ...getClubDetails(club, assetOrigin),
     })),
   });
 };

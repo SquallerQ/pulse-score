@@ -7,6 +7,7 @@ import { bundesligaHistory } from '../data/history/seasons/bundesLiga';
 import { ligue1History } from '../data/history/seasons/league1';
 import { serieAHistory } from '../data/history/seasons/serieA';
 import { championsLeagueHistory } from '../data/history/seasons/championsLeague';
+import { getClubDetails } from '../services/clubService';
 
 const historyByCompetitionCode = {
   PL: premierLeagueHistory,
@@ -60,6 +61,8 @@ export const getCompetitionSeasonsHandler = (req: Request<CompetitionParams>, re
 
 export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeasonParams>, res: Response) => {
   const { competitionCode, season } = req.params;
+  const host = req.get('host');
+  const assetOrigin = host ? `${req.protocol}://${host}` : undefined;
   const numericSeason = Number(season);
 
   if (!competitionCode || !isSupportedCompetitionCode(competitionCode)) {
@@ -81,19 +84,35 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
   return res.status(200).json({
     competition: seasonHistory.competitionCode,
     season: seasonHistory.season,
-    standings: seasonHistory.standingsTop.map((item, index) => ({
-      id: index + 1,
-      place: item.place,
-      name: item.teamName,
-      points: item.points,
-    })),
-    topScorers: topScorers.map((item, index) => ({
-      id: index + 1,
-      place: item.place,
-      playerName: item.playerName,
-      teamName: item.teamName,
-      goals: item.goals,
-    })),
+    standings: seasonHistory.standingsTop.map((item, index) => {
+      const clubKey = 'clubKey' in item ? item.clubKey : undefined;
+      const clubName = 'teamName' in item ? item.teamName : undefined;
+      const club = getClubDetails({ clubKey, clubName }, assetOrigin);
+
+      return {
+        id: index + 1,
+        place: item.place,
+        name: club.clubName,
+        clubKey: club.clubKey,
+        crestUrl: club.crestUrl,
+        points: item.points,
+      };
+    }),
+    topScorers: topScorers.map((item, index) => {
+      const clubKey = 'clubKey' in item ? item.clubKey : undefined;
+      const clubName = 'teamName' in item ? item.teamName : undefined;
+      const club = getClubDetails({ clubKey, clubName }, assetOrigin);
+
+      return {
+        id: index + 1,
+        place: item.place,
+        playerName: item.playerName,
+        teamName: club.clubName,
+        clubKey: club.clubKey,
+        crestUrl: club.crestUrl,
+        goals: item.goals,
+      };
+    }),
   });
 };
 

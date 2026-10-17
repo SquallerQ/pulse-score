@@ -14,6 +14,8 @@ export const pulseScoreHistorySeasonSchema = z.object({
       id: z.number(),
       place: z.number(),
       name: z.string(),
+      clubKey: z.string().optional(),
+      crestUrl: z.string().url().optional(),
       points: z.number(),
     })
   ),
@@ -23,6 +25,8 @@ export const pulseScoreHistorySeasonSchema = z.object({
       place: z.number(),
       playerName: z.string(),
       teamName: z.string(),
+      clubKey: z.string().optional(),
+      crestUrl: z.string().url().optional(),
       goals: z.number(),
     })
   ),

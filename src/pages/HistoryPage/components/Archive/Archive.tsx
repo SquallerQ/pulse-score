@@ -69,7 +69,10 @@ function LeagueArchive() {
             return (
               <div key={item.id} className={styles.tableContainer}>
                 <div className={styles.tablePlace}>{item.place}</div>
-                <div className={styles.tableName}>{item.name}</div>
+                <div className={styles.clubIdentity}>
+                  {item.crestUrl && <img className={styles.clubCrest} src={item.crestUrl} alt="" />}
+                  <div className={styles.tableName}>{item.name}</div>
+                </div>
                 <div className={styles.tablePoints}>{item.points}</div>
               </div>
             );
@@ -81,7 +84,10 @@ function LeagueArchive() {
               <div key={item.id} className={styles.topScorersRow}>
                 <div className={styles.playerPlace}>{item.place}</div>
                 <div className={styles.playerName}>{item.playerName}</div>
-                <div className={styles.teamName}>{item.teamName}</div>
+                <div className={styles.teamIdentity}>
+                  {item.crestUrl && <img className={styles.clubCrest} src={item.crestUrl} alt="" />}
+                  <div className={styles.teamName}>{item.teamName}</div>
+                </div>
                 <div className={styles.goals}>{item.goals} goals</div>
               </div>
             );
