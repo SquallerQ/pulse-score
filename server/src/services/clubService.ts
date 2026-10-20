@@ -6,7 +6,9 @@ type ClubReference = {
 };
 
 export function getClubDetails(club: ClubReference, assetOrigin?: string) {
-  const catalogClub = club.clubKey ? clubsByKey[club.clubKey] : undefined;
+  const catalogClub = club.clubKey
+    ? clubsByKey[club.clubKey]
+    : Object.values(clubsByKey).find((item) => item?.name === club.clubName);
   const clubName = catalogClub?.name ?? club.clubName;
 
   if (!clubName) {
@@ -15,7 +17,10 @@ export function getClubDetails(club: ClubReference, assetOrigin?: string) {
 
   const crestUrl =
     assetOrigin && catalogClub?.crestFileName
-      ? `${assetOrigin}/assets/club-crests/${encodeURIComponent(catalogClub.crestFileName)}`
+      ? `${assetOrigin}/assets/club-crests/${catalogClub.crestFileName
+          .split('/')
+          .map((pathSegment) => encodeURIComponent(pathSegment))
+          .join('/')}`
       : undefined;
 
   return {

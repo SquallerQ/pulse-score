@@ -51,7 +51,9 @@ export const getCompetitionSeasonsHandler = (req: Request<CompetitionParams>, re
     });
   }
 
-  const seasons = historyByCompetitionCode[competitionCode].map((item) => item.season);
+  const seasons = historyByCompetitionCode[competitionCode]
+    .map((item) => item.season)
+    .sort((firstSeason, secondSeason) => secondSeason - firstSeason);
 
   return res.status(200).json({
     competitionCode,
@@ -119,7 +121,9 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
 export const getChampionsLeagueSeasonsHandler = (_req: Request, res: Response) => {
   return res.status(200).json({
     competitionCode: 'CL',
-    seasons: championsLeagueHistory.map((item) => item.season),
+    seasons: championsLeagueHistory
+      .map((item) => item.season)
+      .sort((firstSeason, secondSeason) => secondSeason - firstSeason),
   });
 };
 

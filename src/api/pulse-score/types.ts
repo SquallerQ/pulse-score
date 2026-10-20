@@ -190,6 +190,8 @@ export const pulseScoreAllTimeScorersSchema = z.object({
       place: z.number(),
       playerName: z.string(),
       clubName: z.string(),
+      clubKey: z.string().optional(),
+      crestUrl: z.string().url().optional(),
       goals: z.number(),
     })
   ),

@@ -33,7 +33,10 @@ export function AllTimeScorers() {
             <article key={`${scorer.place}-${scorer.playerName}`} className={styles.row}>
               <span className={styles.rank}>{scorer.place}</span>
               <strong className={styles.playerName}>{scorer.playerName}</strong>
-              <span className={styles.clubName}>{scorer.clubName}</span>
+              <span className={styles.clubIdentity}>
+                {scorer.crestUrl && <img className={styles.clubCrest} src={scorer.crestUrl} alt="" />}
+                <span className={styles.clubName}>{scorer.clubName}</span>
+              </span>
               <span className={styles.goals}>{scorer.goals} goals</span>
             </article>
           ))}
