@@ -1,17 +1,34 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { users } from '../data/users';
+import { SignJWT } from 'jose';
+
+type LoginBody = {
+  email: string;
+  password: string;
+};
+
+function isLoginBody(value: unknown): value is LoginBody {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const { email, password } = value as Record<string, unknown>;
+
+  return typeof email === 'string' && email.trim().length > 0 && typeof password === 'string' && password.length > 0;
+}
 
 export const loginHandler = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const body: unknown = req.body;
 
-  const user = users.find((item) => item.email === email);
-
-  if (typeof email !== 'string' || typeof password !== 'string' || !email.trim() || !password) {
+  if (!isLoginBody(body)) {
     return res.status(400).json({
       message: 'Email and password are required',
     });
   }
+
+  const { email, password } = body;
+  const user = users.find((item) => item.email === email);
 
   if (!user) {
     return res.status(401).json({
@@ -24,6 +41,48 @@ export const loginHandler = async (req: Request, res: Response) => {
   if (!isPasswordValid) {
     return res.status(401).json({
       message: 'Invalid email or password',
+    });
+  }
+
+  const jwtSecret = process.env.JWT_SECRET;
+
+  if (!jwtSecret) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+
+  const secret = new TextEncoder().encode(jwtSecret);
+
+  const accessToken = await new SignJWT({})
+    .setProtectedHeader({ alg: 'HS256' })
+    .setSubject(String(user.id))
+    .setIssuedAt()
+    .setExpirationTime('15m')
+    .sign(secret);
+
+  return res.status(200).json({
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    },
+    accessToken,
+  });
+};
+
+export const getMeHandler = (req: Request, res: Response) => {
+  const userId: unknown = res.locals.userId;
+
+  if (typeof userId !== 'string' || !userId) {
+    return res.status(401).json({
+      message: 'Authentication is required',
+    });
+  }
+
+  const user = users.find((user) => String(user.id) === userId);
+
+  if (!user) {
+    return res.status(401).json({
+      message: 'User no longer exists',
     });
   }
 
