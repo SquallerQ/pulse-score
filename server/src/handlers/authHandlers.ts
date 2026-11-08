@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { users } from '../data/users';
-import { SignJWT } from 'jose';
+import { createAccessToken } from '../services/jwtService';
 
 type LoginBody = {
   email: string;
@@ -44,20 +44,7 @@ export const loginHandler = async (req: Request, res: Response) => {
     });
   }
 
-  const jwtSecret = process.env.JWT_SECRET;
-
-  if (!jwtSecret) {
-    throw new Error('JWT_SECRET is not configured');
-  }
-
-  const secret = new TextEncoder().encode(jwtSecret);
-
-  const accessToken = await new SignJWT({})
-    .setProtectedHeader({ alg: 'HS256' })
-    .setSubject(String(user.id))
-    .setIssuedAt()
-    .setExpirationTime('15m')
-    .sign(secret);
+  const accessToken = await createAccessToken(String(user.id));
 
   return res.status(200).json({
     user: {

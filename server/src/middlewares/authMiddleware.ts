@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 
-import { jwtVerify } from 'jose';
+import { verifyAccessToken } from '../services/jwtService';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authorization = req.headers.authorization;
@@ -13,19 +13,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
   const token = authorization.slice(7);
 
-  const jwtSecret = process.env.JWT_SECRET;
-
-  if (!jwtSecret) {
-    return next(new Error('JWT_SECRET is not configured'));
-  }
-
-  const secret = new TextEncoder().encode(jwtSecret);
-
   try {
-    const { payload } = await jwtVerify(token, secret, {
-      algorithms: ['HS256'],
-      requiredClaims: ['sub', 'iat', 'exp'],
-    });
+    const payload = await verifyAccessToken(token);
 
     if (!payload.sub) {
       return res.status(401).json({
@@ -35,7 +24,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
 
     res.locals.userId = payload.sub;
 
-    next();
+    return next();
   } catch {
     return res.status(401).json({
       message: 'Invalid or expired token',
