@@ -17,8 +17,7 @@ import {
 } from './types';
 
 import { mapPulseScoreHistorySeason, mapPulseScoreChampionsLeagueSeason } from './adapters';
-
-const API_BASE = 'http://localhost:4000/api';
+import { PULSE_SCORE_API_BASE } from '../config';
 
 function ensureOkResponse(response: Response, resourceName: string): void {
   if (!response.ok) {
@@ -30,7 +29,7 @@ export async function fetchPulseScoreHistorySeason(
   leagueCode: string,
   season: number
 ): Promise<PulseScoreHistorySeasonResponseSchema> {
-  const response = await fetch(`${API_BASE}/competitions/${leagueCode}/seasons/${season}`);
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/competitions/${leagueCode}/seasons/${season}`);
 
   ensureOkResponse(response, 'pulse score history season');
 
@@ -41,7 +40,7 @@ export async function fetchPulseScoreHistorySeason(
 }
 
 export async function fetchCompetitionSeasons(competitionCode: string): Promise<CompetitionSeasonsResponseSchema> {
-  const response = await fetch(`${API_BASE}/competitions/${competitionCode}/seasons`);
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/competitions/${competitionCode}/seasons`);
 
   ensureOkResponse(response, 'competition seasons');
 
@@ -50,7 +49,7 @@ export async function fetchCompetitionSeasons(competitionCode: string): Promise<
 }
 
 export async function fetchPulseScoreChampionsLeagueSeasons(): Promise<PulseScoreChampionsLeagueSeasonsResponseSchema> {
-  const response = await fetch(`${API_BASE}/championsLeague/seasons`);
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/championsLeague/seasons`);
 
   ensureOkResponse(response, 'pulse score Champions League seasons');
 
@@ -61,7 +60,7 @@ export async function fetchPulseScoreChampionsLeagueSeasons(): Promise<PulseScor
 export async function fetchPulseScoreChampionsLeagueSeason(
   season: number
 ): Promise<PulseScoreChampionsLeagueSeasonResponseSchema> {
-  const response = await fetch(`${API_BASE}/championsLeague/seasons/${season}`);
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/championsLeague/seasons/${season}`);
 
   ensureOkResponse(response, 'pulse score Champions League season');
 
@@ -73,7 +72,7 @@ export async function fetchPulseScoreChampionsLeagueSeason(
 export async function fetchPulseScoreCompetitionHonours(
   competitionCode: string
 ): Promise<PulseScoreCompetitionHonoursResponseSchema> {
-  const response = await fetch(`${API_BASE}/honours/${competitionCode}`);
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/honours/${competitionCode}`);
 
   ensureOkResponse(response, 'competition honours');
 
@@ -84,7 +83,7 @@ export async function fetchPulseScoreCompetitionHonours(
 export async function fetchPulseScoreAllTimeScorers(
   competitionCode: string
 ): Promise<PulseScoreAllTimeScorersResponseSchema> {
-  const response = await fetch(`${API_BASE}/records/${competitionCode}/all-time-scorers`);
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/records/${competitionCode}/all-time-scorers`);
 
   ensureOkResponse(response, 'all-time scorers');
 

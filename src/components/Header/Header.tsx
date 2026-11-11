@@ -19,6 +19,9 @@ export function Header() {
         <NavLink to="/about" className={({ isActive }) => (isActive ? styles.active : styles.link)}>
           About
         </NavLink>
+        <NavLink to="/login" className={({ isActive }) => (isActive ? styles.active : styles.link)}>
+          Sign in
+        </NavLink>
       </div>
       <ThemeToggler />
     </div>
