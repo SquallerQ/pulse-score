@@ -1,0 +1,37 @@
+.page {
+  display: grid;
+  min-height: calc(100vh - 69px);
+  place-items: center;
+  padding: 48px 20px;
+}
+
+.card {
+  width: min(100%, 460px);
+  padding: 36px;
+  border: 1px solid rgb(115 149 174 / 28%);
+  border-radius: 24px;
+  color: var(--color-text);
+  background: var(--container-bg);
+  box-shadow: 0 24px 60px rgb(15 32 50 / 16%);
+}
+
+.card p {
+  margin-top: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.card a {
+  display: inline-block;
+  margin-top: 22px;
+  color: var(--color-bg-team-buttons);
+  font-weight: 800;
+}
+
+.eyebrow {
+  color: var(--color-bg-team-buttons) !important;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

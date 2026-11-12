@@ -4,6 +4,7 @@ import { MainPage } from './pages/MainPage/MainPage';
 import { About } from './pages/About/About';
 import { Header } from './components/Header/Header';
 import { LoginPage } from './pages/LoginPage/LoginPage';
+import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 
 const HistoryPage = lazy(() => import('./pages/HistoryPage/HistoryPage'));
 
@@ -25,6 +26,7 @@ function App() {
 
         <Route path="/About" element={<About />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/me" element={<ProfilePage />} />
       </Routes>
     </div>
   );

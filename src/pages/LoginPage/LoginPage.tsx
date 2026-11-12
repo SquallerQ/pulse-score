@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../../features/auth/api';
 import styles from './LoginPage.module.css';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: login,
+    onSuccess: (data) => {
+      void navigate('/me', { state: { accessToken: data.accessToken } });
+    },
   });
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     loginMutation.mutate({ email, password });
-    console.log(email, password);
   }
 
   const errorMessage = loginMutation.error instanceof Error ? loginMutation.error.message : 'Unable to sign in';
@@ -61,12 +65,6 @@ export function LoginPage() {
         {loginMutation.isError && (
           <p className={styles.message} role="alert">
             {errorMessage}
-          </p>
-        )}
-
-        {loginMutation.data && (
-          <p className={`${styles.message} ${styles.success}`} role="status">
-            Signed in as {loginMutation.data.user.name}. Access token received for this browser session.
           </p>
         )}
       </section>
