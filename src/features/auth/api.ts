@@ -31,6 +31,7 @@ export type CurrentUser = z.infer<typeof currentUserSchema>;
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   const response = await fetch(`${PULSE_SCORE_API_BASE}/auth/login`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -56,10 +57,41 @@ export async function fetchCurrentUser(accessToken: string): Promise<CurrentUser
 
   const json: unknown = await response.json();
 
+  if (response.status === 401) {
+    throw new Error('UNAUTHORIZED');
+  }
+
   if (!response.ok) {
     const error = errorResponseSchema.safeParse(json);
     throw new Error(error.success ? error.data.message : 'Unable to load your profile');
   }
 
   return currentUserSchema.parse(json);
+}
+
+export async function refreshAccessToken() {
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/auth/refresh`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Unable to refresh access token');
+  }
+
+  return response.json();
+}
+
+export async function fetchCurrentUserWithRefresh(accessToken) {
+  try {
+    return await fetchCurrentUser(accessToken);
+  } catch (error) {
+    if (!(error instanceof Error) || error.message !== 'UNAUTHORIZED') {
+      throw error;
+    }
+
+    const data = await refreshAccessToken();
+
+    return fetchCurrentUser(data.accessToken);
+  }
 }

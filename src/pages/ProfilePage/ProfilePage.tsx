@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useLocation } from 'react-router-dom';
-import { fetchCurrentUser } from '../../features/auth/api';
+import { fetchCurrentUserWithRefresh, refreshAccessToken } from '../../features/auth/api';
 import styles from './ProfilePage.module.css';
 
 type ProfileNavigationState = {
@@ -14,7 +14,16 @@ function hasAccessToken(value: unknown): value is ProfileNavigationState {
 export function ProfilePage() {
   const location = useLocation();
   const navigationState: unknown = location.state;
-  const accessToken = hasAccessToken(navigationState) ? navigationState.accessToken : null;
+  const navigationAccessToken = hasAccessToken(navigationState) ? navigationState.accessToken : null;
+
+  const refreshQuery = useQuery({
+    queryKey: ['auth', 'refresh'],
+    queryFn: refreshAccessToken,
+    enabled: navigationAccessToken === null,
+    retry: false,
+  });
+
+  const accessToken = navigationAccessToken ?? refreshQuery.data?.accessToken ?? null;
 
   const currentUserQuery = useQuery({
     queryKey: ['auth', 'me'],
@@ -23,10 +32,20 @@ export function ProfilePage() {
         throw new Error('Access token is missing.');
       }
 
-      return fetchCurrentUser(accessToken);
+      return fetchCurrentUserWithRefresh(accessToken);
     },
     enabled: accessToken !== null,
   });
+
+  if (!navigationAccessToken && refreshQuery.isPending) {
+    return (
+      <main className={styles.page}>
+        <section className={styles.card}>
+          <p>Restoring your session...</p>
+        </section>
+      </main>
+    );
+  }
 
   if (!accessToken) {
     return (

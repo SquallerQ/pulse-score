@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { join } from 'node:path';
+import cookieParser from 'cookie-parser';
+
 import { rootRouter } from './routes/index';
 import { loggerMiddleware } from './middlewares/logger';
 import { notFoundMiddleware } from './middlewares/notFound';
@@ -10,8 +12,16 @@ export const app = express();
 
 const publicDirectory = join(__dirname, '../public');
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+);
+
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(loggerMiddleware);
 
 app.use('/assets', express.static(publicDirectory));
