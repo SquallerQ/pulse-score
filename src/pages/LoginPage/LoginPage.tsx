@@ -2,17 +2,21 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../features/auth/api';
+import { useAuth } from '../../context/AuthContext/useAuth';
+
 import styles from './LoginPage.module.css';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setAccessToken } = useAuth();
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      void navigate('/me', { state: { accessToken: data.accessToken } });
+      setAccessToken(data.accessToken);
+      void navigate('/me');
     },
   });
 

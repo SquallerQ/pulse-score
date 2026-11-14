@@ -16,6 +16,10 @@ const currentUserSchema = z.object({
   name: z.string(),
 });
 
+const refreshAccessTokenSchema = z.object({
+  accessToken: z.string(),
+});
+
 const errorResponseSchema = z.object({
   message: z.string(),
 });
@@ -27,6 +31,7 @@ export type LoginCredentials = {
 
 export type LoginResponse = z.infer<typeof loginResponseSchema>;
 export type CurrentUser = z.infer<typeof currentUserSchema>;
+export type RefreshAccessTokenResponse = z.infer<typeof refreshAccessTokenSchema>;
 
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   const response = await fetch(`${PULSE_SCORE_API_BASE}/auth/login`, {
@@ -69,29 +74,36 @@ export async function fetchCurrentUser(accessToken: string): Promise<CurrentUser
   return currentUserSchema.parse(json);
 }
 
-export async function refreshAccessToken() {
+export async function refreshAccessToken(): Promise<RefreshAccessTokenResponse> {
   const response = await fetch(`${PULSE_SCORE_API_BASE}/auth/refresh`, {
     method: 'POST',
     credentials: 'include',
   });
 
+  const json: unknown = await response.json();
+
   if (!response.ok) {
-    throw new Error('Unable to refresh access token');
+    const error = errorResponseSchema.safeParse(json);
+    throw new Error(error.success ? error.data.message : 'Unable to refresh access token');
   }
 
-  return response.json();
+  return refreshAccessTokenSchema.parse(json);
 }
 
-export async function fetchCurrentUserWithRefresh(accessToken) {
+export async function fetchCurrentUserWithRefresh(
+  accessToken: string
+): Promise<{ user: CurrentUser; accessToken: string }> {
   try {
-    return await fetchCurrentUser(accessToken);
+    const user = await fetchCurrentUser(accessToken);
+    return { user, accessToken };
   } catch (error) {
     if (!(error instanceof Error) || error.message !== 'UNAUTHORIZED') {
       throw error;
     }
 
-    const data = await refreshAccessToken();
+    const refreshedSession = await refreshAccessToken();
+    const user = await fetchCurrentUser(refreshedSession.accessToken);
 
-    return fetchCurrentUser(data.accessToken);
+    return { user, accessToken: refreshedSession.accessToken };
   }
 }

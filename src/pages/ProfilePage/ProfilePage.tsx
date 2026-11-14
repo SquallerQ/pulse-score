@@ -1,43 +1,52 @@
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Link, useLocation } from 'react-router-dom';
 import { fetchCurrentUserWithRefresh, refreshAccessToken } from '../../features/auth/api';
+
+import { useAuth } from '../../context/AuthContext/useAuth';
+
 import styles from './ProfilePage.module.css';
 
-type ProfileNavigationState = {
-  accessToken: string;
-};
-
-function hasAccessToken(value: unknown): value is ProfileNavigationState {
-  return typeof value === 'object' && value !== null && 'accessToken' in value && typeof value.accessToken === 'string';
-}
-
 export function ProfilePage() {
-  const location = useLocation();
-  const navigationState: unknown = location.state;
-  const navigationAccessToken = hasAccessToken(navigationState) ? navigationState.accessToken : null;
+  const { accessToken, setAccessToken } = useAuth();
 
   const refreshQuery = useQuery({
     queryKey: ['auth', 'refresh'],
     queryFn: refreshAccessToken,
-    enabled: navigationAccessToken === null,
+    enabled: accessToken === null,
     retry: false,
   });
 
-  const accessToken = navigationAccessToken ?? refreshQuery.data?.accessToken ?? null;
+  const restoredAccessToken = refreshQuery.data?.accessToken ?? null;
+  const activeAccessToken = accessToken ?? restoredAccessToken;
+
+  useEffect(() => {
+    if (restoredAccessToken) {
+      setAccessToken(restoredAccessToken);
+    }
+  }, [restoredAccessToken, setAccessToken]);
 
   const currentUserQuery = useQuery({
     queryKey: ['auth', 'me'],
     queryFn: () => {
-      if (!accessToken) {
+      if (!activeAccessToken) {
         throw new Error('Access token is missing.');
       }
 
-      return fetchCurrentUserWithRefresh(accessToken);
+      return fetchCurrentUserWithRefresh(activeAccessToken);
     },
-    enabled: accessToken !== null,
+    enabled: activeAccessToken !== null,
   });
 
-  if (!navigationAccessToken && refreshQuery.isPending) {
+  const renewedAccessToken = currentUserQuery.data?.accessToken ?? null;
+
+  useEffect(() => {
+    if (renewedAccessToken && renewedAccessToken !== accessToken) {
+      setAccessToken(renewedAccessToken);
+    }
+  }, [accessToken, renewedAccessToken, setAccessToken]);
+
+  if (!activeAccessToken && refreshQuery.isPending) {
     return (
       <main className={styles.page}>
         <section className={styles.card}>
@@ -47,12 +56,11 @@ export function ProfilePage() {
     );
   }
 
-  if (!accessToken) {
+  if (!activeAccessToken) {
     return (
       <main className={styles.page}>
         <section className={styles.card}>
           <h1>Authentication required</h1>
-          <p>This test page needs a token from a successful sign-in.</p>
           <Link to="/login">Go to sign in</Link>
         </section>
       </main>
@@ -84,7 +92,7 @@ export function ProfilePage() {
     );
   }
 
-  const user = currentUserQuery.data;
+  const user = currentUserQuery.data.user;
 
   return (
     <main className={styles.page}>

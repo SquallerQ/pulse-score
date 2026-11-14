@@ -8,7 +8,7 @@ export const createAccessToken = async (userId: string) => {
     .setProtectedHeader({ alg: 'HS256' })
     .setSubject(userId)
     .setIssuedAt()
-    .setExpirationTime('15m')
+    .setExpirationTime('15s')
     .sign(secret);
 };
 

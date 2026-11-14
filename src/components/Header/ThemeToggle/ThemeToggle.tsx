@@ -1,5 +1,5 @@
 import styles from './ThemeToggle.module.css';
-import { useTheme } from '../../../context/useTheme';
+import { useTheme } from '../../../context/ThemeContext/useTheme';
 
 export function ThemeToggler() {
   const { theme, toggleTheme } = useTheme();
