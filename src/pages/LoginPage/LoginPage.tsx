@@ -9,13 +9,15 @@ import styles from './LoginPage.module.css';
 export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setAccessToken } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: login,
+    gcTime: 0,
     onSuccess: (data) => {
-      setAccessToken(data.accessToken);
+      signIn(data.accessToken);
+
       void navigate('/me');
     },
   });

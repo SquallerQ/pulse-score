@@ -1,52 +1,30 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { fetchCurrentUserWithRefresh, refreshAccessToken } from '../../features/auth/api';
-
+import { fetchCurrentUserWithRefresh } from '../../features/auth/api';
 import { useAuth } from '../../context/AuthContext/useAuth';
-
 import styles from './ProfilePage.module.css';
 
 export function ProfilePage() {
-  const { accessToken, setAccessToken } = useAuth();
-
-  const refreshQuery = useQuery({
-    queryKey: ['auth', 'refresh'],
-    queryFn: refreshAccessToken,
-    enabled: accessToken === null,
-    retry: false,
-  });
-
-  const restoredAccessToken = refreshQuery.data?.accessToken ?? null;
-  const activeAccessToken = accessToken ?? restoredAccessToken;
-
-  useEffect(() => {
-    if (restoredAccessToken) {
-      setAccessToken(restoredAccessToken);
-    }
-  }, [restoredAccessToken, setAccessToken]);
+  const { accessToken, authStatus, restoreError, isLoggingOut, refreshSession, retrySessionRestore, signOut } =
+    useAuth();
 
   const currentUserQuery = useQuery({
     queryKey: ['auth', 'me'],
     queryFn: () => {
-      if (!activeAccessToken) {
+      if (!accessToken) {
         throw new Error('Access token is missing.');
       }
 
-      return fetchCurrentUserWithRefresh(activeAccessToken);
+      return fetchCurrentUserWithRefresh(accessToken, refreshSession);
     },
-    enabled: activeAccessToken !== null,
+    enabled: authStatus === 'authenticated' && accessToken !== null,
   });
 
-  const renewedAccessToken = currentUserQuery.data?.accessToken ?? null;
+  function handleLogout() {
+    void signOut();
+  }
 
-  useEffect(() => {
-    if (renewedAccessToken && renewedAccessToken !== accessToken) {
-      setAccessToken(renewedAccessToken);
-    }
-  }, [accessToken, renewedAccessToken, setAccessToken]);
-
-  if (!activeAccessToken && refreshQuery.isPending) {
+  if (authStatus === 'checking') {
     return (
       <main className={styles.page}>
         <section className={styles.card}>
@@ -56,7 +34,22 @@ export function ProfilePage() {
     );
   }
 
-  if (!activeAccessToken) {
+  if (restoreError) {
+    return (
+      <main className={styles.page}>
+        <section className={styles.card}>
+          <h1>Unable to restore your session</h1>
+          <p>{restoreError.message}</p>
+          <button type="button" onClick={() => void retrySessionRestore()}>
+            Try again
+          </button>
+          <Link to="/login">Go to sign in</Link>
+        </section>
+      </main>
+    );
+  }
+
+  if (authStatus !== 'authenticated' || !accessToken) {
     return (
       <main className={styles.page}>
         <section className={styles.card}>
@@ -100,6 +93,9 @@ export function ProfilePage() {
         <p className={styles.eyebrow}>Protected endpoint</p>
         <h1>Welcome, {user.name}</h1>
         <p>{user.email}</p>
+        <button type="button" onClick={handleLogout} disabled={isLoggingOut}>
+          {isLoggingOut ? 'Logging out...' : 'Logout'}
+        </button>
       </section>
     </main>
   );

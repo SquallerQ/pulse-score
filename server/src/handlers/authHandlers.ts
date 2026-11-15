@@ -126,3 +126,14 @@ export const refreshHandler = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const logoutHandler = (req: Request, res: Response) => {
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false,
+    path: '/api/auth',
+  });
+
+  return res.status(204).send();
+};

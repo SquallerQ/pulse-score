@@ -24,6 +24,16 @@ const errorResponseSchema = z.object({
   message: z.string(),
 });
 
+export class AuthApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number | null
+  ) {
+    super(message);
+    this.name = 'AuthApiError';
+  }
+}
+
 export type LoginCredentials = {
   email: string;
   password: string;
@@ -32,6 +42,10 @@ export type LoginCredentials = {
 export type LoginResponse = z.infer<typeof loginResponseSchema>;
 export type CurrentUser = z.infer<typeof currentUserSchema>;
 export type RefreshAccessTokenResponse = z.infer<typeof refreshAccessTokenSchema>;
+
+export function isUnauthorizedAuthError(error: unknown): error is AuthApiError {
+  return error instanceof AuthApiError && error.status === 401;
+}
 
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
   const response = await fetch(`${PULSE_SCORE_API_BASE}/auth/login`, {
@@ -63,7 +77,7 @@ export async function fetchCurrentUser(accessToken: string): Promise<CurrentUser
   const json: unknown = await response.json();
 
   if (response.status === 401) {
-    throw new Error('UNAUTHORIZED');
+    throw new AuthApiError('Authentication is required.', 401);
   }
 
   if (!response.ok) {
@@ -75,35 +89,59 @@ export async function fetchCurrentUser(accessToken: string): Promise<CurrentUser
 }
 
 export async function refreshAccessToken(): Promise<RefreshAccessTokenResponse> {
-  const response = await fetch(`${PULSE_SCORE_API_BASE}/auth/refresh`, {
-    method: 'POST',
-    credentials: 'include',
-  });
+  let response: Response;
 
-  const json: unknown = await response.json();
+  try {
+    response = await fetch(`${PULSE_SCORE_API_BASE}/auth/refresh`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+  } catch {
+    throw new AuthApiError('Unable to connect while restoring your session.', null);
+  }
+
+  let json: unknown = null;
+
+  try {
+    json = await response.json();
+  } catch {
+    throw new AuthApiError('Invalid response while restoring your session.', response.status);
+  }
 
   if (!response.ok) {
     const error = errorResponseSchema.safeParse(json);
-    throw new Error(error.success ? error.data.message : 'Unable to refresh access token');
+    throw new AuthApiError(error.success ? error.data.message : 'Unable to refresh access token', response.status);
   }
 
   return refreshAccessTokenSchema.parse(json);
 }
 
 export async function fetchCurrentUserWithRefresh(
-  accessToken: string
+  accessToken: string,
+  refreshSession: () => Promise<string>
 ): Promise<{ user: CurrentUser; accessToken: string }> {
   try {
     const user = await fetchCurrentUser(accessToken);
     return { user, accessToken };
   } catch (error) {
-    if (!(error instanceof Error) || error.message !== 'UNAUTHORIZED') {
+    if (!isUnauthorizedAuthError(error)) {
       throw error;
     }
 
-    const refreshedSession = await refreshAccessToken();
-    const user = await fetchCurrentUser(refreshedSession.accessToken);
+    const nextAccessToken = await refreshSession();
+    const user = await fetchCurrentUser(nextAccessToken);
 
-    return { user, accessToken: refreshedSession.accessToken };
+    return { user, accessToken: nextAccessToken };
+  }
+}
+
+export async function logout() {
+  const response = await fetch(`${PULSE_SCORE_API_BASE}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Unable to log out');
   }
 }
