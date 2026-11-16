@@ -35,3 +35,23 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+
+.profilePage {
+  display: flex;
+}
+
+.profilePageContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #e3f9e8;
+
+  padding: 10px 50px;
+}
+
+.logoutContainer {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+

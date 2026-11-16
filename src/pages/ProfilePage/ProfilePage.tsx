@@ -88,14 +88,16 @@ export function ProfilePage() {
   const user = currentUserQuery.data.user;
 
   return (
-    <main className={styles.page}>
-      <section className={styles.card}>
-        <p className={styles.eyebrow}>Protected endpoint</p>
-        <h1>Welcome, {user.name}</h1>
-        <p>{user.email}</p>
-        <button type="button" onClick={handleLogout} disabled={isLoggingOut}>
-          {isLoggingOut ? 'Logging out...' : 'Logout'}
-        </button>
+    <main className={styles.profilePage}>
+      <section className={styles.profilePageContainer}>
+        <h1>{user.name}</h1>
+        <div className={styles.logoutContainer}>
+          <p>{user.email}</p>
+
+          <button type="button" onClick={handleLogout} disabled={isLoggingOut}>
+            {isLoggingOut ? 'Logging out...' : 'Logout'}
+          </button>
+        </div>
       </section>
     </main>
   );
