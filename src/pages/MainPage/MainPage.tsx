@@ -19,7 +19,9 @@ import { useLeagueParams } from '../../features/filters/useLeagueParams';
 import { useCompetitionSelection } from '../../features/filters/useCompetitionSelection';
 import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
-import { useRecentChampionsQuery } from '../../features/leagues/queries/useRecentChampionsQuery';
+
+import { usePulseScoreHistorySeasonQuery } from '../../features/history/queries/usePulseScoreHistorySeasonQuery';
+
 import { useLeagueTeamsQuery } from '../../features/leagues/queries/useLeagueTeamsQuery';
 import { useTeamMatchesQuery } from '../../features/leagues/queries/useTeamMatchesQuery';
 import { useChampionsLeagueTeamsQuery } from '../../features/champions-league/queries/useChampionsLeagueTeamsQuery';
@@ -50,7 +52,10 @@ export function MainPage() {
   const { leagueInfoTopScorersQuery } = useSharedTopScorersQuery({
     seasonOverride: getPreviousSeasonYear().toString(),
   });
-  const { leagueInfoQuery } = useRecentChampionsQuery(3);
+
+  const { pulseScoreHistoryData, pulseScoreHistorySeasonQuery } = usePulseScoreHistorySeasonQuery({
+    seasonMode: 'current',
+  });
 
   const { leagueTeamsQuery, teamsList } = useLeagueTeamsQuery();
   const { championsLeagueTeamsQuery, championsLeagueTeams } = useChampionsLeagueTeamsQuery();
@@ -66,9 +71,9 @@ export function MainPage() {
 
   const TopThreeScorersLastSeason = leagueInfoTopScorersQuery.data?.slice(0, 3);
   const shouldShowLeagueInfoSkeleton =
-    (leagueInfoQuery.isPending && !leagueInfoQuery.data) ||
+    (pulseScoreHistorySeasonQuery.isPending && !pulseScoreHistoryData) ||
     (leagueInfoTopScorersQuery.isPending && !leagueInfoTopScorersQuery.data);
-  const isLeagueInfoUpdating = leagueInfoQuery.isFetching || leagueInfoTopScorersQuery.isFetching;
+  const isLeagueInfoUpdating = pulseScoreHistorySeasonQuery.isFetching || leagueInfoTopScorersQuery.isFetching;
   const shouldShowTableSkeleton = leagueTableQuery.isPending && !leagueTableQuery.data;
   const isTableUpdating = leagueTableQuery.isFetching;
   const shouldShowTeamListSkeleton = leagueTeamsQuery.isPending && !leagueTeamsQuery.data;
@@ -137,7 +142,7 @@ export function MainPage() {
               <LeagueInfoSkeleton />
             ) : (
               <LeagueInfo
-                leagueInfo={leagueInfoQuery.data ?? null}
+                leagueInfo={pulseScoreHistoryData ?? null}
                 topScorers={TopThreeScorersLastSeason ?? null}
                 isUpdating={isLeagueInfoUpdating}
               />

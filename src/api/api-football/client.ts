@@ -6,7 +6,6 @@ import {
   type LeagueSeasonStandings,
   type TopScorer,
   type ChampionsLeagueWinner,
-  type ChampionHistoryItem,
   type LeagueInfo,
 } from './types';
 
@@ -52,23 +51,6 @@ async function fetchLeagueSeasonStandings(leagueCode: string, season: number): P
   const data = leagueSeasonStandingsSchema.parse(json);
 
   return data?.response?.[0]?.league ?? null;
-}
-
-export async function fetchRecentChampions(leagueCode: string, count = 3): Promise<LeagueInfo | null> {
-  const current = getPreviousSeasonYear();
-
-  const seasons = Array.from({ length: count }, (_, index) => current - index);
-
-  const leagues = await Promise.all(seasons.map((season) => fetchLeagueSeasonStandings(leagueCode, season)));
-
-  const latestLeague = leagues[0];
-  if (!latestLeague) return null;
-
-  const championsHistory = leagues
-    .map((league) => mapChampion(league))
-    .filter((item): item is ChampionHistoryItem => item !== null);
-
-  return mapLeagueInfo(latestLeague, championsHistory);
 }
 
 export async function fetchSeasonChampion(leagueCode: string, season: number): Promise<LeagueInfo | null> {

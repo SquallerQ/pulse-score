@@ -1,5 +1,5 @@
 export const DEFAULT_LEAGUE = 'PL';
-export const DEFAULT_SEASON = '2025';
+export const DEFAULT_SEASON = '2026';
 export const DEFAULT_MODE = 'league';
 
 export const VALID_LEAGUES = ['PL', 'PD', 'CL', 'SA', 'BL1', 'FL1'] as const;

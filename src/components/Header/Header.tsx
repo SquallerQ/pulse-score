@@ -22,7 +22,11 @@ export function Header() {
         <NavLink to="/about" className={({ isActive }) => (isActive ? styles.active : styles.link)}>
           About
         </NavLink>
-        {authStatus === 'authenticated' ? (
+        {authStatus === 'checking' ? (
+          <span className={styles.authStatus} aria-live="polite">
+            Checking...
+          </span>
+        ) : authStatus === 'authenticated' ? (
           <NavLink to="/me" className={({ isActive }) => (isActive ? styles.active : styles.link)}>
             Profile
           </NavLink>

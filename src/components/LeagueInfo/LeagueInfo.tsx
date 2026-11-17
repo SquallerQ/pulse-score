@@ -1,6 +1,7 @@
 import styles from './LeagueInfo.module.css';
 
-import type { LeagueInfo, TopScorer } from '../../api/api-football/types';
+import type { TopScorer } from '../../api/api-football/types';
+import type { LeagueInfo } from '../../api/pulse-score/types';
 
 type LeagueInfoProps = {
   leagueInfo: LeagueInfo | null;
@@ -9,8 +10,14 @@ type LeagueInfoProps = {
 };
 
 export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: LeagueInfoProps) {
+  console.log(leagueInfo);
+
   const champion = leagueInfo?.standings?.[0];
+
   const topThree = leagueInfo?.standings?.slice(0, 3) ?? [];
+
+  console.log(topThree);
+
   const championsHistory = leagueInfo?.championsHistory ?? [];
   const secondPlace = topThree[1];
   const gapToSecond = champion && secondPlace ? champion.points - secondPlace.points : null;
@@ -30,9 +37,9 @@ export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: Leagu
       <div className={styles.content}>
         <div className={styles.championContainer}>
           <div className={styles.championGlow}></div>
-          <img className={styles.championLogo} src={champion.team.logo} alt={champion.team.name} />
+          <img className={styles.championLogo} src={champion.crestUrl} alt={champion.name} />
           <p className={styles.championText}>Last season champion</p>
-          <p className={styles.championName}>{champion.team.name}</p>
+          <p className={styles.championName}>{champion.name}</p>
           <p className={styles.championPoints}>{topThree[0]?.points} pts</p>
         </div>
 
@@ -69,15 +76,15 @@ export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: Leagu
           <div className={styles.podium}>
             {topThree.map((item, index) => (
               <div
-                key={item.team.name}
+                key={item.name}
                 className={`${styles.teamCard} ${
                   index === 0 ? styles.firstPlace : index === 1 ? styles.secondPlace : styles.thirdPlace
                 }`}
               >
-                <div className={styles.rankBadge}>{item.rank}</div>
-                <img className={styles.teamLogo} src={item.team.logo} alt={item.team.name} />
+                <div className={styles.rankBadge}>{item.place}</div>
+                <img className={styles.teamLogo} src={item.crestUrl} alt={item.name} />
                 <div className={styles.teamInfo}>
-                  <p className={styles.teamName}>{item.team.name}</p>
+                  <p className={styles.teamName}>{item.name}</p>
                 </div>
                 <div className={styles.teamPoints}>{item.points} pts</div>
               </div>

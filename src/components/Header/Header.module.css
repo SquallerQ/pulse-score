@@ -38,3 +38,11 @@
   cursor: auto;
   background-color: var(--color-bg-team-buttons);
 }
+
+.authStatus {
+  padding: 8px 16px;
+  border-radius: 6px;
+  color: var(--color-text-muted);
+  background-color: #f0f0f0;
+  font-size: 16px;
+}

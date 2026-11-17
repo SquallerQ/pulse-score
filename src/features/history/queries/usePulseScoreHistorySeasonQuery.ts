@@ -5,12 +5,25 @@ import { useLeagueParams } from '../../../features/filters/useLeagueParams';
 
 import { fetchPulseScoreHistorySeason } from '../../../api/pulse-score/client';
 
-export function usePulseScoreHistorySeasonQuery() {
+type SeasonMode = 'selected' | 'current';
+
+type UsePulseScoreHistorySeasonQueryOptions = {
+  seasonMode?: SeasonMode;
+};
+
+function getCurrentSeasonYear(): string {
+  return String(new Date().getFullYear());
+}
+
+export function usePulseScoreHistorySeasonQuery({
+  seasonMode = 'selected',
+}: UsePulseScoreHistorySeasonQueryOptions = {}) {
   const { leagueCode, season } = useLeagueParams();
+  const seasonToFetch = seasonMode === 'current' ? getCurrentSeasonYear() : season;
 
   const pulseScoreHistorySeasonQuery = useQuery({
-    queryKey: queryKeys.pulseScoreHistorySeason(leagueCode, season),
-    queryFn: () => fetchPulseScoreHistorySeason(leagueCode, +season),
+    queryKey: queryKeys.pulseScoreHistorySeason(leagueCode, seasonToFetch),
+    queryFn: () => fetchPulseScoreHistorySeason(leagueCode, +seasonToFetch),
     enabled: leagueCode !== 'CL',
     placeholderData: (previousData) => previousData,
     staleTime: Infinity,
