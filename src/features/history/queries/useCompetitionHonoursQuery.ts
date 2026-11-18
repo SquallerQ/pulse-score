@@ -3,7 +3,7 @@ import { fetchPulseScoreCompetitionHonours } from '../../../api/pulse-score/clie
 import { queryKeys } from '../../../lib/react-query/queryKeys';
 import { useLeagueParams } from '../../filters/useLeagueParams';
 
-export function useCompetitionHonoursQuery() {
+export function usePulseScoreCompetitionHonoursQuery() {
   const { leagueCode } = useLeagueParams();
 
   const competitionHonoursQuery = useQuery({

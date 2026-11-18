@@ -21,6 +21,7 @@ import { useLeagues } from '../../features/leagues/queries/useLeaguesQuery';
 import { useSharedTopScorersQuery } from '../../features/shared/queries/useSharedTopScorersQuery';
 
 import { usePulseScoreHistorySeasonQuery } from '../../features/history/queries/usePulseScoreHistorySeasonQuery';
+import { usePulseScoreCompetitionHonoursQuery } from '../../features/history/queries/useCompetitionHonoursQuery';
 
 import { useLeagueTeamsQuery } from '../../features/leagues/queries/useLeagueTeamsQuery';
 import { useTeamMatchesQuery } from '../../features/leagues/queries/useTeamMatchesQuery';
@@ -56,6 +57,9 @@ export function MainPage() {
   const { pulseScoreHistoryData, pulseScoreHistorySeasonQuery } = usePulseScoreHistorySeasonQuery({
     seasonMode: 'current',
   });
+
+  const { competitionHonoursQuery } = usePulseScoreCompetitionHonoursQuery();
+  const lastThreeYearsWinners = competitionHonoursQuery.data?.championsBySeason.slice(0, 3);
 
   const { leagueTeamsQuery, teamsList } = useLeagueTeamsQuery();
   const { championsLeagueTeamsQuery, championsLeagueTeams } = useChampionsLeagueTeamsQuery();
@@ -143,6 +147,7 @@ export function MainPage() {
             ) : (
               <LeagueInfo
                 leagueInfo={pulseScoreHistoryData ?? null}
+                lastThreeYearsWinners={lastThreeYearsWinners ?? null}
                 topScorers={TopThreeScorersLastSeason ?? null}
                 isUpdating={isLeagueInfoUpdating}
               />

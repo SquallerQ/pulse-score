@@ -32,6 +32,13 @@ export type LeagueInfo = {
   topScorers: TopScorer[];
 };
 
+export type SeasonWinnerTeam = {
+  clubName: string;
+  clubKey?: string;
+  crestUrl?: string;
+  season: number;
+};
+
 export const pulseScoreHistorySeasonSchema = z.object({
   competition: z.string(),
   season: z.number(),

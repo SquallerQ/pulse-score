@@ -1,9 +1,9 @@
-import { useCompetitionHonoursQuery } from '../../../../features/history/queries/useCompetitionHonoursQuery';
+import { usePulseScoreCompetitionHonoursQuery } from '../../../../features/history/queries/useCompetitionHonoursQuery';
 import { HistoryQueryState } from '../HistoryQueryState/HistoryQueryState';
 import './ClubsTitles.css';
 
 export function ClubsTitles() {
-  const { competitionHonoursQuery } = useCompetitionHonoursQuery();
+  const { competitionHonoursQuery } = usePulseScoreCompetitionHonoursQuery();
 
   if (competitionHonoursQuery.isPending && !competitionHonoursQuery.data) {
     return <HistoryQueryState state="loading" />;

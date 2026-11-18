@@ -1,24 +1,20 @@
 import styles from './LeagueInfo.module.css';
 
 import type { TopScorer } from '../../api/api-football/types';
-import type { LeagueInfo } from '../../api/pulse-score/types';
+import type { LeagueInfo, SeasonWinnerTeam } from '../../api/pulse-score/types';
 
 type LeagueInfoProps = {
   leagueInfo: LeagueInfo | null;
+  lastThreeYearsWinners: SeasonWinnerTeam[] | null;
   topScorers: TopScorer[] | null;
   isUpdating?: boolean;
 };
 
-export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: LeagueInfoProps) {
-  console.log(leagueInfo);
-
+export function LeagueInfo({ leagueInfo, lastThreeYearsWinners, topScorers, isUpdating = false }: LeagueInfoProps) {
   const champion = leagueInfo?.standings?.[0];
 
   const topThree = leagueInfo?.standings?.slice(0, 3) ?? [];
 
-  console.log(topThree);
-
-  const championsHistory = leagueInfo?.championsHistory ?? [];
   const secondPlace = topThree[1];
   const gapToSecond = champion && secondPlace ? champion.points - secondPlace.points : null;
 
@@ -37,7 +33,9 @@ export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: Leagu
       <div className={styles.content}>
         <div className={styles.championContainer}>
           <div className={styles.championGlow}></div>
-          <img className={styles.championLogo} src={champion.crestUrl} alt={champion.name} />
+          {champion.crestUrl ? (
+            <img className={styles.championLogo} src={champion.crestUrl} alt={champion.name} />
+          ) : null}
           <p className={styles.championText}>Last season champion</p>
           <p className={styles.championName}>{champion.name}</p>
           <p className={styles.championPoints}>{topThree[0]?.points} pts</p>
@@ -46,12 +44,9 @@ export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: Leagu
         <div className={styles.middleColumn}>
           <div className={styles.middleHeader}>
             <div className={styles.leagueMeta}>
-              {leagueInfo?.logo ? (
-                <img className={styles.leagueLogo} src={leagueInfo.logo} alt={leagueInfo.name ?? 'League'} />
-              ) : null}
               <div>
                 <p className={styles.leagueLabel}>Previous season snapshot</p>
-                <h3 className={styles.leagueTitle}>{leagueInfo?.name ?? 'League'}</h3>
+                <h3 className={styles.leagueTitle}>{leagueInfo.competition}</h3>
               </div>
             </div>
           </div>
@@ -82,7 +77,7 @@ export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: Leagu
                 }`}
               >
                 <div className={styles.rankBadge}>{item.place}</div>
-                <img className={styles.teamLogo} src={item.crestUrl} alt={item.name} />
+                {item.crestUrl ? <img className={styles.teamLogo} src={item.crestUrl} alt={item.name} /> : null}
                 <div className={styles.teamInfo}>
                   <p className={styles.teamName}>{item.name}</p>
                 </div>
@@ -140,12 +135,14 @@ export function LeagueInfo({ leagueInfo, topScorers, isUpdating = false }: Leagu
           <div className={`${styles.section} ${styles.timelineCard}`}>
             <p className={styles.sectionTitle}>Champions by season</p>
             <div className={styles.timelineList}>
-              {championsHistory.map((item) => (
+              {lastThreeYearsWinners?.map((item) => (
                 <div key={item.season} className={styles.timelineRow}>
                   <span className={styles.seasonPill}>{item.season}</span>
                   <span className={styles.timelineDot}></span>
-                  <img className={styles.timelineLogo} src={item.team.logo} alt={item.team.name} />
-                  <span className={styles.timelineTeam}>{item.team.name}</span>
+                  {item.crestUrl ? (
+                    <img className={styles.timelineLogo} src={item.crestUrl} alt={item.clubName} />
+                  ) : null}
+                  <span className={styles.timelineTeam}>{item.clubName}</span>
                 </div>
               ))}
             </div>
