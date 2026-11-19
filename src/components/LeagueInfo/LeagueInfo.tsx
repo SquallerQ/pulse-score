@@ -44,9 +44,12 @@ export function LeagueInfo({ leagueInfo, lastThreeYearsWinners, topScorers, isUp
         <div className={styles.middleColumn}>
           <div className={styles.middleHeader}>
             <div className={styles.leagueMeta}>
+              {leagueInfo.competitionLogoUrl ? (
+                <img className={styles.leagueLogo} src={leagueInfo.competitionLogoUrl} alt="" />
+              ) : null}
               <div>
                 <p className={styles.leagueLabel}>Previous season snapshot</p>
-                <h3 className={styles.leagueTitle}>{leagueInfo.competition}</h3>
+                <h3 className={styles.leagueTitle}>{leagueInfo.competitionName}</h3>
               </div>
             </div>
           </div>

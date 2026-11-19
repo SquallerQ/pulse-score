@@ -8,6 +8,7 @@ import { ligue1History } from '../data/history/seasons/league1';
 import { serieAHistory } from '../data/history/seasons/serieA';
 import { championsLeagueHistory } from '../data/history/seasons/championsLeague';
 import { getClubDetails } from '../services/clubService';
+import { getCompetitionDetails } from '../services/competitionService';
 
 const historyByCompetitionCode = {
   PL: premierLeagueHistory,
@@ -36,9 +37,22 @@ function isSupportedCompetitionCode(value: string): value is SupportedCompetitio
   return value in historyByCompetitionCode;
 }
 
-export const getCompetitionsHandler = (_req: Request, res: Response) => {
+export const getCompetitionsHandler = (req: Request, res: Response) => {
+  const host = req.get('host');
+  const assetOrigin = host ? `${req.protocol}://${host}` : undefined;
+
   return res.status(200).json({
-    competitions,
+    competitions: competitions.map((competition) => {
+      const details = getCompetitionDetails(competition.code, assetOrigin);
+
+      return {
+        code: competition.code,
+        name: competition.name,
+        type: competition.type,
+        country: competition.country,
+        competitionLogoUrl: details.competitionLogoUrl,
+      };
+    }),
   });
 };
 
@@ -54,9 +68,11 @@ export const getCompetitionSeasonsHandler = (req: Request<CompetitionParams>, re
   const seasons = historyByCompetitionCode[competitionCode]
     .map((item) => item.season)
     .sort((firstSeason, secondSeason) => secondSeason - firstSeason);
+  const host = req.get('host');
+  const assetOrigin = host ? `${req.protocol}://${host}` : undefined;
 
   return res.status(200).json({
-    competitionCode,
+    ...getCompetitionDetails(competitionCode, assetOrigin),
     seasons,
   });
 };
@@ -85,6 +101,7 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
 
   return res.status(200).json({
     competition: seasonHistory.competitionCode,
+    ...getCompetitionDetails(seasonHistory.competitionCode, assetOrigin),
     season: seasonHistory.season,
     standings: seasonHistory.standingsTop.map((item, index) => {
       const clubKey = 'clubKey' in item ? item.clubKey : undefined;
@@ -118,9 +135,12 @@ export const getCompetitionSeasonHistoryHandler = (req: Request<CompetitionSeaso
   });
 };
 
-export const getChampionsLeagueSeasonsHandler = (_req: Request, res: Response) => {
+export const getChampionsLeagueSeasonsHandler = (req: Request, res: Response) => {
+  const host = req.get('host');
+  const assetOrigin = host ? `${req.protocol}://${host}` : undefined;
+
   return res.status(200).json({
-    competitionCode: 'CL',
+    ...getCompetitionDetails('CL', assetOrigin),
     seasons: championsLeagueHistory
       .map((item) => item.season)
       .sort((firstSeason, secondSeason) => secondSeason - firstSeason),
@@ -130,6 +150,8 @@ export const getChampionsLeagueSeasonsHandler = (_req: Request, res: Response) =
 export const getChampionsLeagueSeasonHistoryHandler = (req: Request<ChampionsLeagueSeasonParams>, res: Response) => {
   const { season } = req.params;
   const numericSeason = Number(season);
+  const host = req.get('host');
+  const assetOrigin = host ? `${req.protocol}://${host}` : undefined;
 
   if (!Number.isInteger(numericSeason)) {
     return res.status(400).json({
@@ -147,6 +169,7 @@ export const getChampionsLeagueSeasonHistoryHandler = (req: Request<ChampionsLea
 
   return res.status(200).json({
     competition: seasonHistory.competitionCode,
+    ...getCompetitionDetails(seasonHistory.competitionCode, assetOrigin),
     season: seasonHistory.season,
     groupStageEliminated: seasonHistory.groupStageEliminated,
     roundOf16: seasonHistory.roundOf16.map((item, index) => ({

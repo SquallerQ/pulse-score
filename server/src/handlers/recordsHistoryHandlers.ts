@@ -4,6 +4,7 @@ import {
   type AllTimeScorersCompetitionCode,
 } from '../data/history/records/allTimeScorers';
 import { getClubDetails } from '../services/clubService';
+import { getCompetitionDetails } from '../services/competitionService';
 
 type CompetitionParams = {
   competitionCode: string;
@@ -27,7 +28,7 @@ export const getAllTimeScorersHandler = (req: Request<CompetitionParams>, res: R
   const records = allTimeScorersByCompetitionCode[competitionCode];
 
   return res.status(200).json({
-    competitionCode: records.competitionCode,
+    ...getCompetitionDetails(records.competitionCode, assetOrigin),
     scorers: records.scorers.map((scorer) => {
       const club = getClubDetails({ clubName: scorer.clubName }, assetOrigin);
 

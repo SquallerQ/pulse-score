@@ -27,6 +27,8 @@ type TopScorer = {
 
 export type LeagueInfo = {
   competition: string;
+  competitionName: string;
+  competitionLogoUrl?: string;
   season: number;
   standings: TeamStandings[];
   topScorers: TopScorer[];
@@ -41,6 +43,8 @@ export type SeasonWinnerTeam = {
 
 export const pulseScoreHistorySeasonSchema = z.object({
   competition: z.string(),
+  competitionName: z.string(),
+  competitionLogoUrl: z.string().url().optional(),
   season: z.number(),
   standings: z.array(
     z.object({
@@ -67,16 +71,22 @@ export const pulseScoreHistorySeasonSchema = z.object({
 
 export const competitionSeasonsSchema = z.object({
   competitionCode: z.string(),
+  competitionName: z.string(),
+  competitionLogoUrl: z.string().url().optional(),
   seasons: z.array(z.number()),
 });
 
 export const pulseScoreChampionsLeagueSeasonsSchema = z.object({
   competitionCode: z.string(),
+  competitionName: z.string(),
+  competitionLogoUrl: z.string().url().optional(),
   seasons: z.array(z.number()),
 });
 
 export const pulseScoreChampionsLeagueSeasonSchema = z.object({
   competition: z.string(),
+  competitionName: z.string(),
+  competitionLogoUrl: z.string().url().optional(),
   season: z.number(),
   groupStageEliminated: z.array(z.string()),
   roundOf16: z.array(
@@ -198,6 +208,8 @@ export const pulseScoreChampionsLeagueSeasonSchema = z.object({
 
 export const pulseScoreCompetitionHonoursSchema = z.object({
   competitionCode: z.string(),
+  competitionName: z.string(),
+  competitionLogoUrl: z.string().url().optional(),
   championsBySeason: z.array(
     z.object({
       season: z.number(),
@@ -218,6 +230,8 @@ export const pulseScoreCompetitionHonoursSchema = z.object({
 
 export const pulseScoreAllTimeScorersSchema = z.object({
   competitionCode: z.string(),
+  competitionName: z.string(),
+  competitionLogoUrl: z.string().url().optional(),
   scorers: z.array(
     z.object({
       place: z.number(),

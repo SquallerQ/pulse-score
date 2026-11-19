@@ -3,6 +3,8 @@ import type { PulseScoreHistorySeasonResponseSchema, PulseScoreChampionsLeagueSe
 export function mapPulseScoreHistorySeason(data: PulseScoreHistorySeasonResponseSchema) {
   return {
     competition: data.competition,
+    competitionName: data.competitionName,
+    competitionLogoUrl: data.competitionLogoUrl,
     season: data.season,
     standings: data.standings.map((item) => ({
       id: item.id,
@@ -27,6 +29,8 @@ export function mapPulseScoreHistorySeason(data: PulseScoreHistorySeasonResponse
 export function mapPulseScoreChampionsLeagueSeason(data: PulseScoreChampionsLeagueSeasonResponseSchema) {
   return {
     competition: data.competition,
+    competitionName: data.competitionName,
+    competitionLogoUrl: data.competitionLogoUrl,
     season: data.season,
     groupStageEliminated: data.groupStageEliminated,
     roundOf16: data.roundOf16.map((item) => ({

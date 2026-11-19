@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import { championsByCompetitionCode } from '../data/history/honours/championsByCompetitionCode';
 import type { CompetitionHonours } from '../data/history/honours/types';
 import { getClubDetails } from '../services/clubService';
+import { getCompetitionDetails } from '../services/competitionService';
 
 type HonoursParams = {
   competitionCode: string;
@@ -22,7 +23,7 @@ export const getHonoursHandler = (req: Request<HonoursParams>, res: Response) =>
   }
 
   return res.status(200).json({
-    competitionCode: honours.competitionCode,
+    ...getCompetitionDetails(honours.competitionCode, assetOrigin),
     championsBySeason: honours.championsBySeason.map((champion) => ({
       season: champion.season,
       ...getClubDetails(champion, assetOrigin),
